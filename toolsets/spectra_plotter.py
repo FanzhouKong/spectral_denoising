@@ -31,7 +31,8 @@ import ast
 def head_to_tail_plot(msms1, msms2,mz_start = None, mz_end = None,pmz=None, pmz2= None,ms2_error = 0.02,
                       color1 = None, color2 = None,lower=None, upper=None, identity = False, normalize = True,
                       savepath = None, show= True, publication = False,fontsize = 12):
-
+    if isinstance(pmz, str):
+        pmz = float(pmz)
     if msms1 is float or msms2 is float:
         # return(np.NAN)
         return(0)

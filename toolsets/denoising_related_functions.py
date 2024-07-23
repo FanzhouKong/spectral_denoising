@@ -15,8 +15,43 @@ from rdkit.Chem.rdMolDescriptors import CalcMolFormula
 RDLogger.DisableLog('rdApp.*')
 from toolsets.chem_utils import parse_ind, calculate_precursormz, break_adduct, break_adduct
 import toolsets.spectra_operations as so
-from toolsets.search import quick_search_sorted, string_search
+from toolsets.search import quick_search_sorted, string_search, quick_search_values
 import pandas as pd
+def denoising_search(msms, pmz, library, mass_error = 0.01, pmz_col = 'precursor_mz', smiles_col = 'smiles', adduct_col = 'adduct', spectrum_col = 'spectrum'):
+    raw_msms = (msms)
+    pmz_candidate = quick_search_values(library, pmz_col, pmz-mass_error, pmz+mass_error)
+    charge = [break_adduct(x)[2] for x in pmz_candidate[adduct_col]]
+    processed_formulas = [prep_formula(x[smiles_col], x[adduct_col]) for i, x in pmz_candidate.iterrows()]
+    pmz_candidate['processed_formulas']=processed_formulas
+    pmz_candidate['charge']=charge
+    entropy_denoised = []
+    entropy_raw = []
+    msms_denoised_all = []
+    pmz_candidate_curated = pd.DataFrame()
+    for f in pmz_candidate['processed_formulas'].unique():
+
+        if f ==f:
+            pmz_f_temp = string_search(pmz_candidate, 'processed_formulas', f)
+            element_dict, element_count, element_mass, all_possible_mass, all_possible_candidate_formula = get_all_subsets(f)
+
+            msms_denoised = denoising_with_subset(raw_msms, pmz, element_dict, all_possible_mass, all_possible_candidate_formula)
+            msms_denoised_temp = [msms_denoised]*len(pmz_f_temp)
+            entropy_raw_temp = [so.entropy_identity(msms, m[spectrum_col], pmz) for n,m in pmz_f_temp.iterrows()]
+            entropy_denoised_temp = [so.entropy_identity(msms_denoised, m[spectrum_col], pmz) for n,m in pmz_f_temp.iterrows()]
+        else:
+            pmz_f_temp = pmz_candidate[pmz_candidate['processed_formulas'].isna()]
+            entropy_raw_temp = [so.entropy_identity(msms, m[spectrum_col], pmz) for n,m in pmz_f_temp.iterrows()]
+            msms_denoised_temp = [raw_msms]*len(pmz_f_temp)
+            entropy_denoised_temp = entropy_raw_temp.copy()
+        entropy_raw.extend(entropy_raw_temp)
+        msms_denoised_all.extend(msms_denoised_temp)
+        entropy_denoised.extend(entropy_denoised_temp)
+        pmz_candidate_curated = pd.concat([pmz_candidate_curated, pmz_f_temp], ignore_index=True)
+    pmz_candidate_curated['msms_denoised']=msms_denoised_all
+    pmz_candidate_curated['entropy_raw']=entropy_raw
+    pmz_candidate_curated['entropy_denoised']=entropy_denoised
+    pmz_candidate_curated.sort_values(by = 'entropy_denoised', ascending = False, inplace = True)
+    return(pmz_candidate_curated)
 def denoising_search_astral(row, mega_mona):
     raw_msms = (row['spectrum'])
     pmz_candidate = quick_search_sorted(mega_mona, 'PrecursorMZ', row['PrecursorMZ']-0.01, row['PrecursorMZ']+0.01)
@@ -173,7 +208,7 @@ def spectral_denoising(msms, smiles, adduct,max_allowed_deviation = 0.005):
 
 
 
-def denoising_with_subset(msms, pmz, element_dict, all_possible_mass, all_possible_candidate_formula, mass_tolerance = 0.01):
+def denoising_with_subset(msms, pmz, element_dict, all_possible_mass, all_possible_candidate_formula, mass_tolerance = 0.005):
     msms= entropy_denoising(msms)
     mass, intensity = so.break_spectra(msms)
     parent_ion,mass_tolerance = find_actual_parent_pmz(msms , pmz)

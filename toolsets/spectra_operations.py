@@ -19,6 +19,8 @@ warnings.filterwarnings("ignore")
 import warnings
 warnings.filterwarnings("ignore", message="numpy.dtype size changed")
 warnings.filterwarnings("ignore", message="numpy.ufunc size changed")
+import warnings
+warnings.filterwarnings("ignore")
 import toolsets.denoising_related_functions as de
 from toolsets.search import quick_search_values
 
