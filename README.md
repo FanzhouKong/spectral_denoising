@@ -14,4 +14,5 @@ All related experiemental data can be found on google drive: (https://drive.goog
 ## Usage
 The algorithm was developed in a conda environment with Python 3.8. A yaml file will be provided shortly for compiling necessary dependencies.
 
-Basical usage:
+Basic usage can be found in: sample_notebook.ipynb
+Demo data can be found in: /sample_data
