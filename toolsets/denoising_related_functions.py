@@ -96,33 +96,29 @@ def mass_to_formula(mass, formula, mass_tolerance = 0.01, ifsmile = False):
     candidate_subformulas = candidates_to_formulas(all_possible_candidate_formula[left_idx:right_idx], element_dict)
     return candidate_subformulas
 def entropy_denoising(msms):
-    msms_std = so.standardize_spectra(msms)
-    mass_raw, intensity_raw = so.break_spectra(msms)
-    mass, intensity = so.break_spectra(msms_std)
+    mass, intensity = so.break_spectra(msms)
     order = np.argsort(intensity)
     mass = mass[order]
-    intensity_raw = intensity_raw[order]
     intensity = intensity[order]
     mass_confirmed = np.array([])
     intensity_confirmed = np.array([])
-    intensity_raw_confirmed = np.array([])
     while len(intensity)>0:
         seed_intensity = np.max(intensity)
         # idx_left = np.searchsorted(intensity, seed_intensity*0.99, side= 'left')
         idx_left = np.searchsorted(intensity, seed_intensity*0.999, side= 'left')
         mass_temp = mass[idx_left:]
         intensity_temp = intensity[idx_left:]
-        intensity_raw_temp = intensity_raw[idx_left:]
         if len(mass_temp)<=3:
             mass_confirmed =  np.concatenate((mass_confirmed, mass_temp))
             intensity_confirmed = np.concatenate((intensity_confirmed,intensity_temp))
-            intensity_raw_confirmed = np.concatenate((intensity_raw_confirmed, intensity_raw_temp))
         intensity = intensity[0:idx_left]
         mass = mass[0:idx_left]
-        intensity_raw=intensity_raw[0:idx_left]
     if len(mass_confirmed)==0:
         return np.NAN
-    return(so.sort_spectrum(so.pack_spectra(mass_confirmed, intensity_raw_confirmed)) )
+    order = np.argsort(mass_confirmed)
+    mass_confirmed = mass_confirmed[order]
+    intensity_confirmed = intensity_confirmed[order]
+    return((so.pack_spectra(mass_confirmed, intensity_confirmed)) )
 def dnl_denoising(msms):
     mass, intensity = so.break_spectra(msms)
     order= np.argsort(intensity)
@@ -182,6 +178,9 @@ def threshold_denoising(msms, threshold = 1):
     intensity = intensity[to_keep]
     return(so.pack_spectra(mass, intensity))
 def spectral_denoising(msms, smiles, adduct,max_allowed_deviation = 0.005):
+    # check for empty msms passed, rarely happen
+    if isinstance(msms, float):
+        return np.NAN
     msms_d1 = entropy_denoising(msms)
     if isinstance(msms_d1, float):
         return np.NAN
