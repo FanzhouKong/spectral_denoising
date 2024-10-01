@@ -39,13 +39,11 @@ def read_msp(file_path):
                 m_z = float(peaks[0])
                 intensity = float(peaks[1])
                 spectrum['peaks'].append((([m_z, intensity])))
-        # spectrum['peaks'] = np.array(spectrum['peaks'])
-        # spectrum['peaks'] = so.sort_spectra(so.remove_zero_ions(spectrum['peaks']))
         # Save the last spectrum
         if spectrum:
             spectra.append(spectrum)
     df = pd.DataFrame(spectra)
-    df['peaks'] = [so.sort_spectra(so.remove_zero_ions(np.array(peak))) for peak in df['peaks']]
+    df['peaks'] = [so.sort_spectrum(so.remove_zero_ions(np.array(peak))) for peak in df['peaks']]
     for column in df.columns:
         if column != 'peaks':  # Skip 'peaks' column
             df[column] = pd.to_numeric(df[column], errors='ignore')

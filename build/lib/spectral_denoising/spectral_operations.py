@@ -6,11 +6,10 @@ __all__ = []
 
 import re
 import pandas as pd
-# import spectral_entropy as se
 import itertools
 from tqdm import tqdm
 import numpy as np
-import scipy.stats
+import scipy
 import os
 import ms_entropy as me
 import bisect
@@ -25,12 +24,15 @@ warnings.filterwarnings("ignore")
 # import toolsets.denoising_related_functions as de
 # from toolsets.search import quick_search_values
 _numpy_formula_format = np.int16
-
+def spctrum_entropy(msms):
+    intensity = msms.T[1]
+    S = scipy.stats.entropy(intensity)
+    return S
 def entropy_similairty(msms1, msms2,pmz=None, ms2_error = 0.02):
     if isinstance(msms1, float) or isinstance(msms2, float):
         return np.nan
-    msms1 = truncate_spectra(msms1, pmz-1.6)
-    msms2 = truncate_spectra(msms2, pmz-1.6)
+    msms1 = truncate_spectrum(msms1, pmz-1.6)
+    msms2 = truncate_spectrum(msms2, pmz-1.6)
     if isinstance(msms1, float) or isinstance(msms2, float):
         return np.nan
     if pmz is not None:
@@ -43,17 +45,17 @@ def compare_spectra(msms1, msms2):
         msms_temp = msms2
         msms2 = msms1
         msms1 = msms_temp
-    mass1, intensity1 = break_spectra(msms1)
-    mass2, intensity2 = break_spectra(msms2)
+    mass1, intensity1 = break_spectrum(msms1)
+    mass2, intensity2 = break_spectrum(msms2)
 
     indices = [index for index, item in enumerate(mass2) if item not in mass1]
-    return pack_spectra(mass2[indices], intensity2[indices])
+    return pack_spectrum(mass2[indices], intensity2[indices])
 def search_ions(msms, mz, span = 3):
-    mass, intensity = break_spectra(msms)
+    mass, intensity = break_spectrum(msms)
     idx_left, idx_right = mass.searchsorted([mz-span, mz+span])
-    return(pack_spectra(mass[idx_left:idx_right], intensity[idx_left:idx_right]))
+    return(pack_spectrum(mass[idx_left:idx_right], intensity[idx_left:idx_right]))
 
-def break_spectra(spectra):
+def break_spectrum(spectra):
     if isinstance(spectra, float):
         return ([],[])
     spectra = np.array(spectra)
@@ -61,9 +63,9 @@ def break_spectra(spectra):
     intensity = spectra.T[1]
     return mass, intensity
 
-def pack_spectra(mass, intensity):
+def pack_spectrum(mass, intensity):
     if len(mass)>0 and len(intensity)>0:
-        return(np.array([[mass[i], intensity[i]] for i in range(0, len(mass))], dtype=np.float32))
+        return(np.array([mass, intensity]).T)
     else:
         return(np.nan)
 def add_spectra(msms1, msms2):
@@ -76,57 +78,63 @@ def add_spectra(msms1, msms2):
         return msms1
     else:
         return np.nan
-def normalize_spectra(msms):
+def normalize_spectrum(msms):
     msms_T = msms.T
     msms_T[1]=np.array([msms_T[1][i]/np.sum(msms_T[1]) for i in range(0, len(msms_T[1]) )])
     return msms_T.T 
-def sort_spectra(msms):
+def sort_spectrum(msms):
     msms_T = msms.T
     order = np.argsort(msms_T[0])
     msms_T[0] = msms_T[0][order]
     msms_T[1] = msms_T[1][order]
 
     return msms_T.T
-def remove_precursor_ions(msms, pmz = None):
+def remove_precursor(msms, pmz = None):
     if isinstance(msms, float):
         return np.nan
     if pmz is None:
-        pmz = max(break_spectra(msms)[0])
-    msms_t = truncate_spectra(msms, pmz-1.6)
+        pmz = max(break_spectrum(msms)[0])
+    msms_t = truncate_spectrum(msms, pmz-1.6)
     return msms_t
-def sanitize_spectra(msms):
+def sanitize_spectrum(msms):
     if isinstance(msms, float):
         return np.nan
-    msms = sort_spectra(msms)
+    msms = sort_spectrum(msms)
     msms = remove_zero_ions(msms)
     return msms
-def truncate_spectra(msms, max_mz):
+def truncate_spectrum(msms, max_mz):
     if isinstance(msms, float):
         return np.nan
-    msms = sort_spectra(msms)
-    mass, intensity = break_spectra(msms)
+    msms = sort_spectrum(msms)
+    mass, intensity = msms.T[0], msms.T[1]
     upper_allowed=np.searchsorted(mass, max_mz,side = 'left')
     mass = mass[:upper_allowed]
     intensity = intensity[:upper_allowed]
-    return pack_spectra(mass, intensity)
+    return pack_spectrum(mass, intensity)
 
-def slice_spectra(msms, break_mz):
+def slice_spectrum(msms, break_mz):
     if isinstance(msms, float):
         return np.nan
     
     idx = np.searchsorted(msms.T[0], break_mz, side = 'left')
     return(msms[:idx], msms[idx:])
-def standardize_spectra(ms):
-    mass, intensity = break_spectra(ms)
+def standardize_spectrum(ms):
+    mass, intensity = ms.T[0],ms.T[1]
     intensity = intensity/np.max(intensity)
     intensity = np.round(intensity, 4)
-    return(pack_spectra(mass, intensity))
+    return(np.array([mass, intensity]).T)
     
 def remove_zero_ions(msms):
     if isinstance(msms, float):
         return np.nan
     to_keep = msms.T[1] > 0
     return msms[to_keep]
+
+
+
+
+
+
 def arr_to_str(msms):
     if isinstance(msms, float):
         return np.nan
@@ -151,68 +159,12 @@ def str_to_arr(msms):
         return np.nan
     spec_raw = np.array([x.split('\t') for x in msms.split('\n')], dtype=np.float32)
     return(spec_raw)
-import random
-def generate_noise(pmz, lamda, n = 100):
-    if int(n)!= n:
-        n = np.int64(np.ceil(n))
-    else:
-        n = n
-    # Generate a random variable from a uniform distribution in the range [a, b]
-    mass = [random.uniform(50, pmz) for _ in range(n)]
 
-    # size specifies the number of random variates to generate.
 
-    # Generating Poisson-distributed random variables
-    intensity = np.random.poisson(lam=lamda, size=n)
-    intensity = intensity/100
-    return(pack_spectra(mass, intensity))
-import random
-def generate_noise(pmz, lamda, n = 100):
-    if int(n)!= n:
-        n = np.int64(np.ceil(n))
-    else:
-        n = n
-    # Generate a random variable from a uniform distribution in the range [a, b]
-    mass = [random.uniform(50, pmz) for _ in range(n)]
 
-    # size specifies the number of random variates to generate.
 
-    # Generating Poisson-distributed random variables
-    intensity = np.random.poisson(lam=lamda, size=n)
-    intensity = intensity/100
-    return(pack_spectra(mass, intensity))
-def add_noise(msms, noise):
-    msms = standardize_spectra(msms)
-    msms_c = add_spectra(msms, noise)
-    return(sort_spectra(normalize_spectra(msms_c)) )
-def generate_chemical_noise(pmz, lamda, polarity,formula_db,n = 100):
-    mass_e =  -0.00054858026
-    if polarity =='+':
-        coe = 1
-    elif polarity =='-':
-        coe = -1
-    else:
-        print('cannot determine adduct polarity!')
-        return()
-    if int(n)!= n:
-        n = np.int64(np.ceil(n))
-    else:
-        n = n
-    all_possible_mass = np.array(formula_db['mass'])
-    idx_left, idx_right = all_possible_mass.searchsorted([50,pmz ])
-    all_allowed_mass = all_possible_mass[idx_left:idx_right]
-    if idx_right-idx_left <n:
-        n = idx_right-idx_left
-    # Generate a random variable from a uniform distribution in the range [a, b]
-    mass = np.random.choice(all_allowed_mass, size=n, replace=False)
-    mass = mass+coe*mass_e
-    # mass = [random.uniform(50, pmz) for _ in range(n)]
 
-    # size specifies the number of random variates to generate.
 
-    # Generating Poisson-distributed random variables
-    intensity = np.random.poisson(lam=lamda, size=n)
-    intensity = intensity/100
-    return(pack_spectra(mass, intensity))
+
 
 

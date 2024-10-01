@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-VERSION = '0.0.2'
+VERSION = '0.0.3'
 DESCRIPTION = 'Spectral denoising and denoising search'
 LONG_DESCRIPTION = 'A package that allows to denoise MS/MS spectra based on molecular formula information and intensity modeling. Denoise search integrates spectral desnoing into identity search process'
 REQUIREMENTS = [i.strip() for i in open("requirements.txt").readlines()]

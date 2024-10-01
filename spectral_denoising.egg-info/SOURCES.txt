@@ -5,6 +5,7 @@ spectral_denoising/constant.py
 spectral_denoising/denoising_search.py
 spectral_denoising/file_io.py
 spectral_denoising/identifier_utils.py
+spectral_denoising/noise.py
 spectral_denoising/other_helpers.py
 spectral_denoising/search_utils.py
 spectral_denoising/seven_golden_rules.py

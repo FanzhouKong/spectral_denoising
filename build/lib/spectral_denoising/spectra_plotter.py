@@ -30,26 +30,21 @@ def head_to_tail_plot(msms1, msms2,pmz=None,mz_start = None, mz_end = None, pmz2
         msms1 = ast.literal_eval(msms1)
     if isinstance(msms2, str):
         msms2 = ast.literal_eval(msms2)
-    msms1 = so.sort_spectra(msms1)
-    msms2 = so.sort_spectra(msms2)
+    msms1 = so.sort_spectrum(msms1)
+    msms2 = so.sort_spectrum(msms2)
     if pmz is not None:
         if pmz2 is None:
             pmz2 = pmz
     print('entropy similarity is', so.entropy_similairty(msms1, msms2, pmz, ms2_error = ms2_error))
     if pmz is not None and pmz2 is not None:
-        msms1 = so.truncate_spectra(msms1, pmz-1.6)
-        msms2= so.truncate_spectra(msms2, pmz2-1.6)
-    mass1, intensity1 = so.break_spectra(msms1)
+        msms1 = so.truncate_spectrum(msms1, pmz-1.6)
+        msms2= so.truncate_spectrum(msms2, pmz2-1.6)
+    mass1, intensity1 = msms1.T[0], msms1.T[1]
     intensity_nor1 = [x/np.max(intensity1)*100 for x in intensity1]
 
-    mass2, intensity2 = so.break_spectra(msms2)
+    mass2, intensity2 = msms2.T[0], msms2.T[1]
     intensity_nor2 = [x/np.max(intensity2)*100 for x in intensity2]
-
-    # return(msms1, msms2)
     intensity_nor2=[-x for x in intensity_nor2]
-        # msms1 = so.cut_msms(msms1, mz_lower = mz_start, mz_upper = mz_end)
-        # msms2 = so.cut_msms(msms2, mz_lower = mz_start, mz_upper = mz_end)
-    # return(msms1, msms2)
     if publication == True:
         wid = 3
         hi = 2.5
@@ -115,10 +110,8 @@ import matplotlib.pyplot as plt
 
 def ms2_plot(msms_1, pmz = None, lower=None, upper=None, savepath = None, color = 'blue'):
     if pmz is not None:
-        msms_1 = so.truncate_spectra(msms_1, pmz-1.6)
-    mass1, intensity1 = so.break_spectra(msms_1)
-    mass1 = [float(x) for x in mass1]
-    intensity1 = [float(x) for x in intensity1]
+        msms_1 = so.truncate_spectrum(msms_1, pmz-1.6)
+    mass1, intensity1 = msms_1.T[0], msms_1.T[1]
 
     if lower is not None:
         idx_left = np.searchsorted(mass1, lower, side= 'left')
@@ -173,30 +166,23 @@ def ms2_plot(msms_1, pmz = None, lower=None, upper=None, savepath = None, color 
 
     return(plt)
 def ms2_overlay(msms_1=None,msms_2=None,msms_3 = None, pmz = None, savepath = None):
-    #
-    # if pmz is not None:
-    #     msms_1 = so.truncate_spectrum(msms_1, pmz-1.6)
-
-
-
-
     fig = plt.figure(figsize = (8, 6))
     plt.subplots_adjust()
     ax = fig.add_subplot()
     if msms_1 is not None:
-        mass1, intensity1 = so.break_spectra(msms_1)
+        mass1, intensity1 = msms_1.T[0], msms_1.T[1]
         intensity1 = [x/np.max(intensity1)*100 for x in intensity1]
         for i in range(len(mass1)):
 
             plt.vlines(x = mass1[i], ymin = 0, ymax = intensity1[i],color = 'orange', linewidth=2)
 
     if msms_2 is not None:
-        mass2, intensity2 = so.break_spectra(msms_2)
+        mass2, intensity2 = msms_2.T[0], msms_2.T[1]
         intensity2 = [x*100 for x in intensity2]
         for i in range(len(mass2)):
             plt.vlines(x = mass2[i], ymin = 0, ymax = intensity2[i],color = 'red', linewidth=2)
     if msms_3 is not None:
-        mass3, intensity3 = so.break_spectra(msms_3)
+        mass3, intensity3 = msms_3.T[0], msms_3.T[1]
         intensity3 = [x/np.max(intensity3)*100 for x in intensity3]
         for i in range(len(mass3)):
             plt.vlines(x = mass3[i], ymin = 0, ymax = intensity3[i],color = 'blue', linewidth=2)
@@ -238,8 +224,8 @@ def ms2_overlay(msms_1=None,msms_2=None,msms_3 = None, pmz = None, savepath = No
 
 
 def ms2_clean_noise(msms_1, msms_2, pmz1 = None, lower=None, upper=None, savepath = None, hline= None):
-    mass1, intensity1 = so.break_spectra(msms_1)
-    mass2, intensity2 = so.break_spectra(msms_2)
+    mass1, intensity1 = msms_1.T[0], msms_1.T[1]
+    mass2, intensity2 = msms2.T[0], msms2.T[1]
     mass1 = [float(x) for x in mass1]
     intensity1 = [float(x) for x in intensity1]
     mass2 = [float(x) for x in mass2]

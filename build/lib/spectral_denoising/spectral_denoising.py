@@ -38,20 +38,20 @@ def spectra_denoising(msms, smiles, adduct, max_allowed_deviation = 0.005):
     return formula_denoised
 def formula_denoising(msms, smiles, adduct, max_allowed_deviation=0.005):
     master_formula = prep_formula(smiles, adduct)
-    msms = so.sort_spectra(msms)
+    msms = so.sort_spectrum(msms)
     if isinstance(master_formula, float):
         print(f'Error: invalid smiles {smiles} or invalid adduct {adduct}')
         return np.nan
     computed_pmz = calculate_precursormz(adduct, smiles)
     pmz, mass_threshold = get_pmz_statistics(msms, computed_pmz, max_allowed_deviation)
-    frag_msms, pmz_msms = so.slice_spectra(msms, pmz-1.6)
+    frag_msms, pmz_msms = so.slice_spectrum(msms, pmz-1.6)
     all_possible_candidate_formula,all_possible_mass = get_all_subformulas(master_formula)
     denoise_tag = get_denoise_tag(frag_msms, all_possible_candidate_formula, all_possible_mass, pmz, has_benzene(smiles), mass_threshold)
     frag_msms_denoised = frag_msms[denoise_tag]
     return so.add_spectra(frag_msms_denoised, pmz_msms)
 
 def electronic_denoising(msms):
-    mass, intensity = so.break_spectra(msms)
+    mass, intensity = msms.T[0], msms.T[1]
     order = np.argsort(intensity)
     mass = mass[order]
     intensity = intensity[order]
@@ -68,8 +68,8 @@ def electronic_denoising(msms):
         intensity = intensity[0:idx_left]
         mass = mass[0:idx_left]
     if len(mass_confirmed)==0:
-        return so.pack_spectra([],[])
-    return(so.sort_spectra(so.pack_spectra(mass_confirmed, intensity_confirmed)) )
+        return np.nan
+    return(so.sort_spectrum(so.pack_spectrum(mass_confirmed, intensity_confirmed)) )
 
 
 from .chem_utils import determine_adduct_charge, determine_parent_coefs, parse_adduct
@@ -174,7 +174,7 @@ def has_benzene(molecule):
 
 
 def dnl_denoising(msms):
-    mass, intensity = so.break_spectra(msms)
+    mass, intensity = msms.T[0], msms.T[1]
     order= np.argsort(intensity)
     mass = mass[order]
     intensity = intensity[order]
@@ -185,7 +185,7 @@ def dnl_denoising(msms):
     else:
         k = 2
         if len(mass)==2:
-            return(so.pack_spectra([],[]))
+            return(np.nan)
         for k in range(2, len(mass)):
             I = intensity[0:k]
             i = np.arange(1,k+1)
@@ -198,9 +198,9 @@ def dnl_denoising(msms):
     mass_signal = mass[signal_idx:]
     intensity_signal = intensity[signal_idx:]
 
-    return(so.sort_spectra(so.pack_spectra(mass_signal, intensity_signal)))
+    return(so.sort_spectrum(so.pack_spectrum(mass_signal, intensity_signal)))
 def ms_reduce(msms, reduce_factor = 90):
-    mass, intensity = so.break_spectra(msms)
+    mass, intensity = msms.T[0], msms.T[1]
     n_chose_peak = np.int32(np.ceil(len(mass)*(1-reduce_factor/100)))
     order = np.argsort(intensity)
     mass = mass[order]
@@ -222,11 +222,11 @@ def ms_reduce(msms, reduce_factor = 90):
         if factor<1:
             break
 
-    return so.sort_spectra(so.pack_spectra(mass_taken, intensity_taken))
+    return so.sort_spectrum(so.pack_spectrum(mass_taken, intensity_taken))
 def threshold_denoising(msms, threshold = 1):
-    mass, intensity = so.break_spectra(msms)
+    mass, intensity = msms.T[0], msms.T[1]
     intensity_percent = intensity/np.max(intensity)
     to_keep = intensity_percent>(threshold/100)
     mass = mass[to_keep]
     intensity = intensity[to_keep]
-    return(so.pack_spectra(mass, intensity))
+    return(so.pack_spectrum(mass, intensity))
