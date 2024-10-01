@@ -62,6 +62,3 @@ sd.denoising_search(quene_spectrum, quene_pmz, reference_library)
 ```
 
 ### Example of usage for batch mode can be found in /notebook/denoising_search_demo.ipynb
-
-
-Also, refer to [MSViewer repository](https://github.com/YuanyueLi/MSViewer) for a working example of using this package in a web application.
