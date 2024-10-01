@@ -1,0 +1,28 @@
+Name: Hypoxanthine
+Precursor_mz: 159.0264477
+Cas: 68-94-0
+Adduct: [M+Na]+
+Mz: 159.0277315
+Comment: Major
+Smiles: O=c1nc[nH]c2nc[nH]c12
+Formula: C5H4N4O
+Mix: Alkaloids-pos-mix1
+Rt: [0.36, 0.549, 0.454]
+Rt_apex: 0.360642897
+Rt_start: 0.335216667
+Rt_end: 0.417716667
+Ms1_intensity: 22945
+N_scnas: 13
+Ms1_scan_range: [104, 108, 118]
+Reci_snr: 0.100502076
+Ms2_scan_idx: 190
+Pmz_offset: 2.84e-14
+Ei: 0.707647059
+Num Peaks: 6
+48.992496490478516 154.0
+63.006099700927734 265.0
+63.99686813354492 663.0
+65.9947509765625 596.0
+79.02062225341797 521.0
+81.01649475097656 659.0
+
