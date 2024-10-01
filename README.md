@@ -1,6 +1,4 @@
-[![DOI]([https://zenodo.org/badge/232434019.svg)](https://zenodo.org/badge/latestdoi/232434019](https://pubmed.ncbi.nlm.nih.gov/39108483/))
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7972082.svg)](https://doi.org/10.5281/zenodo.7972082)
-[![Test Spectral denoising package](https://pypi.org/project/spectral-denoising/)
+[![Test Spectral denoising package](https://pypi.org/project/spectral-denoising/)]
 
 
 If you have any questions, feel free to send me E-mails: fzkong@ucdavis.edu. If you find this package useful, please consider citing the following papers:
