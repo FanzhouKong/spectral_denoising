@@ -2,22 +2,22 @@
 
 # -- Project information
 
-project = 'Lumache'
-copyright = '2021, Graziella'
-author = 'Graziella'
+project = 'Spectral denoising'
+copyright = '2024, Fanzhou Kong'
+author = 'Fanzhou Kong'
 
 release = '0.1'
 version = '0.1.0'
 
 # -- General configuration
 
-extensions = [
-    'sphinx.ext.duration',
-    'sphinx.ext.doctest',
-    'sphinx.ext.autodoc',
-    'sphinx.ext.autosummary',
-    'sphinx.ext.intersphinx',
-]
+extensions = ["sphinx.ext.autodoc", 
+              "sphinx.ext.doctest", 
+              "sphinx.ext.autosummary", 
+              "sphinx.ext.viewcode", 
+              "sphinx.ext.githubpages",
+              "sphinxcontrib.email",
+              "numpydoc"]
 
 intersphinx_mapping = {
     'python': ('https://docs.python.org/3/', None),
@@ -29,7 +29,8 @@ templates_path = ['_templates']
 
 # -- Options for HTML output
 
-html_theme = 'sphinx_rtd_theme'
+html_theme = "sphinx_rtd_theme"
+html_static_path = ["_static"]
 
 # -- Options for EPUB output
 epub_show_urls = 'footnote'
