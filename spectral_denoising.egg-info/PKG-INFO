@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: spectral_denoising
-Version: 0.0.4
+Version: 0.0.5
 Summary: Spectral denoising and denoising search
 Author: Fanzhou Kong
 Author-email: <fzkong@ucdavis.edu>
@@ -24,7 +24,9 @@ Requires-Dist: scipy==1.14.1
 Requires-Dist: seaborn==0.13.2
 Requires-Dist: tqdm==4.66.5
 
-[![Test Spectral denoising package](https://pypi.org/project/spectral-denoising/)]
+[![Test Spectral denoising package](https://pypi.org/project/spectral-denoising/)]  
+
+
 If you have any questions, feel free to send me E-mails: fzkong@ucdavis.edu. If you find this package useful, please consider citing the following papers:
 
 > . **Denoising Search doubles the number of metabolite and exposome annotations in human plasma using an Orbitrap Astral mass spectrometer**, Res Sq, 2024). [https://doi.org/10.1038/s41592-023-02012-9]
@@ -39,7 +41,7 @@ This project also provides useful tools to read, write, visualize and compare sp
 
 # How to use this package
 
-This repository in Python.
+This repository in Python. A python version >= 3.8 is preferred.
 
 ### Installation
 
@@ -86,6 +88,3 @@ sd.denoising_search(quene_spectrum, quene_pmz, reference_library)
 ```
 
 ### Example of usage for batch mode can be found in /notebook/denoising_search_demo.ipynb
-
-
-Also, refer to [MSViewer repository](https://github.com/YuanyueLi/MSViewer) for a working example of using this package in a web application.
