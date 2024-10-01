@@ -15,7 +15,7 @@ This project also provides useful tools to read, write, visualize and compare sp
 
 # How to use this package
 
-This repository in Python.
+This repository in Python. A python version >= 3.8 is preferred.
 
 ### Installation
 
