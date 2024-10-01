@@ -1,9 +1,10 @@
 from setuptools import setup, find_packages
 
-VERSION = '0.0.3'
+VERSION = '0.0.4'
 DESCRIPTION = 'Spectral denoising and denoising search'
-LONG_DESCRIPTION = 'A package that allows to denoise MS/MS spectra based on molecular formula information and intensity modeling. Denoise search integrates spectral desnoing into identity search process'
 REQUIREMENTS = [i.strip() for i in open("requirements.txt").readlines()]
+with open("README.md", "r") as file:
+    long_description = file.read()
 # Setting up
 setup(
     name="",
@@ -11,8 +12,6 @@ setup(
     author="Fanzhou Kong",
     author_email="<fzkong@ucdavis.edu>",
     description=DESCRIPTION,
-    long_description_content_type="text/markdown",
-    long_description=LONG_DESCRIPTION,
     packages=find_packages(),
     install_requires=REQUIREMENTS,
     keywords=['python', 'metabolomics', 'MSMS denoise'],
@@ -21,5 +20,7 @@ setup(
             'spectral_denoiisng_status = spectral_denoising:verify_status',
         ],
     },
+    long_description= long_description,
+    long_description_content_type='text/markdown',
 
 )
