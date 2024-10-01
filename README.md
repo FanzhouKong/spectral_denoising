@@ -1,6 +1,4 @@
 [![Test Spectral denoising package](https://pypi.org/project/spectral-denoising/)]
-
-
 If you have any questions, feel free to send me E-mails: fzkong@ucdavis.edu. If you find this package useful, please consider citing the following papers:
 
 > . **Denoising Search doubles the number of metabolite and exposome annotations in human plasma using an Orbitrap Astral mass spectrometer**, Res Sq, 2024). [https://doi.org/10.1038/s41592-023-02012-9]
@@ -9,7 +7,7 @@ If you have any questions, feel free to send me E-mails: fzkong@ucdavis.edu. If 
 # Project information
 
 Remove noise ions from MS/MS spectra has been tackled for years by mass spectrometrists. Noise ions in MS/MS spectra are largely categorized as 1. electronic noises and 2. chemical noises. 
-In this project, we aim to eliminate both chemical noise and electronic noises to improve high-confidence compound identification. 
+In this project, we aim to eliminate both chemical noise and electronic noises for improving high-confidence compound identification. 
 Integrating such process into spectra matching process, we developed denoising search, which psudo-denoise spectra based on molecular information fetched from reference databases.
 This project also provides useful tools to read, write, visualize and compare spectra.
 
