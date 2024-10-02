@@ -1,10 +1,10 @@
-.. Spectral denoising documentation documentation master file, created by
-   sphinx-quickstart on Tue Oct  1 18:49:27 2024.
+.. Sss documentation master file, created by
+   sphinx-quickstart on Tue Oct  1 19:02:39 2024.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Spectral denoising documentation documentation
-==============================================
+Sss documentation
+=================
 
 Add your content using ``reStructuredText`` syntax. See the
 `reStructuredText <https://www.sphinx-doc.org/en/master/usage/restructuredtext/index.html>`_
@@ -16,12 +16,4 @@ documentation for details.
    :caption: Contents:
 
    modules
-
-Indices and tables 
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
-
 
