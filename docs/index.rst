@@ -1,12 +1,14 @@
 .. Spectral denoising documentation documentation master file, created by
-   sphinx-quickstart on Tue Oct  1 17:34:05 2024.
+   sphinx-quickstart on Tue Oct  1 18:49:27 2024.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to spectral denoising documentation!
+Spectral denoising documentation documentation
 ==============================================
 
-For details about the algorithm, please refer to the paper: Denoising Search doubles the number of metabolite and exposome annotations in human plasma using an Orbitrap Astral mass spectrometer, Res Sq, 2024). [https://doi.org/10.1038/s41592-023-02012-9]
+Add your content using ``reStructuredText`` syntax. See the
+`reStructuredText <https://www.sphinx-doc.org/en/master/usage/restructuredtext/index.html>`_
+documentation for details.
 
 
 .. toctree::
@@ -14,8 +16,12 @@ For details about the algorithm, please refer to the paper: Denoising Search dou
    :caption: Contents:
 
    modules
-Indices and tables
+
+Indices and tables 
 ==================
+
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
+
+
