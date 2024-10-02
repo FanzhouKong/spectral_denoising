@@ -5,7 +5,9 @@
 
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
-
+import os
+import sys
+sys.path.append('..')
 project = 'Spectral denoising documentation'
 copyright = '2024, Fanzhou Kong'
 author = 'Fanzhou Kong'
