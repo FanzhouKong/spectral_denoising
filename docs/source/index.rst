@@ -14,3 +14,8 @@ For details about the algorithm, please refer to the paper: Denoising Search dou
    :caption: Contents:
 
    modules
+Indices and tables
+==================
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`
