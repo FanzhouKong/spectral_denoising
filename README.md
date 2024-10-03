@@ -29,6 +29,7 @@ pip install spectral-denoising
 
 ### Usage of Classic spectral denoising (electronic denoising and chemical denoising)
 
+## Simple usage on single spectra
 ```python
 import numpy as np
 import spectral_denoising as sd
@@ -57,16 +58,16 @@ print(f'the entropy similarity of contaminated spectrum and the raw spectrum is 
 
 # perform spectral denosing and compare against the raw spectrum
 peak_denoised = sd.spectral_denoising(peak_with_noise, smiles, adduct)
-print(f'the entropy similarity of contaminated spectrum and the raw spectrum is {entropy_similairty(peak_denoised, peak, pmz = pmz):.2f}')
+print(f'the entropy similarity of denoised spectrum and the raw spectrum is {entropy_similairty(peak_denoised, peak, pmz = pmz):.2f}')
 # use head_to_tail_plot to visualize the spectra, only in jupyter notebook
 # sd.head_to_tail_plot(peaks_denoised,peaks ,pmz)
 ```
-### Spectral denoising on the spectra from whole .msp file
+### Spectral denoising on the all spectra from whole .msp file
 ```python
 import spectral_denoising as sd
-query_data = sd.read_msp('../sample_data/noisy_spectra.msp')
-reference_data= sd.read_msp('../sample_data/clean_spectra.msp').iloc[0]
-query_peaks,query_smiles,query_adduct = quene_data['peaks'],quene_data['smiles'],quene_data['adduct']
+query_data = sd.read_msp('sample_data/noisy_spectra.msp')
+query_peaks,query_smiles,query_adduct, query_pmz = query_data['peaks'],query_data['smiles'],query_data['adduct'], query_data['precursor_mz']
+desnoied_peaks = sd.spectra_denoising_batch(quene_peaks,quene_smiles,quene_adduct) # this will return all denoised spectra in a list
 ```
 
 ### Usage of Denoising search
