@@ -65,4 +65,4 @@ quene_spectrum, quene_pmz = quene_spectra.iloc[0]['peaks'], quene_spectra.iloc[0
 sd.denoising_search(quene_spectrum, quene_pmz, reference_library)
 ```
 
-### Example of usage for batch mode can be found in /notebook/denoising_search_demo.ipynb
+### More example of usage for batch mode can be found in /notebook/denoising_search_demo.ipynb
