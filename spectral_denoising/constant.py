@@ -1,4 +1,7 @@
 # Only most abundant isotope is shown.
+'''
+Just collection of contants widely used in chemistry. Reference: https://fiehnlab.ucdavis.edu/staff/kind/Metabolomics/MS-Adduct-Calculator/
+'''
 proton_mass = 1.00727646677
 electron_mass = 0.00054857990924
 valence_dict = {

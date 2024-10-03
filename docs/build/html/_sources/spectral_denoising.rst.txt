@@ -52,14 +52,6 @@ spectral\_denoising.noise module
    :undoc-members:
    :show-inheritance:
 
-spectral\_denoising.other\_helpers module
------------------------------------------
-
-.. automodule:: spectral_denoising.other_helpers
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 spectral\_denoising.search\_utils module
 ----------------------------------------
 
@@ -96,14 +88,6 @@ spectral\_denoising.spectral\_operations module
 -----------------------------------------------
 
 .. automodule:: spectral_denoising.spectral_operations
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-spectral\_denoising.test module
--------------------------------
-
-.. automodule:: spectral_denoising.test
    :members:
    :undoc-members:
    :show-inheritance:

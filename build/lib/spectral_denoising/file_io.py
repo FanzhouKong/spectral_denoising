@@ -9,6 +9,16 @@ from tqdm import tqdm
 from fuzzywuzzy import fuzz
 import json
 def read_msp(file_path):
+    
+    """
+    Reads the MSP files into the pandas dataframe, and sort/remove zero intensity ions in MS/MS spectra.
+
+    Args:
+        file_path (str): target path path for the MSP file.
+    Returns:
+        pd.DataFrame: DataFrame containing the MS/MS spectra information
+    """
+    
     spectra = []
     spectrum = {}
 
@@ -51,14 +61,18 @@ def read_msp(file_path):
         #     peak = 
     return df
 def write_to_msp(df, file_path, msms_col = 'peaks'):
+    
     """
+    Pair function of read_msp.
     Exports a pandas DataFrame to an MSP file.
 
-    Parameters:
-    df (pd.DataFrame): DataFrame containing spectrum information.
-                       Should have columns for 'name', 'peaks', and other metadata.
-    file_path (str): Destination path for the MSP file.
+    Args:
+        df (pd.DataFrame): DataFrame containing spectrum information. Should have columns for 'name', 'peaks', and other metadata.
+        file_path (str): Destination path for the MSP file.
+    Returns:
+        None
     """
+    
     with open(file_path, 'w') as f:
         for _, row in df.iterrows():
             # Write the name of the spectrum
@@ -79,14 +93,23 @@ def write_to_msp(df, file_path, msms_col = 'peaks'):
             
             # Separate spectra by an empty line
             f.write("\n")
-def check_pattern(input_string):
-    # Regular expression to match pairs of floats in standard or scientific notation separated by a tab,
-    # with each pair on a new line
-    if isinstance(input_string, str):
-        if '\t' in input_string:
-            return True
-    return False
 def save_df(df, save_path):
+    """
+    Pair function of save_df.
+
+    Save a DataFrame contaning MS/MS spectra to a CSV file, converting any columns containing 2D numpy arrays to string format.
+
+    Args:
+        df (pandas.DataFrame): The DataFrame to be saved.
+        save_path (str): The file path where the DataFrame should be saved. If the path does not end with '.csv', it will be appended automatically.
+    Returns:
+        None
+    Notes:
+        - This function identifies columns in the DataFrame that contain 2D numpy arrays with a second dimension of size 2.
+        - These identified columns are converted to string format before saving to the CSV file.
+        - The function uses tqdm to display a progress bar while processing the rows of the DataFrame.
+    """
+
     data = df.copy()
     cols = []
     for c in df.columns:
@@ -103,6 +126,25 @@ def save_df(df, save_path):
         data[col]=specs
     data.to_csv(save_path, index = False)
 def read_df(path):
+    """
+    Pair function of write_df.
+    Reads a CSV file into a DataFrame, processes specific columns based on a pattern check, 
+    and MS/MS in string format to 2-D numpy array (string is used to avoid storage issue in csv files).
+    
+    Args:
+        path (str): The file path to the CSV file.
+    Returns:
+        pandas.DataFrame: The processed DataFrame with specific columns converted.
+    Raises:
+        FileNotFoundError: If the file at the specified path does not exist.
+        pd.errors.EmptyDataError: If the CSV file is empty.
+        pd.errors.ParserError: If the CSV file contains parsing errors.
+    Notes:
+        - The function assumes that the first row of the CSV file contains the column headers.
+        - The `check_pattern` function is used to determine which columns to process.
+        - The `so.str_to_arr` function is used to convert the values in the selected columns.
+    """
+    
     df = pd.read_csv(path)
     print('done read in df')
     cols = []
@@ -112,9 +154,33 @@ def read_df(path):
     for col in cols:
         df[col] = [so.str_to_arr(y[col]) for x,y in df.iterrows()]
     return(df)
-import pandas as pd
+
 def sanitize_df_cols(df):
-    # Remove 'reference_' prefix from all column names
-    df.columns = df.columns.str.replace('^reference_', '', regex=True)
+
+    ''' 
+    Sanitize the column names of a DataFrame by removing the 'reference' prefix and replacing 'msms' with 'peaks'. Mainly used for compatibility with the data files from previous versions.
+    
+    Args:
+        df (pandas.DataFrame): the dataframe to sanitize
+    Returns:
+        df (pandas.DataFrame): the dataframe with columns are sanitized for spectral denoising/denoising search
+    '''
+    
+    df.columns = df.columns.str.replace('reference_', '', regex=True)
     df.columns = df.columns.str.replace('msms', 'peaks')
     return df
+def check_pattern(input_string):
+    """
+    Helper function for read_df.
+    Regular expression to match pairs of floats in standard or scientific notation separated by a tab, with each pair on a new line
+
+    Args:
+        input_string (str): input string to check for the pattern
+    Returns:
+        bool: True if the pattern is found, False otherwise
+    """
+    
+    if isinstance(input_string, str):
+        if '\t' in input_string:
+            return True
+    return False

@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>spectral_denoising &mdash; Spectral denoising documentation 1.0.0 documentation</title>
+  <title>spectral_denoising &mdash; Spectral denoising 1.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
 
@@ -21,8 +21,8 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="setup module" href="setup.html" />
-    <link rel="prev" title="Sss documentation" href="index.html" /> 
+    <link rel="next" title="spectral_denoising package" href="spectral_denoising.html" />
+    <link rel="prev" title="spectral_denoising documentation" href="index.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -34,7 +34,7 @@
           
           
           <a href="index.html" class="icon icon-home">
-            Spectral denoising documentation
+            Spectral denoising
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -47,7 +47,6 @@
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">spectral_denoising</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="setup.html">setup module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="spectral_denoising.html">spectral_denoising package</a></li>
 </ul>
 </li>
@@ -59,7 +58,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="index.html">Spectral denoising documentation</a>
+          <a href="index.html">Spectral denoising</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -81,13 +80,18 @@
 <h1>spectral_denoising<a class="headerlink" href="#spectral-denoising" title="Link to this heading"></a></h1>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="setup.html">setup module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="spectral_denoising.html">spectral_denoising package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="spectral_denoising.html#submodules">Submodules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="spectral_denoising.html#module-spectral_denoising.chem_utils">spectral_denoising.chem_utils module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="spectral_denoising.html#spectral_denoising.chem_utils.calculate_precursormz"><code class="docutils literal notranslate"><span class="pre">calculate_precursormz()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="spectral_denoising.html#spectral_denoising.chem_utils.desalter"><code class="docutils literal notranslate"><span class="pre">desalter()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="spectral_denoising.html#spectral_denoising.chem_utils.determine_adduct_charge"><code class="docutils literal notranslate"><span class="pre">determine_adduct_charge()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="spectral_denoising.html#spectral_denoising.chem_utils.determine_parent_coefs"><code class="docutils literal notranslate"><span class="pre">determine_parent_coefs()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="spectral_denoising.html#spectral_denoising.chem_utils.get_bond_similarity"><code class="docutils literal notranslate"><span class="pre">get_bond_similarity()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="spectral_denoising.html#spectral_denoising.chem_utils.parse_adduct"><code class="docutils literal notranslate"><span class="pre">parse_adduct()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="spectral_denoising.html#spectral_denoising.chem_utils.parse_formula"><code class="docutils literal notranslate"><span class="pre">parse_formula()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="spectral_denoising.html#spectral_denoising.chem_utils.replace_adduct_string"><code class="docutils literal notranslate"><span class="pre">replace_adduct_string()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="spectral_denoising.html#spectral_denoising.chem_utils.transpose_formula"><code class="docutils literal notranslate"><span class="pre">transpose_formula()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="spectral_denoising.html#module-spectral_denoising.constant">spectral_denoising.constant module</a></li>
@@ -130,7 +134,6 @@
 <li class="toctree-l3"><a class="reference internal" href="spectral_denoising.html#spectral_denoising.noise.generate_noise"><code class="docutils literal notranslate"><span class="pre">generate_noise()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="spectral_denoising.html#module-spectral_denoising.other_helpers">spectral_denoising.other_helpers module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="spectral_denoising.html#module-spectral_denoising.search_utils">spectral_denoising.search_utils module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="spectral_denoising.html#spectral_denoising.search_utils.num_search"><code class="docutils literal notranslate"><span class="pre">num_search()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="spectral_denoising.html#spectral_denoising.search_utils.quick_search_sorted"><code class="docutils literal notranslate"><span class="pre">quick_search_sorted()</span></code></a></li>
@@ -145,8 +148,6 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="spectral_denoising.html#module-spectral_denoising.spectra_plotter">spectral_denoising.spectra_plotter module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="spectral_denoising.html#spectral_denoising.spectra_plotter.head_to_tail_plot"><code class="docutils literal notranslate"><span class="pre">head_to_tail_plot()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="spectral_denoising.html#spectral_denoising.spectra_plotter.ms2_clean_noise"><code class="docutils literal notranslate"><span class="pre">ms2_clean_noise()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="spectral_denoising.html#spectral_denoising.spectra_plotter.ms2_overlay"><code class="docutils literal notranslate"><span class="pre">ms2_overlay()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="spectral_denoising.html#spectral_denoising.spectra_plotter.ms2_plot"><code class="docutils literal notranslate"><span class="pre">ms2_plot()</span></code></a></li>
 </ul>
 </li>
@@ -162,24 +163,29 @@
 <li class="toctree-l3"><a class="reference internal" href="spectral_denoising.html#spectral_denoising.spectral_denoising.has_benzene"><code class="docutils literal notranslate"><span class="pre">has_benzene()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="spectral_denoising.html#spectral_denoising.spectral_denoising.ms_reduce"><code class="docutils literal notranslate"><span class="pre">ms_reduce()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="spectral_denoising.html#spectral_denoising.spectral_denoising.prep_formula"><code class="docutils literal notranslate"><span class="pre">prep_formula()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="spectral_denoising.html#spectral_denoising.spectral_denoising.spectra_denoising"><code class="docutils literal notranslate"><span class="pre">spectra_denoising()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="spectral_denoising.html#spectral_denoising.spectral_denoising.spectra_denoising_batch"><code class="docutils literal notranslate"><span class="pre">spectra_denoising_batch()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="spectral_denoising.html#spectral_denoising.spectral_denoising.spectral_denoising"><code class="docutils literal notranslate"><span class="pre">spectral_denoising()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="spectral_denoising.html#spectral_denoising.spectral_denoising.spectral_denoising_batch"><code class="docutils literal notranslate"><span class="pre">spectral_denoising_batch()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="spectral_denoising.html#spectral_denoising.spectral_denoising.threshold_denoising"><code class="docutils literal notranslate"><span class="pre">threshold_denoising()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="spectral_denoising.html#module-spectral_denoising.spectral_operations">spectral_denoising.spectral_operations module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="spectral_denoising.html#module-spectral_denoising.test">spectral_denoising.test module</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="spectral_denoising.html#spectral_denoising.test.check_fragment"><code class="docutils literal notranslate"><span class="pre">check_fragment()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="spectral_denoising.html#spectral_denoising.test.check_fragment_parallel"><code class="docutils literal notranslate"><span class="pre">check_fragment_parallel()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="spectral_denoising.html#spectral_denoising.test.check_subformulas_topo"><code class="docutils literal notranslate"><span class="pre">check_subformulas_topo()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="spectral_denoising.html#spectral_denoising.test.check_topo"><code class="docutils literal notranslate"><span class="pre">check_topo()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="spectral_denoising.html#spectral_denoising.test.compare_formula"><code class="docutils literal notranslate"><span class="pre">compare_formula()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="spectral_denoising.html#spectral_denoising.test.enumaerate_candidate_list"><code class="docutils literal notranslate"><span class="pre">enumaerate_candidate_list()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="spectral_denoising.html#spectral_denoising.test.get_atom_index"><code class="docutils literal notranslate"><span class="pre">get_atom_index()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="spectral_denoising.html#spectral_denoising.test.get_rarest_heavy_atom"><code class="docutils literal notranslate"><span class="pre">get_rarest_heavy_atom()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="spectral_denoising.html#spectral_denoising.test.get_subgraph_length"><code class="docutils literal notranslate"><span class="pre">get_subgraph_length()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="spectral_denoising.html#spectral_denoising.test.num_non_h_atoms"><code class="docutils literal notranslate"><span class="pre">num_non_h_atoms()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="spectral_denoising.html#spectral_denoising.test.verify_status"><code class="docutils literal notranslate"><span class="pre">verify_status()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="spectral_denoising.html#module-spectral_denoising.spectral_operations">spectral_denoising.spectral_operations module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="spectral_denoising.html#spectral_denoising.spectral_operations.add_spectra"><code class="docutils literal notranslate"><span class="pre">add_spectra()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="spectral_denoising.html#spectral_denoising.spectral_operations.arr_to_str"><code class="docutils literal notranslate"><span class="pre">arr_to_str()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="spectral_denoising.html#spectral_denoising.spectral_operations.break_spectrum"><code class="docutils literal notranslate"><span class="pre">break_spectrum()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="spectral_denoising.html#spectral_denoising.spectral_operations.compare_spectra"><code class="docutils literal notranslate"><span class="pre">compare_spectra()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="spectral_denoising.html#spectral_denoising.spectral_operations.entropy_similairty"><code class="docutils literal notranslate"><span class="pre">entropy_similairty()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="spectral_denoising.html#spectral_denoising.spectral_operations.normalize_spectrum"><code class="docutils literal notranslate"><span class="pre">normalize_spectrum()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="spectral_denoising.html#spectral_denoising.spectral_operations.pack_spectrum"><code class="docutils literal notranslate"><span class="pre">pack_spectrum()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="spectral_denoising.html#spectral_denoising.spectral_operations.remove_precursor"><code class="docutils literal notranslate"><span class="pre">remove_precursor()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="spectral_denoising.html#spectral_denoising.spectral_operations.remove_zero_ions"><code class="docutils literal notranslate"><span class="pre">remove_zero_ions()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="spectral_denoising.html#spectral_denoising.spectral_operations.sanitize_spectrum"><code class="docutils literal notranslate"><span class="pre">sanitize_spectrum()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="spectral_denoising.html#spectral_denoising.spectral_operations.search_ions"><code class="docutils literal notranslate"><span class="pre">search_ions()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="spectral_denoising.html#spectral_denoising.spectral_operations.slice_spectrum"><code class="docutils literal notranslate"><span class="pre">slice_spectrum()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="spectral_denoising.html#spectral_denoising.spectral_operations.sort_spectrum"><code class="docutils literal notranslate"><span class="pre">sort_spectrum()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="spectral_denoising.html#spectral_denoising.spectral_operations.spctrum_entropy"><code class="docutils literal notranslate"><span class="pre">spctrum_entropy()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="spectral_denoising.html#spectral_denoising.spectral_operations.standardize_spectrum"><code class="docutils literal notranslate"><span class="pre">standardize_spectrum()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="spectral_denoising.html#spectral_denoising.spectral_operations.str_to_arr"><code class="docutils literal notranslate"><span class="pre">str_to_arr()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="spectral_denoising.html#spectral_denoising.spectral_operations.truncate_spectrum"><code class="docutils literal notranslate"><span class="pre">truncate_spectrum()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="spectral_denoising.html#module-spectral_denoising">Module contents</a></li>
@@ -193,8 +199,8 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="index.html" class="btn btn-neutral float-left" title="Sss documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="setup.html" class="btn btn-neutral float-right" title="setup module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="index.html" class="btn btn-neutral float-left" title="spectral_denoising documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="spectral_denoising.html" class="btn btn-neutral float-right" title="spectral_denoising package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

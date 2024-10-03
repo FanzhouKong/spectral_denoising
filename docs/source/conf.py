@@ -6,7 +6,7 @@
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = 'Spectral denoising documentation'
+project = 'Spectral denoising'
 copyright = '2024, Fanzhou Kong'
 author = 'Fanzhou Kong'
 release = '1.0.0'
@@ -14,7 +14,10 @@ release = '1.0.0'
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
+extensions = []
+
 extensions = [
+    "sphinx.ext.napoleon",
     'sphinx.ext.duration',
     'sphinx.ext.doctest',
     'sphinx.ext.autodoc',
@@ -27,8 +30,6 @@ intersphinx_mapping = {
     'sphinx': ('https://www.sphinx-doc.org/en/master/', None),
 }
 
-templates_path = ['_templates']
-exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
 
 
