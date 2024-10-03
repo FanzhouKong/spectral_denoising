@@ -12,8 +12,15 @@ For detail methodology, please refer to the paper: https://pubmed.ncbi.nlm.nih.g
 
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 2
    :caption: Contents:
+
+   modules
+
+
+.. toctree::
+   :maxdepth: 1
+   :caption: functions:
 
    spectral_denoising
 
