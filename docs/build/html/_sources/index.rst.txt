@@ -15,7 +15,7 @@ For detail methodology, please refer to the paper: https://pubmed.ncbi.nlm.nih.g
    :maxdepth: 1
    :caption: Contents:
 
-   modules
+   spectral_denoising
 
 Indices and tables
 ==================
