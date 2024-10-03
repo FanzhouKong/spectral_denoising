@@ -38,7 +38,9 @@ from spectral_denoising.chem_utils import *
 smiles = 'O=c1nc[nH]c2nc[nH]c12'
 adduct = '[M+Na]+'
 pmz = calculate_precursormz(adduct,smiles)
-peaks = np.array([[48.992496490478516 ,154.0],[63.006099700927734, 265.0], [79.02062225341797, 521.0]], dtype = np.float32)
+peaks = np.array([[48.992496490478516 ,154.0],
+                  [63.006099700927734, 265.0],
+                  [79.02062225341797, 521.0]], dtype = np.float32)
 print(f'the spectrum entropy is {spctrum_entropy(peaks):.2f}, the normalized entropy is {normalized_entropy(peaks):.2f}')
 # alternatively, you can store mass and intensity in separate arrays, and use pack_spectrum(mass, intensity) to get the peaks array
 # e.g.mass,intensity = [48.992496490478516, 63.006099700927734, 79.02062225341797], [154.0, 265.0, 521.0]
