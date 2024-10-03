@@ -32,24 +32,33 @@ pip install spectral-denoising
 ```python
 import numpy as np
 import spectral_denoising as sd
-import spectral_denoising.spectral_operations as so
+from spectral_denoising.spectral_operations import *
+from spectral_denoising.chem_utils import *
 
-quene_data = sd.read_msp('../sample_data/noisy_spectra.msp').iloc[0] # just use the first spectra
-reference_data= sd.read_msp('../sample_data/clean_spectra.msp').iloc[0] 
-quene_spectra, quene_smiles, quene_adduct, quene_pmz = quene_data['peaks'], quene_data['smiles'], quene_data['adduct'], quene_data['precursor_mz']
-reference_spectra = reference_data['peaks']
+smiles = 'O=c1nc[nH]c2nc[nH]c12'
+adduct = '[M+Na]+'
+pmz = calculate_precursormz(adduct,smiles)
+peaks = np.array([[48.992496490478516 ,154.0],[63.006099700927734, 265.0], [79.02062225341797, 521.0]], dtype = np.float32)
+print(f'the spectrum entropy is {spctrum_entropy(peaks):.2f}, the normalized entropy is {normalized_entropy(peaks):.2f}')
+# alternatively, you can store mass and intensity in separate arrays, and use pack_spectrum(mass, intensity) to get the peaks array
+# e.g.mass,intensity = [48.992496490478516, 63.006099700927734, 79.02062225341797], [154.0, 265.0, 521.0]
+# peaks = pack_spectrum(mass, intensity)
 
-# Visualize the head-to-tail plots
-sd.head_to_tail_plot(quene_spectra, reference_spectra, pmz = quene_pmz)
+# generate some electronic noise and add it to the peaks
+from spectral_denoising.noise import *
+noise = generate_noise(pmz, lamda=10, n = 50)
+peaks_with_noise = add_noise(peaks, noise)
+# use head_to_tail_plot to visualize the spectra, only in jupyter notebook
+# sd.head_to_tail_plot(peaks_with_noise,peaks ,pmz)
+print(f'the spectrum entropy is {spctrum_entropy(peaks_with_noise):.2f}, the normalized entropy is {normalized_entropy(peaks_with_noise):.2f}')
+print(f'the entropy similarity of contaminated spectrum and the raw spectrum is {entropy_similairty(peaks_with_noise,peaks,  pmz = pmz):.2f}')
 
-# Run spectra denoising will remove electronic noises and chemical noises.
-msms_denoised = sd.spectra_denoising(quene_spectra, quene_smiles, quene_adduct) #denoise the spectrum based on the smiles/adduct information
-
-# Calculate spectral entropy before and after denoising.
-print(f'the raw spectra has spectral entropy of {so.spctrum_entropy(quene_spectra):.2f}')
-print(f'the denoised spectra has spectral entropy of {so.spctrum_entropy(msms_denoised):.2f}')
-# Calculate entropy similarity.
-sd.head_to_tail_plot(msms_denoised, reference_spectra, pmz = quene_pmz)
+# perform spectral denosing and compare against the raw spectrum
+peaks_denoised = sd.spectral_denoising(peaks_with_noise, smiles, adduct)
+print(peaks_denoised)
+print(f'the entropy similarity of contaminated spectrum and the raw spectrum is {entropy_similairty(peaks_denoised, peaks, pmz = pmz):.2f}')
+# use head_to_tail_plot to visualize the spectra, only in jupyter notebook
+# sd.head_to_tail_plot(peaks_denoised,peaks ,pmz)
 ```
 ### Example of usage for batch mode can be found in /notebook/spectral_denoising_demo.ipynb
 
