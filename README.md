@@ -54,7 +54,7 @@ sd.head_to_tail_plot(msms_denoised, reference_spectra, pmz = quene_pmz)
 ### Example of usage for batch mode can be found in /notebook/spectral_denoising_demo.ipynb
 
 
-### Usage of Flash Entropy Search
+### Usage of Denoising search
 
 ```python
 import spectral_denoising as sd
