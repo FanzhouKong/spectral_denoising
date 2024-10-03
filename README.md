@@ -1,3 +1,5 @@
+# Spectral denoising and denoising search
+
 Test the package at: https://pypi.org/project/spectral-denoising/
 
 
