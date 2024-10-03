@@ -1,6 +1,6 @@
 myst_parser
 numpydoc
-spectral-denoising==0.0.8
+spectral_denoising==0.0.8
 sphinxcontrib-email
 sphinx_rtd_theme
 chemparse==0.3.1
