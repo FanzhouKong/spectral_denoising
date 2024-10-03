@@ -74,9 +74,8 @@ desnoied_peaks = sd.spectra_denoising_batch(quene_peaks,quene_smiles,quene_adduc
 
 ```python
 import spectral_denoising as sd
-data_dir = '../sample_data/'
-quene_spectra= sd.read_msp(os.path.join(data_dir, 'quene_spectra.msp'))
-reference_library =sd.read_msp(os.path.join(data_dir, 'sample_library.msp'))
+quene_spectra= sd.read_msp('sample_data/quene_spectra.msp')
+reference_library =sd.read_msp('sample_data/sample_library.msp')
 quene_spectrum, quene_pmz = quene_spectra.iloc[0]['peaks'], quene_spectra.iloc[0]['precursor_mz']
 sd.denoising_search(quene_spectrum, quene_pmz, reference_library)
 ```
