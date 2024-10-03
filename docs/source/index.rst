@@ -12,8 +12,14 @@ For detail methodology, please refer to the paper: https://pubmed.ncbi.nlm.nih.g
 
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
    :caption: Contents:
 
    modules
 
+Indices and tables
+==================
+
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`
