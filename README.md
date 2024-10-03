@@ -1,4 +1,4 @@
-[![Test Spectral denoising package] (https://pypi.org/project/spectral-denoising/)] 
+Test the package at: https://pypi.org/project/spectral-denoising/
 
 
 If you have any questions, feel free to send me E-mails: fzkong@ucdavis.edu. If you find this package useful, please consider citing the following papers:
