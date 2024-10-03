@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>spectral_denoising.identifier_utils &mdash; Spectral denoising 1.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=8d563738"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Spectral denoising
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">spectral_denoising</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">functions:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../spectral_denoising.html">spectral_denoising package</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Spectral denoising</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">spectral_denoising.identifier_utils</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for spectral_denoising.identifier_utils</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span> 
+<span class="kn">from</span> <span class="nn">rdkit</span> <span class="kn">import</span> <span class="n">Chem</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">cirpy</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">from</span> <span class="nn">rdkit.Chem.rdMolDescriptors</span> <span class="kn">import</span> <span class="n">CalcMolFormula</span>
+<span class="kn">from</span> <span class="nn">rdkit.Chem.Descriptors</span> <span class="kn">import</span> <span class="n">ExactMolWt</span>
+<span class="kn">from</span> <span class="nn">pubchempy</span> <span class="kn">import</span> <span class="n">Compound</span><span class="p">,</span> <span class="n">get_compounds</span>
+<div class="viewcode-block" id="get_classyfire">
+<a class="viewcode-back" href="../../spectral_denoising.html#spectral_denoising.identifier_utils.get_classyfire">[docs]</a>
+<span class="k">def</span> <span class="nf">get_classyfire</span><span class="p">(</span><span class="n">smiles</span><span class="p">,</span> <span class="n">if_np</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Retrieves the ClassyFire classification for a given SMILES string.</span>
+<span class="sd">    </span>
+<span class="sd">    Args:</span>
+<span class="sd">        smiles (str): The SMILES string of the molecule to classify.</span>
+<span class="sd">        if_np (bool, optional): A flag indicating whether the molecule is a natural product. Defaults to False.</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        dict: The JSON response from the ClassyFire API if the request is successful, </span>
+<span class="sd">                       otherwise numpy.NAN.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">url</span> <span class="o">=</span> <span class="n">create_classyfire_url</span><span class="p">(</span><span class="n">smiles</span><span class="p">,</span> <span class="n">if_np</span><span class="p">)</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">r</span><span class="o">.</span><span class="n">ok</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span></div>
+
+<div class="viewcode-block" id="everything_to_smiles">
+<a class="viewcode-back" href="../../spectral_denoising.html#spectral_denoising.identifier_utils.everything_to_smiles">[docs]</a>
+<span class="k">def</span> <span class="nf">everything_to_smiles</span><span class="p">(</span><span class="nb">input</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert various chemical identifier formats to a SMILES string.</span>
+<span class="sd">    This function takes an input which can be in different chemical identifier formats </span>
+<span class="sd">    (SMILES, Mol, InChIKey, CAS number, or chemical name) and converts it to a SMILES string.</span>
+<span class="sd">    </span>
+<span class="sd">    Args:</span>
+<span class="sd">        input (str or RDKit Mol): The chemical identifier to be converted. It can be a SMILES string, an RDKit Mol object, an InChIKey, a CAS number, or a chemical name.</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        smiles (str): The corresponding SMILES string if the conversion is successful. Returns NaN if the input is NaN.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="nb">input</span> <span class="o">!=</span> <span class="nb">input</span><span class="p">:</span><span class="c1"># check for nan</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    <span class="k">if</span> <span class="n">is_smiles</span><span class="p">(</span><span class="nb">input</span><span class="p">):</span>
+        <span class="n">smiles</span> <span class="o">=</span> <span class="nb">input</span>
+    <span class="k">elif</span> <span class="n">is_mol</span><span class="p">(</span><span class="nb">input</span><span class="p">):</span>
+        <span class="n">smiles</span> <span class="o">=</span> <span class="n">Chem</span><span class="o">.</span><span class="n">MolToSmiles</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span>
+
+    <span class="k">elif</span> <span class="n">is_inchikey</span><span class="p">(</span><span class="nb">input</span><span class="p">):</span>
+        <span class="n">smiles</span> <span class="o">=</span> <span class="n">inchikey_to_smiles</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">is_cas_number</span><span class="p">(</span><span class="nb">input</span><span class="p">):</span>
+        <span class="n">smiles</span> <span class="o">=</span> <span class="n">cas_to_smiles</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">smiles</span> <span class="o">!=</span> <span class="n">smiles</span><span class="p">:</span>
+            <span class="n">smiles</span> <span class="o">=</span> <span class="n">name_to_smiles</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">smiles</span> <span class="o">=</span> <span class="n">name_to_smiles</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span>
+    <span class="k">return</span><span class="p">(</span><span class="n">smiles</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="everything_to_inchikey">
+<a class="viewcode-back" href="../../spectral_denoising.html#spectral_denoising.identifier_utils.everything_to_inchikey">[docs]</a>
+<span class="k">def</span> <span class="nf">everything_to_inchikey</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">first_block</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Converts various chemical identifiers to an InChIKey or its first block.</span>
+<span class="sd">    This function takes an input which can be an InChIKey, a molecule object, a SMILES string, </span>
+<span class="sd">    a CAS number, or a chemical name, and converts it to an InChIKey. If the input is already </span>
+<span class="sd">    an InChIKey, it can return either the full InChIKey or just the first block of it based </span>
+<span class="sd">    on the `first_block` parameter.</span>
+<span class="sd">    </span>
+<span class="sd">    Args:</span>
+<span class="sd">        input (str or RDKit Mol): The chemical identifier to be converted. It can be an InChIKey, a molecule object, a SMILES string, a CAS number, or a chemical name.</span>
+<span class="sd">        first_block (bool, optional): If True, returns only the first block of the InChIKey. Defaults to True.</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        inchikey (str): The InChIKey or its first block if `first_block` is True. Returns NaN if the </span>
+<span class="sd">        input is invalid or cannot be converted.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">smiles</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    <span class="k">if</span> <span class="nb">input</span> <span class="o">!=</span> <span class="nb">input</span><span class="p">:</span><span class="c1"># check for nan</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    <span class="k">if</span> <span class="n">is_inchikey</span><span class="p">(</span><span class="nb">input</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">first_block</span> <span class="o">==</span><span class="kc">True</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">input</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">14</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">input</span>
+    <span class="k">elif</span> <span class="n">is_mol</span><span class="p">(</span><span class="nb">input</span><span class="p">):</span>
+        <span class="n">smiles</span> <span class="o">=</span> <span class="n">Chem</span><span class="o">.</span><span class="n">MolToSmiles</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">is_smiles</span><span class="p">(</span><span class="nb">input</span><span class="p">):</span>
+        <span class="n">smiles</span> <span class="o">=</span> <span class="nb">input</span>
+    <span class="k">elif</span> <span class="n">is_cas_number</span><span class="p">(</span><span class="nb">input</span><span class="p">):</span>
+        <span class="n">smiles</span> <span class="o">=</span> <span class="n">cas_to_smiles</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">smiles</span> <span class="o">!=</span> <span class="n">smiles</span><span class="p">:</span>
+            <span class="n">smiles</span> <span class="o">=</span> <span class="n">name_to_smiles</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">smiles</span> <span class="o">=</span> <span class="n">name_to_smiles</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">smiles</span> <span class="o">==</span> <span class="n">smiles</span><span class="p">:</span>
+        <span class="n">mol</span> <span class="o">=</span> <span class="n">Chem</span><span class="o">.</span><span class="n">MolFromSmiles</span><span class="p">(</span><span class="n">smiles</span><span class="p">)</span>
+        <span class="n">inchikey</span> <span class="o">=</span> <span class="n">Chem</span><span class="o">.</span><span class="n">MolToInchiKey</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">first_block</span> <span class="o">==</span><span class="kc">True</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">inchikey</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">14</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">inchikey</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span></div>
+
+<div class="viewcode-block" id="everything_to_formula">
+<a class="viewcode-back" href="../../spectral_denoising.html#spectral_denoising.identifier_utils.everything_to_formula">[docs]</a>
+<span class="k">def</span> <span class="nf">everything_to_formula</span><span class="p">(</span><span class="nb">input</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Converts various chemical input to a molecular formula.</span>
+<span class="sd">    This function takes an input which can be in different chemical formats </span>
+<span class="sd">    (e.g., SMILES, molecular formula) and converts it to a standardized </span>
+<span class="sd">    molecular formula. If the input is already a molecular formula, it is </span>
+<span class="sd">    returned as is. If the input is a SMILES string, it is first converted </span>
+<span class="sd">    to a molecular object and then to a molecular formula.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        input (str): The chemical input which can be a SMILES string, </span>
+<span class="sd">        molecular formula, or other recognizable chemical format.</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        formula (str): The molecular formula of the input chemical. If the input is </span>
+<span class="sd">             invalid or cannot be converted, returns NaN.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="nb">input</span> <span class="o">!=</span> <span class="nb">input</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    <span class="k">if</span> <span class="n">is_smiles</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">is_formula</span><span class="p">(</span><span class="nb">input</span><span class="p">):</span>
+            <span class="k">return</span> <span class="nb">input</span>
+    <span class="n">smiles</span> <span class="o">=</span> <span class="n">everything_to_smiles</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span>
+    <span class="n">mol</span> <span class="o">=</span> <span class="n">Chem</span><span class="o">.</span><span class="n">MolFromSmiles</span><span class="p">(</span><span class="n">smiles</span><span class="p">)</span>
+    <span class="n">formula</span> <span class="o">=</span> <span class="n">CalcMolFormula</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="c1"># formula = standarize_formula(formula_temp)</span>
+    <span class="k">return</span><span class="p">(</span><span class="n">formula</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="create_classyfire_url">
+<a class="viewcode-back" href="../../spectral_denoising.html#spectral_denoising.identifier_utils.create_classyfire_url">[docs]</a>
+<span class="k">def</span> <span class="nf">create_classyfire_url</span><span class="p">(</span><span class="n">smiles_string</span><span class="p">,</span> <span class="n">if_np</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generates a URL for ClassyFire or NPClassifier based on the provided SMILES string. Just a helper function</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">if_np</span><span class="p">:</span>
+        <span class="n">url_template</span> <span class="o">=</span> <span class="s2">&quot;https://npclassifier.gnps2.org/classify?smiles=</span><span class="si">{}</span><span class="s2">&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">url_template</span><span class="o">=</span><span class="s1">&#39;https://structure.gnps2.org/classyfire?smiles=</span><span class="si">{}</span><span class="s1">&#39;</span>
+    <span class="k">return</span> <span class="n">url_template</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">smiles_string</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="smiles_to_inchikey">
+<a class="viewcode-back" href="../../spectral_denoising.html#spectral_denoising.identifier_utils.smiles_to_inchikey">[docs]</a>
+<span class="k">def</span> <span class="nf">smiles_to_inchikey</span><span class="p">(</span><span class="n">smiles</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    helper function</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        smiles (str): A SMILES string representing a molecule.</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        inchikey (str): The InChIKey of the molecule, first block only.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">smiles</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    <span class="n">mol</span> <span class="o">=</span> <span class="n">Chem</span><span class="o">.</span><span class="n">MolFromSmiles</span><span class="p">(</span><span class="n">smiles</span><span class="p">)</span>
+    <span class="n">inchikey</span> <span class="o">=</span> <span class="n">Chem</span><span class="o">.</span><span class="n">MolToInchiKey</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="k">return</span><span class="p">(</span><span class="n">inchikey</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">14</span><span class="p">])</span></div>
+
+<div class="viewcode-block" id="inchikey_to_smiles">
+<a class="viewcode-back" href="../../spectral_denoising.html#spectral_denoising.identifier_utils.inchikey_to_smiles">[docs]</a>
+<span class="k">def</span> <span class="nf">inchikey_to_smiles</span><span class="p">(</span><span class="n">inchikey</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    helper function, but uses pubchem database</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        inchikey (str): The inchikey of the molecule to look up.</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        str: The fetched isomeric SMILES code.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">cc</span> <span class="o">=</span> <span class="n">get_compounds</span><span class="p">(</span><span class="n">inchikey</span><span class="p">,</span> <span class="s1">&#39;inchikey&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">cc</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">cc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">isomeric_smiles</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">cc</span> <span class="o">=</span> <span class="n">get_compounds</span><span class="p">(</span><span class="n">inchikey</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">14</span><span class="p">],</span> <span class="s1">&#39;inchikey&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">cc</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">(</span><span class="n">cc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">isomeric_smiles</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="cas_to_smiles">
+<a class="viewcode-back" href="../../spectral_denoising.html#spectral_denoising.identifier_utils.cas_to_smiles">[docs]</a>
+<span class="k">def</span> <span class="nf">cas_to_smiles</span><span class="p">(</span><span class="n">cas</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert a CAS (Chemical Abstracts Service) number to a SMILES (Simplified Molecular Input Line Entry System) string.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        cas (str): The CAS number of the chemical compound.</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        str: The SMILES string of the chemical compound if found, otherwise NaN.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">smile</span> <span class="o">=</span> <span class="n">cirpy</span><span class="o">.</span><span class="n">resolve</span><span class="p">(</span><span class="n">cas</span><span class="p">,</span> <span class="s1">&#39;smiles&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">smile</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">smile</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    <span class="k">return</span><span class="p">(</span><span class="n">smile</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="name_to_smiles">
+<a class="viewcode-back" href="../../spectral_denoising.html#spectral_denoising.identifier_utils.name_to_smiles">[docs]</a>
+<span class="k">def</span> <span class="nf">name_to_smiles</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert a chemical name to its corresponding SMILES (Simplified Molecular Input Line Entry System) representation, with Pubchem as backend.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        name (str): The chemical name to be converted.</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        str: The SMILES representation of the chemical if found, otherwise numpy.nan.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">cc</span> <span class="o">=</span> <span class="n">get_compounds</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">cc</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">cc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">isomeric_smiles</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="everything_to_image">
+<a class="viewcode-back" href="../../spectral_denoising.html#spectral_denoising.identifier_utils.everything_to_image">[docs]</a>
+<span class="k">def</span> <span class="nf">everything_to_image</span><span class="p">(</span><span class="n">molecule</span><span class="p">,</span> <span class="n">savepath</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Converts a molecular representation to an image and saves it to the specified path.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        molecule (str or RDKit Mol object): The molecular representation, which can be a SMILES string, </span>
+<span class="sd">                                        an RDKit Mol object, or any other format that can be converted </span>
+<span class="sd">                                        to a SMILES string.</span>
+<span class="sd">        savepath (str): The file path where the generated image will be saved.</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="kn">from</span> <span class="nn">rdkit</span> <span class="kn">import</span> <span class="n">Chem</span>
+    <span class="kn">from</span> <span class="nn">rdkit.Chem</span> <span class="kn">import</span> <span class="n">Draw</span>
+    <span class="k">if</span> <span class="n">is_mol</span><span class="p">(</span><span class="n">molecule</span><span class="p">):</span>
+    <span class="c1"># Create an RDKit molecule object</span>
+        <span class="n">mol</span> <span class="o">=</span> <span class="n">molecule</span>
+
+    <span class="k">elif</span> <span class="n">is_smiles</span><span class="p">(</span><span class="n">molecule</span><span class="p">):</span>
+        <span class="c1"># print(&#39;ttt&#39;)</span>
+        <span class="n">mol</span> <span class="o">=</span> <span class="n">Chem</span><span class="o">.</span><span class="n">MolFromSmiles</span><span class="p">(</span><span class="n">molecule</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">smiles</span> <span class="o">=</span> <span class="n">everything_to_smiles</span><span class="p">(</span><span class="n">molecule</span><span class="p">)</span>
+        <span class="n">mol</span> <span class="o">=</span> <span class="n">Chem</span><span class="o">.</span><span class="n">MolFromSmiles</span><span class="p">(</span><span class="n">smiles</span><span class="p">)</span>
+    <span class="c1"># Generate the image of the molecule</span>
+    <span class="n">img</span> <span class="o">=</span> <span class="n">Draw</span><span class="o">.</span><span class="n">MolToImage</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+        <span class="c1"># Save the image to a file</span>
+    <span class="n">img</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">savepath</span><span class="p">)</span></div>
+
+<span class="c1">#below are is_ section</span>
+<div class="viewcode-block" id="is_inchikey">
+<a class="viewcode-back" href="../../spectral_denoising.html#spectral_denoising.identifier_utils.is_inchikey">[docs]</a>
+<span class="k">def</span> <span class="nf">is_inchikey</span><span class="p">(</span><span class="n">string</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check if a given string is a valid InChIKey using regex.</span>
+<span class="sd">    An InChIKey is a 27-character string divided into three blocks by hyphens:</span>
+<span class="sd">    - The first block contains 14 uppercase letters.</span>
+<span class="sd">    - The second block contains 10 uppercase letters.</span>
+<span class="sd">    - The third block contains a single uppercase letter or digit.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        string (str): The string to be checked.</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        bool: True if the string is a valid InChIKey, False otherwise.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Define the regex pattern for InChIKeys</span>
+    <span class="n">pattern</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;^[A-Z]</span><span class="si">{14}</span><span class="s1">-[A-Z]</span><span class="si">{10}</span><span class="s1">-[A-Z0-9]$&#39;</span>
+    <span class="c1"># Use re.match to check if the pattern matches the entire string</span>
+    <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="n">string</span><span class="p">):</span>
+        <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span></div>
+
+
+<div class="viewcode-block" id="is_mol">
+<a class="viewcode-back" href="../../spectral_denoising.html#spectral_denoising.identifier_utils.is_mol">[docs]</a>
+<span class="k">def</span> <span class="nf">is_mol</span><span class="p">(</span><span class="n">mol</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check if the given object is an instance of Chem.rdchem.Mol.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        mol: The object to check.</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        bool: True if the object is an instance of Chem.rdchem.Mol, False otherwise.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">return</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">Chem</span><span class="o">.</span><span class="n">rdchem</span><span class="o">.</span><span class="n">Mol</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="is_smiles">
+<a class="viewcode-back" href="../../spectral_denoising.html#spectral_denoising.identifier_utils.is_smiles">[docs]</a>
+<span class="k">def</span> <span class="nf">is_smiles</span><span class="p">(</span><span class="n">smiles_string</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check if a given string is a valid SMILES (Simplified Molecular Input Line Entry System) representation.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        smiles_string (str): The SMILES string to be validated.</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        bool: True if the SMILES string is valid, False otherwise.</span>
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; is_smiles(&quot;CCO&quot;)</span>
+<span class="sd">        True</span>
+<span class="sd">        &gt;&gt;&gt; is_smiles(&quot;invalid_smiles&quot;)</span>
+<span class="sd">        False</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Attempt to create a molecule object from the SMILES string</span>
+    <span class="n">mol</span> <span class="o">=</span> <span class="n">Chem</span><span class="o">.</span><span class="n">MolFromSmiles</span><span class="p">(</span><span class="n">smiles_string</span><span class="p">)</span>
+    <span class="c1"># If the molecule object is created successfully, the SMILES string is valid</span>
+    <span class="k">if</span> <span class="n">mol</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># If the molecule object is None, the SMILES string is invalid</span>
+        <span class="k">return</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="is_cas_number">
+<a class="viewcode-back" href="../../spectral_denoising.html#spectral_denoising.identifier_utils.is_cas_number">[docs]</a>
+<span class="k">def</span> <span class="nf">is_cas_number</span><span class="p">(</span><span class="n">string</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check if a given string is a valid CAS (Chemical Abstracts Service) number.</span>
+<span class="sd">    A CAS number is a unique numerical identifier assigned to every chemical substance</span>
+<span class="sd">    described in the open scientific literature. It is formatted as one or more digits,</span>
+<span class="sd">    followed by a hyphen, followed by two or more digits, followed by another hyphen,</span>
+<span class="sd">    and ending with a single digit.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        string (str): The string to be checked.</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        bool: True if the string is a valid CAS number, False otherwise.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Regex pattern for CAS numbers: one or more digits, followed by a hyphen, followed by two or more digits,</span>
+    <span class="c1"># followed by a hyphen, and ending with a single digit</span>
+    <span class="n">pattern</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;^\d+-\d{2,}-\d$&#39;</span>
+
+    <span class="c1"># Check if the given string matches the pattern</span>
+    <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="n">string</span><span class="p">):</span>
+        <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="everything_to_mw">
+<a class="viewcode-back" href="../../spectral_denoising.html#spectral_denoising.identifier_utils.everything_to_mw">[docs]</a>
+<span class="k">def</span> <span class="nf">everything_to_mw</span><span class="p">(</span><span class="n">mol</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Converts a given molecule representation to its molecular weight (MW).</span>
+<span class="sd">    This function first checks if the input is a valid molecule object. If not, it attempts to convert the input to a SMILES string and then to a molecule object. Finally, it calculates and returns the exact molecular weight of the molecule.</span>
+<span class="sd">    </span>
+<span class="sd">    Args:</span>
+<span class="sd">        mol: The input molecule representation. This can be a molecule object or another representation that can be converted to a SMILES string.</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        float: The exact molecular weight of the molecule.</span>
+<span class="sd">    Raises:</span>
+<span class="sd">        ValueError: If the input cannot be converted to a valid molecule object.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="k">if</span> <span class="n">is_mol</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span><span class="o">==</span><span class="kc">False</span><span class="p">:</span>
+        <span class="n">smiles</span> <span class="o">=</span> <span class="n">everything_to_smiles</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+        
+        <span class="n">mol</span> <span class="o">=</span> <span class="n">Chem</span><span class="o">.</span><span class="n">MolFromSmiles</span><span class="p">(</span><span class="n">smiles</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">mol</span>
+    <span class="k">return</span><span class="p">(</span><span class="n">ExactMolWt</span><span class="p">(</span><span class="n">mol</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="is_formula">
+<a class="viewcode-back" href="../../spectral_denoising.html#spectral_denoising.identifier_utils.is_formula">[docs]</a>
+<span class="k">def</span> <span class="nf">is_formula</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check if a given string is a valid chemical formula.</span>
+<span class="sd">    A valid chemical formula starts with an uppercase letter, optionally followed by a lowercase letter </span>
+<span class="sd">    (for two-letter elements), and optionally followed by a number (for the count of atoms). This pattern </span>
+<span class="sd">    repeats throughout the string.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        s (str): The string to be checked.</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        bool: True if the string is a valid chemical formula, False otherwise.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Regular expression to match chemical formulas</span>
+    <span class="c1"># Starts with an uppercase letter, optionally followed by a lowercase letter (for two-letter elements)</span>
+    <span class="c1"># Optionally followed by a number (for the count of atoms)</span>
+    <span class="c1"># This pattern repeats throughout the string</span>
+    <span class="n">pattern</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;^([A-Z][a-z]?\d*)+$&#39;</span>
+
+    <span class="c1"># Match the entire string against the pattern</span>
+    <span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">fullmatch</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span>
+
+    <span class="c1"># If there&#39;s a match, the string is a valid chemical formula</span>
+    <span class="k">return</span> <span class="nb">bool</span><span class="p">(</span><span class="n">match</span><span class="p">)</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Fanzhou Kong.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

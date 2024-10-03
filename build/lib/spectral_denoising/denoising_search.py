@@ -1,10 +1,10 @@
-from spectral_denoising.search_utils import quick_search_values
+from .search_utils import quick_search_values
 import pandas as pd
 from tqdm import tqdm
 import numpy as np
 import multiprocessing as mp
-from spectral_denoising.spectral_denoising import spectral_denoising
-import spectral_denoising.spectral_operations as so
+from .spectral_denoising import spectral_denoising
+from .spectral_operations import entropy_similairty
 def denoising_search_batch(quene_msms, quene_pmz, reference_lib, identitiy_search_mass_error = 0.01, mass_tolernace=0.005,pmz_col = 'precursor_mz', smiles_col = 'smiles',
                            adduct_col = 'adduct', msms_col = 'peaks'):
     """
@@ -65,8 +65,8 @@ def denoising_search(msms, pmz, reference_lib, identitiy_search_mass_error=0.01,
         except:
             msms_d = np.nan
             continue
-        pmz_candidates.loc[index, 'entropy_similarity'] = so.entropy_similairty(msms, row[msms_col], pmz = pmz, ms2_error = 0.01)
-        pmz_candidates.loc[index, 'denoised_similarity'] = so.entropy_similairty(msms_d, row[msms_col], pmz = pmz, ms2_error = 0.01)
+        pmz_candidates.loc[index, 'entropy_similarity'] = entropy_similairty(msms, row[msms_col], pmz = pmz, ms2_error = 0.01)
+        pmz_candidates.loc[index, 'denoised_similarity'] = entropy_similairty(msms_d, row[msms_col], pmz = pmz, ms2_error = 0.01)
     pmz_candidates['quene_peaks']=[msms]*len(pmz_candidates)
     pmz_candidates['quene_pmz_denoised']=[msms_d]*len(pmz_candidates)
     pmz_candidates['quene_pmz']=pmz

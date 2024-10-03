@@ -1,6 +1,6 @@
 import random
 import numpy as np
-import spectral_denoising.spectral_operations as so
+from . import spectral_operations as so
 def generate_noise(pmz, lamda, n = 100):
     """
     Generate synthetic electronic noise for spectral data.

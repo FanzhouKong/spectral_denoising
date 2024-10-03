@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>spectral_denoising.spectral_denoising &mdash; Spectral denoising 1.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=8d563738"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Spectral denoising
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">spectral_denoising</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">functions:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../spectral_denoising.html">spectral_denoising package</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Spectral denoising</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">spectral_denoising.spectral_denoising</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for spectral_denoising.spectral_denoising</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">rdkit.Chem.rdMolDescriptors</span> <span class="kn">import</span> <span class="n">CalcMolFormula</span>
+<span class="kn">from</span> <span class="nn">rdkit</span> <span class="kn">import</span> <span class="n">Chem</span>
+<span class="kn">import</span> <span class="nn">chemparse</span>
+<span class="kn">import</span> <span class="nn">itertools</span>
+<span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
+<span class="kn">import</span> <span class="nn">multiprocessing</span> <span class="k">as</span> <span class="nn">mp</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">from</span> <span class="nn">rdkit</span> <span class="kn">import</span> <span class="n">RDLogger</span>                                                                                                                                                               
+<span class="n">RDLogger</span><span class="o">.</span><span class="n">DisableLog</span><span class="p">(</span><span class="s1">&#39;rdApp.*&#39;</span><span class="p">)</span>                                                                                                                                                           
+
+<span class="kn">from</span> <span class="nn">molmass</span> <span class="kn">import</span> <span class="n">Formula</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">spectral_operations</span> <span class="k">as</span> <span class="n">so</span>
+<span class="kn">from</span> <span class="nn">.chem_utils</span> <span class="kn">import</span> <span class="n">replace_adduct_string</span><span class="p">,</span> <span class="n">calculate_precursormz</span>
+<span class="kn">from</span> <span class="nn">.constant</span> <span class="kn">import</span> <span class="n">proton_mass</span>
+<span class="c1"># key functions: electronic denoising and formula denoising</span>
+<span class="n">_numpy_formula_format</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">int16</span>
+<div class="viewcode-block" id="spectral_denoising_batch">
+<a class="viewcode-back" href="../../spectral_denoising.html#spectral_denoising.spectral_denoising.spectral_denoising_batch">[docs]</a>
+<span class="k">def</span> <span class="nf">spectral_denoising_batch</span><span class="p">(</span><span class="n">msms_quene</span><span class="p">,</span> <span class="n">smiles_quene</span><span class="p">,</span> <span class="n">adduct_quene</span><span class="p">,</span> <span class="n">mass_tolerance</span> <span class="o">=</span> <span class="mf">0.005</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Perform batch spectral denoising on multiple sets of MS/MS spectra, SMILES strings, and adducts. Uses multiprocessing to parallelize the denoising process.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        msms_quene (list): A list of MS/MS spectra data.</span>
+<span class="sd">        smiles_quene (list): A list of SMILES strings corresponding to the MS/MS spectra.</span>
+<span class="sd">        adduct_quene (list): A list of adducts corresponding to the MS/MS spectra.</span>
+<span class="sd">        mass_tolerance (float, optional): The allowed deviation for the denoising process. Default is 0.005.</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        list: A list of denoised MS/MS from the spectral denoising process.</span>
+<span class="sd">    Notes:</span>
+<span class="sd">        - The lengths of msms_quene, smiles_quene, and adduct_quene must be the same. If not, the function will print an error message and return an empty tuple.</span>
+<span class="sd">        - The function uses multiprocessing to parallelize the denoising process, utilizing 6 processes.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">msms_quene</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">smiles_quene</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">msms_quene</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">adduct_quene</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The length of msms, smiles and adduct should be the same&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">()</span>
+    <span class="k">with</span> <span class="n">mp</span><span class="o">.</span><span class="n">Pool</span><span class="p">(</span><span class="n">processes</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span> <span class="k">as</span> <span class="n">pool</span><span class="p">:</span>
+            <span class="c1"># Use starmap to handle multiple parameters</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">starmap</span><span class="p">(</span><span class="n">spectral_denoising</span><span class="p">,</span> <span class="n">tqdm</span><span class="p">([(</span><span class="n">msms</span><span class="p">,</span> <span class="n">smiles</span><span class="p">,</span> <span class="n">adduct</span><span class="p">,</span> <span class="n">mass_tolerance</span><span class="p">)</span> <span class="k">for</span> <span class="n">msms</span><span class="p">,</span> <span class="n">smiles</span><span class="p">,</span> <span class="n">adduct</span> 
+                                                        <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">msms_quene</span><span class="p">,</span> <span class="n">smiles_quene</span><span class="p">,</span><span class="n">adduct_quene</span><span class="p">)],</span> <span class="n">total</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">msms_quene</span><span class="p">)))</span>
+
+    <span class="k">return</span> <span class="n">results</span></div>
+
+<div class="viewcode-block" id="spectral_denoising">
+<a class="viewcode-back" href="../../spectral_denoising.html#spectral_denoising.spectral_denoising.spectral_denoising">[docs]</a>
+<span class="k">def</span> <span class="nf">spectral_denoising</span><span class="p">(</span><span class="n">msms</span><span class="p">,</span> <span class="n">smiles</span><span class="p">,</span> <span class="n">adduct</span><span class="p">,</span> <span class="n">mass_tolerance</span> <span class="o">=</span> <span class="mf">0.005</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Perform spectral denoising on the given mass spectrometry data. The function first performs electronic denoising, followed by formula denoising.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        msms (numpy.array): The mass spectrometry data to be denoised.</span>
+<span class="sd">        smiles (str): The SMILES representation of the molecule.</span>
+<span class="sd">        adduct (str): The adduct type.</span>
+<span class="sd">        mass_tolerance (float, optional): The mass tolerance for the denoising process. Default is 0.005.</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        numpy.array: The denoised mass spectrometry data.Returns NaN if the input is invalid or if the denoising process fails.</span>
+<span class="sd">    Notes:</span>
+<span class="sd">        - The function first checks if any of the inputs are of type np.nan, which is considered invalid.</span>
+<span class="sd">        - It then performs electronic denoising on the msms data.</span>
+<span class="sd">        - If electronic denoising resulted in empty spectrum (all ions removed), it will return np.nan.</span>
+<span class="sd">        - If successful, it proceeds to formula denoising using the electronic denoised data, smiles, adduct, and mass_tolerance.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">msms</span><span class="p">,</span> <span class="nb">float</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">smiles</span><span class="p">,</span> <span class="nb">float</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">adduct</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;the input is invalid&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    
+    <span class="n">electronic_denoised</span> <span class="o">=</span> <span class="n">electronic_denoising</span><span class="p">(</span><span class="n">msms</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">electronic_denoised</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
+        <span class="k">return</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
+    <span class="n">formula_denoised</span> <span class="o">=</span> <span class="n">formula_denoising</span><span class="p">(</span><span class="n">electronic_denoised</span><span class="p">,</span> <span class="n">smiles</span><span class="p">,</span> <span class="n">adduct</span><span class="p">,</span> <span class="n">mass_tolerance</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">formula_denoised</span></div>
+
+<div class="viewcode-block" id="formula_denoising">
+<a class="viewcode-back" href="../../spectral_denoising.html#spectral_denoising.spectral_denoising.formula_denoising">[docs]</a>
+<span class="k">def</span> <span class="nf">formula_denoising</span><span class="p">(</span><span class="n">msms</span><span class="p">,</span> <span class="n">smiles</span><span class="p">,</span> <span class="n">adduct</span><span class="p">,</span> <span class="n">mass_tolerance</span><span class="o">=</span><span class="mf">0.005</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Perform formula denoising on the given mass spectrometry data. The function first re-generate formula based on chemical rules, get the statistic of the precursor m/z, and then perform formula denoising.</span>
+<span class="sd">    The precursor region is not affected by the denoising process, only the frgamnet region is denoised.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        msms (numpy.array): The mass spectrometry data to be denoised. </span>
+<span class="sd">        smiles (str): The SMILES string representing the molecular structure.</span>
+<span class="sd">        adduct (str): The adduct type used in the mass spectrometry.</span>
+<span class="sd">        mass_tolerance (float, optional): The mass tolerance for precursor m/z calculation. Default is 0.005.</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        numpy.ndarray: The denoised mass spectrometry data, or np.nan If the SMILES string or adduct is invalid, or all ions removed.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">master_formula</span> <span class="o">=</span> <span class="n">prep_formula</span><span class="p">(</span><span class="n">smiles</span><span class="p">,</span> <span class="n">adduct</span><span class="p">)</span>
+    <span class="n">msms</span> <span class="o">=</span> <span class="n">so</span><span class="o">.</span><span class="n">sort_spectrum</span><span class="p">(</span><span class="n">msms</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">master_formula</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Error: invalid smiles </span><span class="si">{</span><span class="n">smiles</span><span class="si">}</span><span class="s1"> or invalid adduct </span><span class="si">{</span><span class="n">adduct</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    <span class="n">computed_pmz</span> <span class="o">=</span> <span class="n">calculate_precursormz</span><span class="p">(</span><span class="n">adduct</span><span class="p">,</span> <span class="n">smiles</span><span class="p">)</span>
+    <span class="n">pmz</span><span class="p">,</span> <span class="n">mass_threshold</span> <span class="o">=</span> <span class="n">get_pmz_statistics</span><span class="p">(</span><span class="n">msms</span><span class="p">,</span> <span class="n">computed_pmz</span><span class="p">,</span> <span class="n">mass_tolerance</span><span class="p">)</span>
+    <span class="n">frag_msms</span><span class="p">,</span> <span class="n">pmz_msms</span> <span class="o">=</span> <span class="n">so</span><span class="o">.</span><span class="n">slice_spectrum</span><span class="p">(</span><span class="n">msms</span><span class="p">,</span> <span class="n">pmz</span><span class="o">-</span><span class="mf">1.6</span><span class="p">)</span>
+    <span class="n">all_possible_candidate_formula</span><span class="p">,</span><span class="n">all_possible_mass</span> <span class="o">=</span> <span class="n">get_all_subformulas</span><span class="p">(</span><span class="n">master_formula</span><span class="p">)</span>
+    <span class="n">denoise_tag</span> <span class="o">=</span> <span class="n">get_denoise_tag</span><span class="p">(</span><span class="n">frag_msms</span><span class="p">,</span> <span class="n">all_possible_candidate_formula</span><span class="p">,</span> <span class="n">all_possible_mass</span><span class="p">,</span> <span class="n">pmz</span><span class="p">,</span> <span class="n">has_benzene</span><span class="p">(</span><span class="n">smiles</span><span class="p">),</span> <span class="n">mass_threshold</span><span class="p">)</span>
+    <span class="n">frag_msms_denoised</span> <span class="o">=</span> <span class="n">frag_msms</span><span class="p">[</span><span class="n">denoise_tag</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">so</span><span class="o">.</span><span class="n">add_spectra</span><span class="p">(</span><span class="n">frag_msms_denoised</span><span class="p">,</span> <span class="n">pmz_msms</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="electronic_denoising">
+<a class="viewcode-back" href="../../spectral_denoising.html#spectral_denoising.spectral_denoising.electronic_denoising">[docs]</a>
+<span class="k">def</span> <span class="nf">electronic_denoising</span><span class="p">(</span><span class="n">msms</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Perform electronic denoising on a given mass spectrometry (MS/MS) spectrum.</span>
+<span class="sd">    This function processes the input MS/MS spectrum by sorting the peaks based on their intensity,</span>
+<span class="sd">    and then iteratively selects and confirms peaks based on a specified intensity threshold.</span>
+<span class="sd">    The confirmed peaks are then packed and sorted before being returned.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        msms (numpy.ndarray): A 2D array where the first column represents the mass-to-charge ratio (m/z)</span>
+<span class="sd">                          and the second column represents the intensity of the peaks.</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        numpy.ndarray: A sorted and packed spectrum of confirmed peaks as a 2D array, or NaN if no peaks are confirmed.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">mass</span><span class="p">,</span> <span class="n">intensity</span> <span class="o">=</span> <span class="n">msms</span><span class="o">.</span><span class="n">T</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">msms</span><span class="o">.</span><span class="n">T</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">order</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">intensity</span><span class="p">)</span>
+    <span class="n">mass</span> <span class="o">=</span> <span class="n">mass</span><span class="p">[</span><span class="n">order</span><span class="p">]</span>
+    <span class="n">intensity</span> <span class="o">=</span> <span class="n">intensity</span><span class="p">[</span><span class="n">order</span><span class="p">]</span>
+    <span class="n">mass_confirmed</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
+    <span class="n">intensity_confirmed</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
+    <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">intensity</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>
+        <span class="n">seed_intensity</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">intensity</span><span class="p">)</span>
+        <span class="n">idx_left</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">searchsorted</span><span class="p">(</span><span class="n">intensity</span><span class="p">,</span> <span class="n">seed_intensity</span><span class="o">*</span><span class="mf">0.999</span><span class="p">,</span> <span class="n">side</span><span class="o">=</span> <span class="s1">&#39;left&#39;</span><span class="p">)</span>
+        <span class="n">mass_temp</span> <span class="o">=</span> <span class="n">mass</span><span class="p">[</span><span class="n">idx_left</span><span class="p">:]</span>
+        <span class="n">intensity_temp</span> <span class="o">=</span> <span class="n">intensity</span><span class="p">[</span><span class="n">idx_left</span><span class="p">:]</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">mass_temp</span><span class="p">)</span><span class="o">&lt;=</span><span class="mi">3</span><span class="p">:</span>
+            <span class="n">mass_confirmed</span> <span class="o">=</span>  <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">mass_confirmed</span><span class="p">,</span> <span class="n">mass_temp</span><span class="p">))</span>
+            <span class="n">intensity_confirmed</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">intensity_confirmed</span><span class="p">,</span><span class="n">intensity_temp</span><span class="p">))</span>
+        <span class="n">intensity</span> <span class="o">=</span> <span class="n">intensity</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">idx_left</span><span class="p">]</span>
+        <span class="n">mass</span> <span class="o">=</span> <span class="n">mass</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">idx_left</span><span class="p">]</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">mass_confirmed</span><span class="p">)</span><span class="o">==</span><span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    <span class="k">return</span><span class="p">(</span><span class="n">so</span><span class="o">.</span><span class="n">sort_spectrum</span><span class="p">(</span><span class="n">so</span><span class="o">.</span><span class="n">pack_spectrum</span><span class="p">(</span><span class="n">mass_confirmed</span><span class="p">,</span> <span class="n">intensity_confirmed</span><span class="p">))</span> <span class="p">)</span></div>
+
+
+
+<span class="kn">from</span> <span class="nn">.chem_utils</span> <span class="kn">import</span> <span class="n">determine_adduct_charge</span><span class="p">,</span> <span class="n">determine_parent_coefs</span><span class="p">,</span> <span class="n">parse_adduct</span>
+<span class="kn">from</span> <span class="nn">.seven_golden_rules</span> <span class="kn">import</span> <span class="n">check_ratio</span>
+<div class="viewcode-block" id="get_denoise_tag">
+<a class="viewcode-back" href="../../spectral_denoising.html#spectral_denoising.spectral_denoising.get_denoise_tag">[docs]</a>
+<span class="k">def</span> <span class="nf">get_denoise_tag</span><span class="p">(</span><span class="n">frag_msms</span><span class="p">,</span> <span class="n">all_possible_candidate_formula</span><span class="p">,</span> <span class="n">all_possible_mass</span><span class="p">,</span> <span class="n">pmz</span><span class="p">,</span><span class="n">has_benzene</span><span class="p">,</span> <span class="n">mass_threshold</span><span class="p">):</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Determine which ions in the fragment regions are chemically feasible ion.</span>
+<span class="sd">    This function calculates the mass loss for each fragment in the MS/MS data and </span>
+<span class="sd">    searches for candidate formulas within a specified mass threshold. If the </span>
+<span class="sd">    `has_benzene` flag is set, the precursor mass (`pmz`) is adjusted by adding the </span>
+<span class="sd">    mass of the N2O isotope to count for rare cases of forming N2/H2O adducts in the collision chamber.</span>
+<span class="sd">    The ions will be given a True only if it can be associated with at least 1 chemically feasible subformula of the molecular formula.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        frag_msms (numpy.array): Array of fragment MS/MS data, where each tuple contains the mass and intensity of a fragment.</span>
+<span class="sd">        all_possible_candidate_formula (list): List of all possible candidate formulas.</span>
+<span class="sd">        all_possible_mass (numpy.ndarray): Sorted array of all possible masses.</span>
+<span class="sd">        pmz (float): Precursor mass.</span>
+<span class="sd">        has_benzene (bool): Flag indicating if benzene is present.</span>
+<span class="sd">        mass_threshold (float): Mass threshold for searching candidate formulas.</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        list: List of denoise tags for each fragment.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+
+    <span class="n">tag</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">if</span> <span class="n">has_benzene</span><span class="p">:</span>
+        <span class="n">pmz</span> <span class="o">=</span> <span class="n">pmz</span><span class="o">+</span><span class="n">Formula</span><span class="p">(</span><span class="s1">&#39;N2O&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">isotope</span><span class="o">.</span><span class="n">mass</span>
+
+    <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">frag_msms</span><span class="p">:</span>
+        <span class="n">loss</span> <span class="o">=</span> <span class="n">pmz</span> <span class="o">-</span> <span class="n">f</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># get loss</span>
+        <span class="n">idx_left</span><span class="p">,</span> <span class="n">idx_right</span> <span class="o">=</span> <span class="n">all_possible_mass</span><span class="o">.</span><span class="n">searchsorted</span><span class="p">([</span><span class="n">loss</span> <span class="o">-</span> <span class="n">mass_threshold</span><span class="p">,</span> <span class="n">loss</span> <span class="o">+</span> <span class="n">mass_threshold</span><span class="p">])</span>
+        <span class="n">tag</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">check_candidates</span><span class="p">(</span><span class="n">all_possible_candidate_formula</span><span class="p">[</span><span class="n">idx_left</span><span class="p">:</span><span class="n">idx_right</span><span class="p">]))</span>
+    <span class="k">return</span> <span class="n">tag</span></div>
+
+<div class="viewcode-block" id="check_candidates">
+<a class="viewcode-back" href="../../spectral_denoising.html#spectral_denoising.spectral_denoising.check_candidates">[docs]</a>
+<span class="k">def</span> <span class="nf">check_candidates</span><span class="p">(</span><span class="n">candidates</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Checks a list of candidates to see if any of them meet a certain ratio condition.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        candidates (list): A list of candidate formulas to be checked.</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        bool: True if at least one candidate meets the ratio condition, False otherwise.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">candidates</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">check_ratio</span><span class="p">(</span><span class="n">c</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">return</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="get_pmz_statistics">
+<a class="viewcode-back" href="../../spectral_denoising.html#spectral_denoising.spectral_denoising.get_pmz_statistics">[docs]</a>
+<span class="k">def</span> <span class="nf">get_pmz_statistics</span><span class="p">(</span><span class="n">msms</span><span class="p">,</span> <span class="n">c_pmz</span><span class="p">,</span> <span class="n">mass_tolerance</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Use the real precursor m/z to estimate the mass deviation in a given spectrum.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        msms (numpy.ndarray): A 2D array where the first row contains m/z values and the second row contains intensity values.</span>
+<span class="sd">        c_pmz (float): The computed m/z value around which to search for the most intense peak.</span>
+<span class="sd">        mass_tolerance (float): The mass tolerance within which to search for the most intense peak.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        tuple: A tuple containing:</span>
+<span class="sd">        - r_pmz (float): The actual precursor m/z. If not found (precursor is fully fragmented), the computed m/z is returned.</span>
+<span class="sd">        - float: The deviation between computed and actual precursor m/z, scaled by 1.75 if it exceeds the initial mass tolerance.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">msms_T</span> <span class="o">=</span> <span class="n">msms</span><span class="o">.</span><span class="n">T</span>
+    <span class="n">idx_left</span><span class="p">,</span> <span class="n">idx_right</span> <span class="o">=</span> <span class="n">msms_T</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">searchsorted</span><span class="p">([</span><span class="n">c_pmz</span> <span class="o">-</span> <span class="mf">0.01</span><span class="p">,</span> <span class="n">c_pmz</span> <span class="o">+</span> <span class="mf">0.01</span><span class="p">])</span>
+
+    <span class="k">if</span> <span class="n">idx_left</span> <span class="o">==</span> <span class="n">idx_right</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">c_pmz</span><span class="p">,</span> <span class="n">mass_tolerance</span>
+    <span class="n">pmz_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">msms_T</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">idx_left</span><span class="p">:</span><span class="n">idx_right</span><span class="p">])</span>
+    <span class="n">r_pmz</span> <span class="o">=</span> <span class="n">msms_T</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">idx_left</span><span class="p">:</span><span class="n">idx_right</span><span class="p">][</span><span class="n">pmz_idx</span><span class="p">]</span>
+    <span class="n">r_deviation</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">c_pmz</span> <span class="o">-</span> <span class="n">r_pmz</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">r_deviation</span><span class="o">*</span><span class="mf">1.75</span><span class="o">&gt;</span><span class="n">mass_tolerance</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">r_pmz</span><span class="p">,</span> <span class="n">r_deviation</span><span class="o">*</span><span class="mf">1.75</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">r_pmz</span><span class="p">,</span> <span class="n">mass_tolerance</span></div>
+
+<div class="viewcode-block" id="get_all_subformulas">
+<a class="viewcode-back" href="../../spectral_denoising.html#spectral_denoising.spectral_denoising.get_all_subformulas">[docs]</a>
+<span class="k">def</span> <span class="nf">get_all_subformulas</span><span class="p">(</span><span class="n">raw_formula</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generate all possible subformulas and their corresponding masses from a given chemical formula.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        raw_formula (str): The input chemical formula, which can be in SMILES format or a standard chemical formula.</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        tuple: A tuple containing:</span>
+<span class="sd">            - all_possible_candidate_formula (list of str): A list of all possible subformulas derived from the input formula.</span>
+<span class="sd">            - all_possible_mass (numpy.ndarray): An array of masses corresponding to each subformula.</span>
+<span class="sd">    Notes:</span>
+<span class="sd">        - If the input formula is in SMILES format, it will be converted to a standard chemical formula.</span>
+<span class="sd">        - The function uses the `chemparse` library to parse the chemical formula and `itertools.product` to generate all possible combinations of subformulas.</span>
+<span class="sd">        - The resulting subformulas and their masses are sorted in ascending order of mass for enhancing search process.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">is_smiles</span><span class="p">(</span><span class="n">raw_formula</span><span class="p">)</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">raw_formula</span> <span class="o">=</span> <span class="n">CalcMolFormula</span><span class="p">(</span><span class="n">Chem</span><span class="o">.</span><span class="n">MolFromSmiles</span><span class="p">(</span><span class="n">raw_formula</span><span class="p">))</span>
+    <span class="n">master_formula</span> <span class="o">=</span> <span class="n">chemparse</span><span class="o">.</span><span class="n">parse_formula</span><span class="p">(</span><span class="n">raw_formula</span><span class="p">)</span>
+    <span class="n">formula_range</span> <span class="o">=</span> <span class="p">[</span><span class="nb">range</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="ow">in</span> <span class="n">master_formula</span><span class="o">.</span><span class="n">values</span><span class="p">()]</span>
+    <span class="n">mass_arr</span> <span class="o">=</span> <span class="p">[</span><span class="n">Formula</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">isotope</span><span class="o">.</span><span class="n">mass</span> <span class="k">for</span> <span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="ow">in</span> <span class="n">master_formula</span><span class="o">.</span><span class="n">keys</span><span class="p">()]</span>
+    <span class="n">all_possible_candidate_formula_arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="o">*</span><span class="n">formula_range</span><span class="p">)),</span> <span class="n">_numpy_formula_format</span><span class="p">)</span>
+    <span class="n">all_possible_mass</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">mass_arr</span> <span class="o">*</span> <span class="n">all_possible_candidate_formula_arr</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">order</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">all_possible_mass</span><span class="p">)</span>
+    <span class="n">all_possible_mass</span> <span class="o">=</span> <span class="n">all_possible_mass</span><span class="p">[</span><span class="n">order</span><span class="p">]</span>
+    <span class="n">all_possible_candidate_formula_arr</span> <span class="o">=</span> <span class="n">all_possible_candidate_formula_arr</span><span class="p">[</span><span class="n">order</span><span class="p">]</span>
+    <span class="n">all_possible_candidate_formula</span> <span class="o">=</span> <span class="p">[</span><span class="n">dict_to_formula</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="n">master_formula</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">all_possible_candidate_formula_arr</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">all_possible_candidate_formula</span><span class="p">,</span><span class="n">all_possible_mass</span></div>
+
+<div class="viewcode-block" id="dict_to_formula">
+<a class="viewcode-back" href="../../spectral_denoising.html#spectral_denoising.spectral_denoising.dict_to_formula">[docs]</a>
+<span class="k">def</span> <span class="nf">dict_to_formula</span><span class="p">(</span><span class="n">candidate</span><span class="p">,</span> <span class="n">element_dict</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Helper function, to get the chemical formula from a candidate list and element dictionary.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        candidate (list of int): A list where each index corresponds to an element in `element_dict` and the value at each index represents the count of that element.</span>
+<span class="sd">        element_dict (list of str): A list of element symbols where the index corresponds to the element&#39;s position in the `candidate` list.</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        str: A string representing the chemical formula, where each element symbol is followed by its count if greater than 1.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">string</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">candidate</span><span class="p">)):</span>
+        <span class="k">if</span> <span class="n">candidate</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">:</span>
+            <span class="n">string</span> <span class="o">+=</span> <span class="n">element_dict</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">candidate</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+        <span class="k">elif</span> <span class="n">candidate</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">==</span><span class="mi">1</span><span class="p">:</span>
+            <span class="n">string</span> <span class="o">+=</span> <span class="n">element_dict</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">string</span></div>
+
+<div class="viewcode-block" id="prep_formula">
+<a class="viewcode-back" href="../../spectral_denoising.html#spectral_denoising.spectral_denoising.prep_formula">[docs]</a>
+<span class="k">def</span> <span class="nf">prep_formula</span><span class="p">(</span><span class="n">smiles</span><span class="p">,</span> <span class="n">adduct</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Prepares the molecular formula based on the given SMILES string and adduct.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        smiles (str): The SMILES representation of the molecule.</span>
+<span class="sd">        adduct (str): The adduct string representing the ionization state.</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        str: The calculated molecular formula, or NaN if the formula cannot be determined.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">smiles</span> <span class="o">!=</span> <span class="n">smiles</span> <span class="ow">or</span> <span class="n">adduct</span> <span class="o">!=</span> <span class="n">adduct</span> <span class="ow">or</span> <span class="s1">&#39;i&#39;</span> <span class="ow">in</span> <span class="n">adduct</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    <span class="n">adduct</span> <span class="o">=</span> <span class="n">replace_adduct_string</span><span class="p">(</span><span class="n">adduct</span><span class="p">)</span>
+    <span class="n">mol</span> <span class="o">=</span> <span class="n">Chem</span><span class="o">.</span><span class="n">MolFromSmiles</span><span class="p">(</span><span class="n">smiles</span><span class="p">)</span>
+    <span class="n">formula</span> <span class="o">=</span> <span class="n">CalcMolFormula</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">extra_atoms</span> <span class="o">=</span> <span class="n">has_benzene</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">adduct</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;[M]+&#39;</span><span class="p">,</span> <span class="s1">&#39;[M]-&#39;</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">formula</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">==</span><span class="n">adduct</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="n">formula</span> <span class="o">=</span> <span class="n">formula</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">master_formula</span> <span class="o">=</span> <span class="n">Formula</span><span class="p">(</span><span class="n">formula</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">extra_atoms</span> <span class="o">==</span><span class="kc">True</span><span class="p">:</span>
+                <span class="n">master_formula</span> <span class="o">=</span> <span class="n">master_formula</span><span class="o">.</span><span class="fm">__add__</span><span class="p">(</span><span class="n">Formula</span><span class="p">(</span><span class="s1">&#39;N2O&#39;</span><span class="p">))</span>
+            <span class="k">return</span><span class="p">(</span><span class="n">master_formula</span><span class="o">.</span><span class="n">formula</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;the correct master formula cannot be determined for </span><span class="si">{</span><span class="n">smiles</span><span class="si">}</span><span class="s1"> and </span><span class="si">{</span><span class="n">adduct</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="k">return</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
+    <span class="n">charge</span> <span class="o">=</span> <span class="n">determine_adduct_charge</span><span class="p">(</span><span class="n">adduct</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">charge</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;the correct master formula cannot be determined for adduct charge &gt; 1&#39;</span><span class="p">)</span>
+        <span class="k">return</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
+    <span class="n">m_coef</span> <span class="o">=</span> <span class="n">determine_parent_coefs</span><span class="p">(</span><span class="n">adduct</span><span class="p">)</span>
+    <span class="n">master_formula</span> <span class="o">=</span> <span class="n">Formula</span><span class="p">(</span><span class="n">formula</span><span class="o">*</span><span class="n">m_coef</span><span class="p">)</span>
+    <span class="n">parsed_adduct</span> <span class="o">=</span> <span class="n">parse_adduct</span><span class="p">(</span><span class="n">adduct</span><span class="p">)</span>
+    
+    <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">parsed_adduct</span><span class="p">:</span>
+        <span class="n">sign</span><span class="p">,</span> <span class="n">count</span><span class="p">,</span> <span class="n">ion_type</span> <span class="o">=</span> <span class="n">p</span>
+        <span class="k">if</span> <span class="n">ion_type</span> <span class="o">==</span> <span class="s1">&#39;H&#39;</span><span class="p">:</span>
+            <span class="k">continue</span> <span class="c1"># skip proton</span>
+        <span class="k">if</span> <span class="n">sign</span> <span class="o">==</span> <span class="s1">&#39;+&#39;</span><span class="p">:</span>
+            <span class="n">master_formula</span> <span class="o">=</span> <span class="n">master_formula</span><span class="o">.</span><span class="fm">__add__</span><span class="p">(</span><span class="n">Formula</span><span class="p">(</span><span class="n">ion_type</span><span class="o">*</span><span class="n">count</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="n">sign</span> <span class="o">==</span> <span class="s1">&#39;-&#39;</span><span class="p">:</span>
+            <span class="n">master_formula</span> <span class="o">=</span> <span class="n">master_formula</span><span class="o">.</span><span class="fm">__sub__</span><span class="p">(</span><span class="n">Formula</span><span class="p">(</span><span class="n">ion_type</span><span class="o">*</span><span class="n">count</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">continue</span>
+    <span class="k">if</span> <span class="n">extra_atoms</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">master_formula</span> <span class="o">=</span> <span class="n">master_formula</span><span class="o">.</span><span class="fm">__add__</span><span class="p">(</span><span class="n">Formula</span><span class="p">(</span><span class="s1">&#39;N2O&#39;</span><span class="p">))</span>
+
+    <span class="k">return</span><span class="p">(</span><span class="n">master_formula</span><span class="o">.</span><span class="n">formula</span><span class="p">)</span></div>
+
+<span class="kn">from</span> <span class="nn">.identifier_utils</span> <span class="kn">import</span> <span class="n">is_mol</span><span class="p">,</span> <span class="n">is_smiles</span>
+<div class="viewcode-block" id="has_benzene">
+<a class="viewcode-back" href="../../spectral_denoising.html#spectral_denoising.spectral_denoising.has_benzene">[docs]</a>
+<span class="k">def</span> <span class="nf">has_benzene</span><span class="p">(</span><span class="n">molecule</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check if the given molecule contains a benzene ring.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        molecule (Union[Chem.Mol, str]): The molecule to check. It can be a RDKit molecule object</span>
+<span class="sd">                                         or a SMILES string.</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        bool: True if the molecule contains a benzene ring, False otherwise.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">is_mol</span><span class="p">(</span><span class="n">molecule</span><span class="p">)</span> <span class="o">==</span> <span class="kc">False</span> <span class="ow">and</span> <span class="n">is_smiles</span><span class="p">(</span><span class="n">molecule</span><span class="p">)</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">molecule</span> <span class="o">=</span> <span class="n">Chem</span><span class="o">.</span><span class="n">MolFromSmiles</span><span class="p">(</span><span class="n">molecule</span><span class="p">)</span>
+    <span class="n">benzene</span> <span class="o">=</span> <span class="n">Chem</span><span class="o">.</span><span class="n">MolFromSmiles</span><span class="p">(</span><span class="s1">&#39;c1ccccc1&#39;</span><span class="p">)</span>  <span class="c1"># Aromatic benzene SMILES notation</span>
+
+    <span class="c1"># Check if benzene is a substructure of the given molecule</span>
+    <span class="k">return</span> <span class="n">molecule</span><span class="o">.</span><span class="n">HasSubstructMatch</span><span class="p">(</span><span class="n">benzene</span><span class="p">)</span></div>
+
+<span class="c1"># below are benchmarked functions</span>
+
+
+<div class="viewcode-block" id="dnl_denoising">
+<a class="viewcode-back" href="../../spectral_denoising.html#spectral_denoising.spectral_denoising.dnl_denoising">[docs]</a>
+<span class="k">def</span> <span class="nf">dnl_denoising</span><span class="p">(</span><span class="n">msms</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Perform Dynamic noise level estimation denoising on given msms spectra.</span>
+<span class="sd">    Details about the algorithm can be found in the paper: A Dynamic Noise Level Algorithm for Spectral Screening of Peptide MS/MS Spectra.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        msms (numpy.ndarray): A 2D numpy array with shape (2, n) where n is the number of data points. For each instance, first item is pmz and second item is intensity.</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        numpy.ndarray: A 2D numpy array containing the denoised mass spectrometry data, sorted and packed. </span>
+<span class="sd">        If the input data has only two points and does not meet the criteria, returns NaN.</span>
+<span class="sd">    Notes:</span>
+<span class="sd">    - The function assumes that the input data is a numpy array with two columns.</span>
+<span class="sd">    - The function uses a linear regression model to predict the signal region.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">mass</span><span class="p">,</span> <span class="n">intensity</span> <span class="o">=</span> <span class="n">msms</span><span class="o">.</span><span class="n">T</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">msms</span><span class="o">.</span><span class="n">T</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">order</span><span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">intensity</span><span class="p">)</span>
+    <span class="n">mass</span> <span class="o">=</span> <span class="n">mass</span><span class="p">[</span><span class="n">order</span><span class="p">]</span>
+    <span class="n">intensity</span> <span class="o">=</span> <span class="n">intensity</span><span class="p">[</span><span class="n">order</span><span class="p">]</span>
+    <span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LinearRegression</span>
+    <span class="k">if</span> <span class="n">intensity</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">/</span><span class="mi">2</span><span class="o">&gt;=</span><span class="n">intensity</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="mf">1.5</span><span class="p">:</span>
+        <span class="n">signal_idx</span> <span class="o">=</span> <span class="mi">1</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">k</span> <span class="o">=</span> <span class="mi">2</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">mass</span><span class="p">)</span><span class="o">==</span><span class="mi">2</span><span class="p">:</span>
+            <span class="k">return</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">mass</span><span class="p">)):</span>
+            <span class="n">I</span> <span class="o">=</span> <span class="n">intensity</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">k</span><span class="p">]</span>
+            <span class="n">i</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">model</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)),</span> <span class="n">I</span><span class="p">)</span>
+            <span class="n">i_predicted</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">intensity</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">/</span> <span class="n">i_predicted</span> <span class="o">&gt;</span><span class="mi">2</span><span class="p">:</span>
+
+                <span class="k">break</span>
+        <span class="n">signal_idx</span> <span class="o">=</span> <span class="n">k</span>
+    <span class="n">mass_signal</span> <span class="o">=</span> <span class="n">mass</span><span class="p">[</span><span class="n">signal_idx</span><span class="p">:]</span>
+    <span class="n">intensity_signal</span> <span class="o">=</span> <span class="n">intensity</span><span class="p">[</span><span class="n">signal_idx</span><span class="p">:]</span>
+
+    <span class="k">return</span><span class="p">(</span><span class="n">so</span><span class="o">.</span><span class="n">sort_spectrum</span><span class="p">(</span><span class="n">so</span><span class="o">.</span><span class="n">pack_spectrum</span><span class="p">(</span><span class="n">mass_signal</span><span class="p">,</span> <span class="n">intensity_signal</span><span class="p">)))</span></div>
+
+<div class="viewcode-block" id="ms_reduce">
+<a class="viewcode-back" href="../../spectral_denoising.html#spectral_denoising.spectral_denoising.ms_reduce">[docs]</a>
+<span class="k">def</span> <span class="nf">ms_reduce</span><span class="p">(</span><span class="n">msms</span><span class="p">,</span> <span class="n">reduce_factor</span> <span class="o">=</span> <span class="mi">90</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Reimplementation of MS-Reduce algorithm. </span>
+<span class="sd">    Details about this algorithm can be found at: MS-REDUCE: an ultrafast technique for reduction of big mass spectrometry data for high-throughput processing</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters:</span>
+<span class="sd">        msms (numpy.ndarray): A 2D numpy array with shape (2, n) where n is the number of data points. For each instance, first item is pmz and second item is intensity.</span>
+<span class="sd">        reduce_factor (int, optional): The percentage by which to reduce the number of peaks. Default is 90.</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        numpy.ndarray: The reduced MS/MS spectrum as a 2D numpy array, sorted and packed.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">mass</span><span class="p">,</span> <span class="n">intensity</span> <span class="o">=</span> <span class="n">msms</span><span class="o">.</span><span class="n">T</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">msms</span><span class="o">.</span><span class="n">T</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">n_chose_peak</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">mass</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">reduce_factor</span><span class="o">/</span><span class="mi">100</span><span class="p">)))</span>
+    <span class="n">order</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">intensity</span><span class="p">)</span>
+    <span class="n">mass</span> <span class="o">=</span> <span class="n">mass</span><span class="p">[</span><span class="n">order</span><span class="p">]</span>
+    <span class="n">intensity</span> <span class="o">=</span> <span class="n">intensity</span><span class="p">[</span><span class="n">order</span><span class="p">]</span>
+    <span class="n">mass_taken</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
+    <span class="n">intensity_taken</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">11</span><span class="p">):</span>
+        <span class="n">idx_left</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">searchsorted</span><span class="p">(</span><span class="n">intensity</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">intensity</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="mi">11</span><span class="o">-</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">11</span><span class="p">),</span> <span class="n">side</span> <span class="o">=</span> <span class="s1">&#39;left&#39;</span><span class="p">)</span>
+        <span class="n">idx_right</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">searchsorted</span><span class="p">(</span><span class="n">intensity</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">intensity</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="mi">11</span><span class="o">-</span><span class="n">i</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">11</span><span class="p">),</span> <span class="n">side</span> <span class="o">=</span> <span class="s1">&#39;right&#39;</span><span class="p">)</span>
+
+        <span class="n">factor</span> <span class="o">=</span> <span class="p">(</span><span class="n">n_chose_peak</span><span class="o">-</span><span class="nb">len</span><span class="p">(</span><span class="n">mass_taken</span><span class="p">))</span><span class="o">/</span><span class="p">(</span><span class="n">idx_right</span><span class="o">-</span><span class="n">idx_left</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">factor</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">:</span>
+            <span class="n">factor</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">sampled_n</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">factor</span><span class="o">*</span><span class="p">(</span><span class="n">idx_right</span><span class="o">-</span><span class="n">idx_left</span><span class="p">)))</span>
+        <span class="n">sampled_mass</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">mass</span><span class="p">[</span><span class="n">idx_left</span><span class="p">:</span><span class="n">idx_right</span><span class="p">],</span> <span class="n">size</span><span class="o">=</span><span class="n">sampled_n</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">sampled_intensity</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">intensity</span><span class="p">[</span><span class="n">idx_left</span><span class="p">:</span><span class="n">idx_right</span><span class="p">],</span> <span class="n">size</span><span class="o">=</span><span class="n">sampled_n</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">mass_taken</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">mass_taken</span><span class="p">,</span> <span class="n">sampled_mass</span><span class="p">])</span>
+        <span class="n">intensity_taken</span><span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">intensity_taken</span><span class="p">,</span> <span class="n">sampled_intensity</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">factor</span><span class="o">&lt;</span><span class="mi">1</span><span class="p">:</span>
+            <span class="k">break</span>
+
+    <span class="k">return</span> <span class="n">so</span><span class="o">.</span><span class="n">sort_spectrum</span><span class="p">(</span><span class="n">so</span><span class="o">.</span><span class="n">pack_spectrum</span><span class="p">(</span><span class="n">mass_taken</span><span class="p">,</span> <span class="n">intensity_taken</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="threshold_denoising">
+<a class="viewcode-back" href="../../spectral_denoising.html#spectral_denoising.spectral_denoising.threshold_denoising">[docs]</a>
+<span class="k">def</span> <span class="nf">threshold_denoising</span><span class="p">(</span><span class="n">msms</span><span class="p">,</span> <span class="n">threshold</span> <span class="o">=</span> <span class="mi">1</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The most widely used and simple denoising algorithm, which discard all peaks below a predefined threshold.</span>
+<span class="sd">    This function filters out peaks in the mass spectrometry spectrum whose </span>
+<span class="sd">    intensity is below a specified threshold percentage of the maximum intensity.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        msms (numpy.ndarray): A 2D numpy array with shape (2, n) where n is the number of data points. For each instance, first item is pmz and second item is intensity.</span>
+<span class="sd">        threshold (float, optional): The threshold percentage (0-100) of the maximum intensity below which peaks will be removed. Default is 1.</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        numpy.ndarray: denoised spectrum as a 2D numpy array, sorted and packed.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">mass</span><span class="p">,</span> <span class="n">intensity</span> <span class="o">=</span> <span class="n">msms</span><span class="o">.</span><span class="n">T</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">msms</span><span class="o">.</span><span class="n">T</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">intensity_percent</span> <span class="o">=</span> <span class="n">intensity</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">intensity</span><span class="p">)</span>
+    <span class="n">to_keep</span> <span class="o">=</span> <span class="n">intensity_percent</span><span class="o">&gt;</span><span class="p">(</span><span class="n">threshold</span><span class="o">/</span><span class="mi">100</span><span class="p">)</span>
+    <span class="n">mass</span> <span class="o">=</span> <span class="n">mass</span><span class="p">[</span><span class="n">to_keep</span><span class="p">]</span>
+    <span class="n">intensity</span> <span class="o">=</span> <span class="n">intensity</span><span class="p">[</span><span class="n">to_keep</span><span class="p">]</span>
+    <span class="k">return</span><span class="p">(</span><span class="n">so</span><span class="o">.</span><span class="n">pack_spectrum</span><span class="p">(</span><span class="n">mass</span><span class="p">,</span> <span class="n">intensity</span><span class="p">))</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Fanzhou Kong.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

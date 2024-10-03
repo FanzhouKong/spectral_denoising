@@ -1,7 +1,7 @@
 import pandas as pd 
 import re
 import os
-import spectral_denoising.spectral_operations as so
+from . import spectral_operations as so
 import re
 import shutil
 import numpy as np

@@ -5,15 +5,13 @@
 import pandas as pd
 import numpy as np
 from rdkit import Chem
-import os
 from tqdm import tqdm
 import matplotlib.pyplot as plt
 from matplotlib import rcParams
-import spectral_denoising.spectral_operations as so
+from . import spectral_operations as so
 import matplotlib.pyplot as plt
 import seaborn as sns
 import plotly.express as px
-from spectral_denoising.search_utils import quick_search_values
 
 
 import ast

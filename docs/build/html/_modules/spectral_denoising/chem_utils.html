@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>spectral_denoising.chem_utils &mdash; Spectral denoising 1.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=8d563738"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Spectral denoising
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">spectral_denoising</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">functions:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../spectral_denoising.html">spectral_denoising package</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Spectral denoising</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">spectral_denoising.chem_utils</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for spectral_denoising.chem_utils</h1><div class="highlight"><pre>
+<span></span>
+
+<span class="kn">from</span> <span class="nn">rdkit</span> <span class="kn">import</span> <span class="n">Chem</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">chemparse</span>
+<span class="kn">from</span> <span class="nn">molmass</span> <span class="kn">import</span> <span class="n">Formula</span>
+
+<span class="kn">from</span> <span class="nn">rdkit</span> <span class="kn">import</span> <span class="n">Chem</span>
+
+<span class="kn">from</span> <span class="nn">rdkit.Chem.MolStandardize</span> <span class="kn">import</span> <span class="n">rdMolStandardize</span>
+
+<span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">import</span> <span class="nn">cirpy</span>
+<span class="c1"># reference plz see https://www.resources.aropha.com/blog/get-chemical-smiles-by-cas-or-name/</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">rdkit</span> <span class="kn">import</span> <span class="n">Chem</span>
+<span class="kn">from</span> <span class="nn">rdkit.Chem</span> <span class="kn">import</span> <span class="n">rdFMCS</span>
+
+<span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="kn">from</span> <span class="nn">.identifier_utils</span> <span class="kn">import</span> <span class="o">*</span>
+
+<div class="viewcode-block" id="get_bond_similarity">
+<a class="viewcode-back" href="../../spectral_denoising.html#spectral_denoising.chem_utils.get_bond_similarity">[docs]</a>
+<span class="k">def</span> <span class="nf">get_bond_similarity</span><span class="p">(</span><span class="n">mol1</span><span class="p">,</span> <span class="n">mol2</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculate the bond similarity between two molecules.</span>
+<span class="sd">    Detailed algorithm can be found in the following paper: Spectral entropy outperforms MS/MS dot product similarity for small-molecule compound identification (Yuanyue Li et al., 2021)</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        mol1: The first molecule, which can be in various formats (e.g., SMILES string, RDKit molecule object).</span>
+<span class="sd">        mol2: The second molecule, which can be in various formats (e.g., SMILES string, RDKit molecule object).</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        dict: A dictionary containing the following keys:</span>
+<span class="sd">            - &quot;mol1_bond_number&quot;: The number of bonds in the first molecule.</span>
+<span class="sd">            - &quot;mol2_bond_number&quot;: The number of bonds in the second molecule.</span>
+<span class="sd">            - &quot;common_bond_number&quot;: The number of common bonds between the two molecules.</span>
+<span class="sd">            - &quot;bond_difference&quot;: The average bond difference between the two molecules.</span>
+<span class="sd">            - &quot;bond_similarity&quot;: The bond similarity score between the two molecules, calculated as </span>
+<span class="sd">              (2 * common_bond_number) / (mol1_bond_number + mol2_bond_number).</span>
+<span class="sd">            - &quot;minimal_diff&quot;: The minimal difference in bond numbers after removing common bonds.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="k">if</span> <span class="n">is_mol</span><span class="p">(</span><span class="n">mol1</span><span class="p">)</span><span class="o">==</span><span class="kc">False</span><span class="p">:</span>
+        <span class="n">smile1</span> <span class="o">=</span> <span class="n">everything_to_smiles</span><span class="p">(</span><span class="n">mol1</span><span class="p">)</span>
+        <span class="n">mol1</span> <span class="o">=</span> <span class="n">Chem</span><span class="o">.</span><span class="n">MolFromSmiles</span><span class="p">(</span><span class="n">smile1</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">is_mol</span><span class="p">(</span><span class="n">mol2</span><span class="p">)</span><span class="o">==</span><span class="kc">False</span><span class="p">:</span>
+        <span class="n">smile2</span> <span class="o">=</span> <span class="n">everything_to_smiles</span><span class="p">(</span><span class="n">mol2</span><span class="p">)</span>
+        <span class="n">mol2</span> <span class="o">=</span> <span class="n">Chem</span><span class="o">.</span><span class="n">MolFromSmiles</span><span class="p">(</span><span class="n">smile2</span><span class="p">)</span>
+    <span class="n">mol1</span> <span class="o">=</span> <span class="n">Chem</span><span class="o">.</span><span class="n">rdchem</span><span class="o">.</span><span class="n">RWMol</span><span class="p">(</span><span class="n">mol1</span><span class="p">)</span>
+    <span class="n">mol2</span> <span class="o">=</span> <span class="n">Chem</span><span class="o">.</span><span class="n">rdchem</span><span class="o">.</span><span class="n">RWMol</span><span class="p">(</span><span class="n">mol2</span><span class="p">)</span>
+    <span class="n">bond_number_common</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">bond_number_mol1</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">mol1</span><span class="o">.</span><span class="n">GetBonds</span><span class="p">())</span>
+    <span class="n">bond_number_mol2</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">mol2</span><span class="o">.</span><span class="n">GetBonds</span><span class="p">())</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">rdFMCS</span><span class="o">.</span><span class="n">FindMCS</span><span class="p">(</span>
+            <span class="p">[</span><span class="n">mol1</span><span class="p">,</span> <span class="n">mol2</span><span class="p">],</span>
+            <span class="n">timeout</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+            <span class="n">threshold</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+            <span class="c1"># ringMatchesRingOnly=True,</span>
+            <span class="c1"># completeRingsOnly=True,</span>
+            <span class="c1"># atomCompare=rdFMCS.AtomCompare.CompareElements,</span>
+            <span class="c1"># bondCompare=rdFMCS.BondCompare.CompareOrderExact,</span>
+            <span class="c1"># ringCompare=rdFMCS.RingCompare.StrictRingFusion,</span>
+            <span class="c1"># maximizeBonds=True,</span>
+            <span class="c1"># matchValences=True,</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">res</span><span class="o">.</span><span class="n">numBonds</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">break</span>
+
+        <span class="n">common_s</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">smartsString</span>
+        <span class="n">mol1</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">__remove_bonds_in_smarts</span><span class="p">(</span><span class="n">mol1</span><span class="p">,</span> <span class="n">common_s</span><span class="p">)</span>
+        <span class="n">mol2</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">__remove_bonds_in_smarts</span><span class="p">(</span><span class="n">mol2</span><span class="p">,</span> <span class="n">common_s</span><span class="p">)</span>
+        <span class="n">bond_number_common</span> <span class="o">+=</span> <span class="n">res</span><span class="o">.</span><span class="n">numBonds</span>
+        <span class="c1"># print(bond_number_common)</span>
+        <span class="n">minimal_diff</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">([</span><span class="n">bond_number_mol1</span><span class="o">-</span><span class="n">bond_number_common</span><span class="p">,</span> <span class="n">bond_number_mol2</span><span class="o">-</span><span class="n">bond_number_common</span><span class="p">])</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s2">&quot;mol1_bond_number&quot;</span><span class="p">:</span> <span class="n">bond_number_mol1</span><span class="p">,</span>
+        <span class="s2">&quot;mol2_bond_number&quot;</span><span class="p">:</span> <span class="n">bond_number_mol2</span><span class="p">,</span>
+        <span class="s2">&quot;common_bond_number&quot;</span><span class="p">:</span> <span class="n">bond_number_common</span><span class="p">,</span>
+        <span class="s2">&quot;bond_difference&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">bond_number_mol1</span> <span class="o">+</span> <span class="n">bond_number_mol2</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">-</span> <span class="n">bond_number_common</span><span class="p">,</span>
+        <span class="s2">&quot;bond_similarity&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">bond_number_common</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">bond_number_mol1</span> <span class="o">+</span> <span class="n">bond_number_mol2</span><span class="p">),</span>
+        <span class="s1">&#39;minimal_diff&#39;</span><span class="p">:</span><span class="n">minimal_diff</span>
+    <span class="p">}</span></div>
+
+
+<span class="k">def</span> <span class="nf">__remove_bonds_in_smarts</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">smarts</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Helper function for get_bond_similarity</span>
+<span class="sd">    Remove bonds in a molecule based on a SMARTS pattern.</span>
+<span class="sd">    This function takes a molecule and a SMARTS pattern, identifies the substructure</span>
+<span class="sd">    in the molecule that matches the SMARTS pattern, and removes the bonds between</span>
+<span class="sd">    atoms in the matched substructure.</span>
+<span class="sd">    Args:</span>
+<span class="sd">        mol (rdkit.Chem.Mol): The molecule from which bonds will be removed.</span>
+<span class="sd">        smarts (str): The SMARTS pattern used to identify the substructure.</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        tuple: A tuple containing the modified molecule (rdkit.Chem.Mol) and the number</span>
+<span class="sd">               of bonds removed (int).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">removed_bond_number</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">pattern</span> <span class="o">=</span> <span class="n">Chem</span><span class="o">.</span><span class="n">MolFromSmarts</span><span class="p">(</span><span class="n">smarts</span><span class="p">)</span>
+    <span class="n">Chem</span><span class="o">.</span><span class="n">GetSymmSSSR</span><span class="p">(</span><span class="n">pattern</span><span class="p">)</span>
+    <span class="n">Chem</span><span class="o">.</span><span class="n">GetSymmSSSR</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">sub_atom</span> <span class="o">=</span> <span class="n">mol</span><span class="o">.</span><span class="n">GetSubstructMatch</span><span class="p">(</span><span class="n">pattern</span><span class="p">)</span>
+    <span class="c1"># print(sub_atom)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">sub_atom</span><span class="p">:</span>
+        <span class="n">all_bonds</span> <span class="o">=</span> <span class="n">mol</span><span class="o">.</span><span class="n">GetAtomWithIdx</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">.</span><span class="n">GetBonds</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">bond</span> <span class="ow">in</span> <span class="n">all_bonds</span><span class="p">:</span>
+            <span class="n">atom_1</span><span class="p">,</span> <span class="n">atom_2</span> <span class="o">=</span> <span class="n">bond</span><span class="o">.</span><span class="n">GetBeginAtomIdx</span><span class="p">(),</span> <span class="n">bond</span><span class="o">.</span><span class="n">GetEndAtomIdx</span><span class="p">()</span>
+            <span class="n">mol</span><span class="o">.</span><span class="n">RemoveBond</span><span class="p">(</span><span class="n">atom_1</span><span class="p">,</span> <span class="n">atom_2</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">atom_1</span> <span class="ow">in</span> <span class="n">sub_atom</span> <span class="ow">and</span> <span class="n">atom_2</span> <span class="ow">in</span> <span class="n">sub_atom</span><span class="p">:</span>
+                <span class="n">removed_bond_number</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="n">mol</span><span class="p">,</span> <span class="n">removed_bond_number</span>
+
+<div class="viewcode-block" id="desalter">
+<a class="viewcode-back" href="../../spectral_denoising.html#spectral_denoising.chem_utils.desalter">[docs]</a>
+<span class="k">def</span> <span class="nf">desalter</span><span class="p">(</span><span class="nb">input</span><span class="p">):</span>
+
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Processes the input molecule to remove salts and return an uncharged SMILES string.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        input (str or RDKit Mol): The input molecule, which can be a SMILES string or an RDKit Mol object.</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        uncharged_smiles (str): The uncharged SMILES string of the largest component of the input molecule.</span>
+<span class="sd">    Notes:</span>
+<span class="sd">        - If the input is not a valid molecule, the function will attempt to convert it to a SMILES string.</span>
+<span class="sd">        - If the input molecule contains multiple components, the largest component will be processed.</span>
+<span class="sd">        - If the largest component has a formal charge of +1, acidic hydrogens will be removed.</span>
+<span class="sd">        - If the input is NaN, the function will return np.NAN.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="nb">input</span> <span class="o">!=</span> <span class="nb">input</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">NAN</span>
+    <span class="k">if</span> <span class="n">is_mol</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
+        <span class="n">smile</span> <span class="o">=</span> <span class="n">everything_to_smiles</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span>
+        <span class="n">mol</span> <span class="o">=</span> <span class="n">Chem</span><span class="o">.</span><span class="n">MolFromSmiles</span><span class="p">(</span><span class="n">smile</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">mol</span> <span class="o">=</span> <span class="nb">input</span>
+    <span class="n">components</span> <span class="o">=</span> <span class="n">Chem</span><span class="o">.</span><span class="n">GetMolFrags</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">asMols</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">sanitizeFrags</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">components</span><span class="p">)</span><span class="o">==</span><span class="mi">1</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">Chem</span><span class="o">.</span><span class="n">GetFormalCharge</span><span class="p">(</span><span class="n">components</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">==</span><span class="mi">1</span><span class="p">:</span>
+            <span class="n">uncharged_smiles</span> <span class="o">=</span> <span class="n">__remove_acidic_hydrogen</span><span class="p">(</span><span class="n">components</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">uncharged_smiles</span> <span class="o">=</span> <span class="n">Chem</span><span class="o">.</span><span class="n">MolToSmiles</span><span class="p">(</span><span class="n">components</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">uncharged_smiles</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">n_atoms</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">components</span><span class="p">))</span>
+        <span class="n">counter</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">component</span> <span class="ow">in</span> <span class="n">components</span><span class="p">:</span>
+            <span class="n">n_atoms</span><span class="p">[</span><span class="n">counter</span><span class="p">]</span><span class="o">=</span><span class="n">component</span><span class="o">.</span><span class="n">GetNumAtoms</span><span class="p">()</span>
+            <span class="n">counter</span> <span class="o">=</span> <span class="n">counter</span><span class="o">+</span><span class="mi">1</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">n_atoms</span><span class="p">)</span>
+        <span class="c1"># print(idx)</span>
+        <span class="n">charged</span> <span class="o">=</span> <span class="n">components</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">n_atoms</span><span class="p">)]</span>
+        <span class="n">un</span> <span class="o">=</span> <span class="n">rdMolStandardize</span><span class="o">.</span><span class="n">Uncharger</span><span class="p">()</span>
+        <span class="n">uncharged</span> <span class="o">=</span> <span class="n">un</span><span class="o">.</span><span class="n">uncharge</span><span class="p">(</span><span class="n">charged</span><span class="p">)</span>
+        <span class="c1"># return(uncharged)</span>
+        <span class="k">if</span> <span class="n">Chem</span><span class="o">.</span><span class="n">GetFormalCharge</span><span class="p">(</span><span class="n">uncharged</span><span class="p">)</span><span class="o">==</span><span class="mi">1</span><span class="p">:</span>
+            <span class="n">uncharged_smiles</span> <span class="o">=</span> <span class="n">__remove_acidic_hydrogen</span><span class="p">(</span><span class="n">uncharged</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">uncharged_smiles</span> <span class="o">=</span> <span class="n">Chem</span><span class="o">.</span><span class="n">MolToSmiles</span><span class="p">(</span><span class="n">uncharged</span><span class="p">)</span>
+
+        <span class="k">return</span><span class="p">(</span> <span class="n">uncharged_smiles</span><span class="p">)</span></div>
+
+<span class="k">def</span> <span class="nf">__remove_acidic_hydrogen</span><span class="p">(</span><span class="n">mol</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Helper function of desalter</span>
+<span class="sd">    Remove the acidic hydrogen from carboxylic acid groups in a molecule.</span>
+<span class="sd">    This function identifies carboxylic acid groups in a given molecule and removes the hydrogen atom from the hydroxyl group, </span>
+<span class="sd">    setting the formal charge of the oxygen atom to -1. The input molecule can be provided either as an RDKit molecule object </span>
+<span class="sd">    or as a SMILES string.</span>
+<span class="sd">    Args:</span>
+<span class="sd">        molecule (Union[rdkit.Chem.rdchem.Mol, str]): The input molecule, either as an RDKit molecule object or a SMILES string.</span>
+<span class="sd">        is_smiles (bool, optional): A flag indicating whether the input molecule is a SMILES string. Defaults to False.</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        str: The SMILES string of the modified molecule with the acidic hydrogen removed. If no carboxylic acid group is found, </span>
+<span class="sd">        the original SMILES string is returned.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Convert the SMILES string to a RDKit molecule object</span>
+    <span class="k">if</span> <span class="n">is_mol</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span><span class="o">==</span><span class="kc">False</span><span class="p">:</span>
+        <span class="n">smiles</span> <span class="o">=</span> <span class="n">everything_to_smiles</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+        <span class="n">molecule</span> <span class="o">=</span> <span class="n">Chem</span><span class="o">.</span><span class="n">MolFromSmiles</span><span class="p">(</span><span class="n">smiles</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">molecule</span> <span class="o">=</span> <span class="n">mol</span>
+    <span class="c1"># Define the SMARTS pattern for carboxylic acids (includes the hydrogen in the hydroxyl group)</span>
+    <span class="n">carboxylic_acid_smarts</span> <span class="o">=</span> <span class="s1">&#39;C(=O)[OH]&#39;</span>
+    <span class="c1"># Create a query molecule from the SMARTS pattern</span>
+    <span class="n">query</span> <span class="o">=</span> <span class="n">Chem</span><span class="o">.</span><span class="n">MolFromSmarts</span><span class="p">(</span><span class="n">carboxylic_acid_smarts</span><span class="p">)</span>
+    <span class="c1"># Find substructures that match the query (carboxylic acids)</span>
+    <span class="n">matches</span> <span class="o">=</span> <span class="n">molecule</span><span class="o">.</span><span class="n">GetSubstructMatches</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">matches</span><span class="p">:</span>
+        <span class="c1"># print(&quot;No carboxylic acid group found.&quot;)</span>
+        <span class="k">return</span> <span class="n">smiles</span>  <span class="c1"># Return the original SMILES if no carboxylic acid group is found</span>
+    <span class="n">editable_mol</span> <span class="o">=</span> <span class="n">Chem</span><span class="o">.</span><span class="n">RWMol</span><span class="p">(</span><span class="n">molecule</span><span class="p">)</span>
+    <span class="c1"># Assuming only one carboxylic group needs to be modified,</span>
+    <span class="c1"># and focusing on the first match</span>
+    <span class="k">for</span> <span class="n">match</span> <span class="ow">in</span> <span class="n">matches</span><span class="p">:</span>
+        <span class="c1"># The oxygen atom in the OH group is the last second in the matched pattern</span>
+        <span class="n">oxygen_idx</span> <span class="o">=</span> <span class="n">match</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="c1"># Get the oxygen atom</span>
+        <span class="n">oxygen_atom</span> <span class="o">=</span> <span class="n">editable_mol</span><span class="o">.</span><span class="n">GetAtomWithIdx</span><span class="p">(</span><span class="n">oxygen_idx</span><span class="p">)</span>
+        <span class="c1"># Set the formal charge of the oxygen atom to -1</span>
+        <span class="n">oxygen_atom</span><span class="o">.</span><span class="n">SetFormalCharge</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="c1"># Set the implicit hydrogen count of the oxygen atom to 0</span>
+        <span class="c1"># Assuming there&#39;s only one hydrogen bonded which we want to remove</span>
+        <span class="n">oxygen_atom</span><span class="o">.</span><span class="n">SetNumExplicitHs</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+        <span class="c1"># Break after the first modification, assuming only one modification is needed</span>
+        <span class="k">break</span>
+
+    <span class="c1"># Convert back to a molecule</span>
+    <span class="n">modified_mol</span> <span class="o">=</span> <span class="n">editable_mol</span><span class="o">.</span><span class="n">GetMol</span><span class="p">()</span>
+
+    <span class="c1"># Convert the modified molecule back to SMILES without sanitization</span>
+    <span class="n">modified_smiles</span> <span class="o">=</span> <span class="n">Chem</span><span class="o">.</span><span class="n">MolToSmiles</span><span class="p">(</span><span class="n">modified_mol</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">modified_smiles</span>
+<div class="viewcode-block" id="parse_formula">
+<a class="viewcode-back" href="../../spectral_denoising.html#spectral_denoising.chem_utils.parse_formula">[docs]</a>
+<span class="k">def</span> <span class="nf">parse_formula</span><span class="p">(</span><span class="n">formula</span><span class="p">):</span>
+
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Parses a chemical formula into its constituent elements and their quantities.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        formula (str): A string representing the chemical formula (e.g., &quot;H2O&quot;, &quot;C6H12O6&quot;).</span>
+<span class="sd">    Returns:</span>
+<span class="sd">         list: A list of lists, where each inner list contains an element and its quantity </span>
+<span class="sd">         (e.g., [[&#39;H&#39;, 2], [&#39;O&#39;, 1]] for &quot;H2O&quot;).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="nb">dict</span> <span class="o">=</span> <span class="n">chemparse</span><span class="o">.</span><span class="n">parse_formula</span><span class="p">(</span><span class="n">formula</span><span class="p">)</span>
+    <span class="n">lst</span> <span class="o">=</span> <span class="p">([[</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">([</span><span class="o">*</span><span class="nb">dict</span><span class="p">],[</span><span class="o">*</span><span class="nb">dict</span><span class="o">.</span><span class="n">values</span><span class="p">()])</span> <span class="p">])</span>
+    <span class="k">return</span><span class="p">(</span><span class="n">lst</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="transpose_formula">
+<a class="viewcode-back" href="../../spectral_denoising.html#spectral_denoising.chem_utils.transpose_formula">[docs]</a>
+<span class="k">def</span> <span class="nf">transpose_formula</span><span class="p">(</span><span class="n">lst</span><span class="p">):</span>
+
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Transpose a parsed formula in a nested list format from [[element, quantity], ...] to [[element, ...], [quantity, ...]].</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        lst (list): A list of lists where each sublist represents a row of the matrix.</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        list: A transposed version of the input list of lists, where rows are converted to columns and vice versa.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="k">return</span><span class="p">([</span><span class="nb">list</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">lst</span><span class="p">)])</span></div>
+
+<div class="viewcode-block" id="calculate_precursormz">
+<a class="viewcode-back" href="../../spectral_denoising.html#spectral_denoising.chem_utils.calculate_precursormz">[docs]</a>
+<span class="k">def</span> <span class="nf">calculate_precursormz</span><span class="p">(</span><span class="n">adduct_string</span><span class="p">,</span><span class="n">mol</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">testing</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculate the precursor m/z (mass-to-charge ratio) for a given molecule and adduct string.</span>
+<span class="sd">    Very robust function, handles a wide variety of adducts strings.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        adduct_string (str): The adduct string representing the ion type and charge state.</span>
+<span class="sd">        mol (str, optional): The molecular formula of the compound. Defaults to None.</span>
+<span class="sd">        testing (bool, optional): If True, use a predefined molecule mass for testing purposes. Defaults to False.</span>
+<span class="sd">        float: The calculated precursor m/z value.</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        precursor_mz (float): The calculated precursor m/z value.</span>
+<span class="sd">    Raises:</span>
+<span class="sd">        Warning: If an unrecognized adduct is encountered in the adduct string, it will be ignored and a warning will be printed.</span>
+<span class="sd">    Notes:</span>
+<span class="sd">        - The function uses the `Formula` class to calculate the mass of the molecule and ions.</span>
+<span class="sd">        - The `replace_adduct_string`, `determine_parent_coefs`, `determine_adduct_charge`, and `parse_adduct` functions are assumed to be defined elsewhere in the codebase.</span>
+<span class="sd">        - The electron mass is considered in the calculation to adjust for the loss/gain of electrons.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">testing</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">molecule_mass</span> <span class="o">=</span> <span class="mf">853.33089</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">molecule_mass</span> <span class="o">=</span> <span class="n">Formula</span><span class="p">(</span><span class="n">everything_to_formula</span><span class="p">(</span><span class="n">mol</span><span class="p">))</span><span class="o">.</span><span class="n">isotope</span><span class="o">.</span><span class="n">mass</span>
+    
+    <span class="n">adduct_string</span> <span class="o">=</span> <span class="n">replace_adduct_string</span><span class="p">(</span><span class="n">adduct_string</span><span class="p">)</span>
+    <span class="n">electron_mass</span> <span class="o">=</span> <span class="mf">0.00054858026</span>
+    <span class="n">m_coef</span> <span class="o">=</span> <span class="n">determine_parent_coefs</span><span class="p">(</span><span class="n">adduct_string</span><span class="p">)</span>
+    <span class="n">charge</span> <span class="o">=</span> <span class="n">determine_adduct_charge</span><span class="p">(</span><span class="n">adduct_string</span><span class="p">)</span>
+    <span class="c1"># Check for charge in the adduct string</span>
+    
+        
+
+    <span class="c1"># Find all matches of adduct parts</span>
+    <span class="n">adduct</span> <span class="o">=</span> <span class="n">parse_adduct</span><span class="p">(</span><span class="n">adduct_string</span><span class="p">)</span>
+    <span class="n">mass_change</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="k">for</span> <span class="n">adduct</span> <span class="ow">in</span> <span class="n">adduct</span><span class="p">:</span>
+        <span class="n">sign</span><span class="p">,</span> <span class="n">count</span><span class="p">,</span> <span class="n">ion_type</span> <span class="o">=</span> <span class="n">adduct</span>
+        <span class="c1"># Determine the sign (+ or -)</span>
+        <span class="n">sign_multiplier</span> <span class="o">=</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">sign</span> <span class="o">==</span> <span class="s1">&#39;+&#39;</span> <span class="k">else</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">ion_mass</span> <span class="o">=</span> <span class="n">Formula</span><span class="p">(</span><span class="n">ion_type</span><span class="p">)</span><span class="o">.</span><span class="n">isotope</span><span class="o">.</span><span class="n">mass</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Warning: Unrecognized adduct </span><span class="si">{</span><span class="n">ion_type</span><span class="si">}</span><span class="s1"> in </span><span class="si">{</span><span class="n">adduct_string</span><span class="si">}</span><span class="s1"> is ignored.&#39;</span><span class="p">)</span>
+            <span class="k">continue</span>
+        <span class="n">mass_change</span> <span class="o">+=</span> <span class="n">sign_multiplier</span> <span class="o">*</span> <span class="n">count</span> <span class="o">*</span> <span class="n">ion_mass</span>
+        <span class="c1"># Calculate the mass change if ion_type is recognized</span>
+    <span class="n">mass_change</span> <span class="o">=</span> <span class="n">mass_change</span><span class="o">-</span><span class="n">charge</span><span class="o">*</span><span class="n">electron_mass</span>
+    <span class="c1"># print(mass_change)</span>
+
+    <span class="c1"># Calculate the precursor m/z, considering the charge state, adjust for loss/gain of electrons</span>
+    <span class="n">precursor_mz</span> <span class="o">=</span> <span class="n">molecule_mass</span><span class="o">*</span><span class="n">m_coef</span><span class="o">+</span><span class="n">mass_change</span>
+    <span class="n">precursor_mz</span> <span class="o">=</span> <span class="n">precursor_mz</span><span class="o">/</span> <span class="nb">abs</span><span class="p">(</span><span class="n">charge</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">precursor_mz</span></div>
+
+<div class="viewcode-block" id="determine_parent_coefs">
+<a class="viewcode-back" href="../../spectral_denoising.html#spectral_denoising.chem_utils.determine_parent_coefs">[docs]</a>
+<span class="k">def</span> <span class="nf">determine_parent_coefs</span><span class="p">(</span><span class="n">adduct_string</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Determine the coefficient of of the adducts by ignoring the parent ion M.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        adduct_string (str): The adduct string from which to determine the parent molecule coefficient.</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        coefficient (int): The coefficient of the adduct (e.g. M+H, coef =1, M+2H+, coef = 2). If the adduct string does not match the expected pattern, the function prints an error message and returns numpy&#39;s NaN.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">m_pattern</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;(\d*)M&#39;</span>
+    <span class="n">m_match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">m_pattern</span><span class="p">,</span> <span class="n">adduct_string</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">m_match</span><span class="p">:</span>
+        <span class="c1"># If the match is empty (no number before &#39;M&#39;), default the coefficient to 1</span>
+        <span class="n">coefficient</span> <span class="o">=</span> <span class="n">m_match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">coefficient</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">coefficient</span><span class="p">)</span> <span class="k">if</span> <span class="n">coefficient</span> <span class="k">else</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">coefficient</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;the correct adduct form cannot be determined from </span><span class="si">{</span><span class="n">adduct_string</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">NAN</span></div>
+
+<div class="viewcode-block" id="determine_adduct_charge">
+<a class="viewcode-back" href="../../spectral_denoising.html#spectral_denoising.chem_utils.determine_adduct_charge">[docs]</a>
+<span class="k">def</span> <span class="nf">determine_adduct_charge</span><span class="p">(</span><span class="n">adduct_string</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Determine the charge of an adduct based on its string representation.</span>
+<span class="sd">    This function processes an adduct string to determine its charge. The adduct string</span>
+<span class="sd">    is first standardized using the `replace_adduct_string` function. The charge is then</span>
+<span class="sd">    determined based on the ending character(s) of the string.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        adduct_string (str): The string representation of the adduct.</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        charge (int): The charge of the adduct. Returns a positive integer for positive charges, </span>
+<span class="sd">        a negative integer for negative charges, and NaN if the charge cannot be determined.</span>
+<span class="sd">    Notes:</span>
+<span class="sd">        - If the adduct string ends with &#39;+&#39;, the function checks if the preceding character is a digit</span>
+<span class="sd">          and if the charge is enclosed in brackets. If so, it extracts the charge; otherwise, it assumes</span>
+<span class="sd">          a charge of +1.</span>
+<span class="sd">        - If the adduct string ends with &#39;-&#39;, the function performs a similar check for negative charges.</span>
+<span class="sd">        - If the adduct string does not end with &#39;+&#39; or &#39;-&#39;, the function returns NaN and prints a message</span>
+<span class="sd">          indicating that the charge could not be determined.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">adduct_string</span> <span class="o">=</span> <span class="n">replace_adduct_string</span><span class="p">(</span><span class="n">adduct_string</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">adduct_string</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;+&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">adduct_string</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">isdigit</span><span class="p">()</span> <span class="ow">and</span> <span class="n">adduct_string</span><span class="p">[</span><span class="o">-</span><span class="mi">3</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;]&#39;</span><span class="p">:</span> <span class="c1"># Check if the charge is in brackets</span>
+            <span class="n">charge</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">adduct_string</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">charge</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">elif</span> <span class="n">adduct_string</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">adduct_string</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">isdigit</span><span class="p">()</span> <span class="ow">and</span> <span class="n">adduct_string</span><span class="p">[</span><span class="o">-</span><span class="mi">3</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;]&#39;</span><span class="p">:</span> <span class="c1"># Check if the charge is in brackets:</span>
+            <span class="n">charge</span> <span class="o">=</span> <span class="o">-</span><span class="nb">int</span><span class="p">(</span><span class="n">adduct_string</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">charge</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">charge</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">NAN</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;the correct adduct form cannot be determined from </span><span class="si">{</span><span class="n">adduct_string</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">charge</span></div>
+
+<div class="viewcode-block" id="parse_adduct">
+<a class="viewcode-back" href="../../spectral_denoising.html#spectral_denoising.chem_utils.parse_adduct">[docs]</a>
+<span class="k">def</span> <span class="nf">parse_adduct</span><span class="p">(</span><span class="n">adduct_string</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Parses an adduct string into its components.</span>
+<span class="sd">    This function takes an adduct string and breaks it down into its constituent parts,</span>
+<span class="sd">    including the sign, count, and ion type. The adduct string is first processed to </span>
+<span class="sd">    replace certain patterns, and then a regular expression is used to capture the </span>
+<span class="sd">    different parts of the adduct.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        adduct_string (str): The adduct string to be parsed.</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        list: A list of lists, where each sublist contains the sign (str), count (int), and ion type (str) of each part of the adduct.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">adduct_string</span> <span class="o">=</span> <span class="n">replace_adduct_string</span><span class="p">(</span><span class="n">adduct_string</span><span class="p">)</span>
+    <span class="c1"># Regular expression to capture multiple parts of the adduct and the charge</span>
+    <span class="n">pattern</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;([+-])(\d*)([A-Za-z0-9]+)&#39;</span>
+    <span class="n">matches</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="n">adduct_string</span><span class="p">)</span>
+    <span class="n">matches</span><span class="o">=</span><span class="nb">map</span><span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="n">matches</span><span class="p">)</span>
+    <span class="n">parsed_adduct</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">match</span> <span class="ow">in</span> <span class="n">matches</span><span class="p">:</span>
+            <span class="n">sign</span><span class="p">,</span> <span class="n">count</span><span class="p">,</span> <span class="n">ion_type</span> <span class="o">=</span> <span class="n">match</span>
+            
+            <span class="c1"># If no count is given, assume it&#39;s 1</span>
+            <span class="n">count</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">count</span><span class="p">)</span> <span class="k">if</span> <span class="n">count</span> <span class="k">else</span> <span class="mi">1</span>
+            <span class="n">parsed_adduct</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">sign</span><span class="p">,</span> <span class="n">count</span><span class="p">,</span> <span class="n">ion_type</span><span class="p">])</span>
+            <span class="c1"># Determine the sign (+ or -)</span>
+    <span class="k">return</span> <span class="n">parsed_adduct</span></div>
+
+<div class="viewcode-block" id="replace_adduct_string">
+<a class="viewcode-back" href="../../spectral_denoising.html#spectral_denoising.chem_utils.replace_adduct_string">[docs]</a>
+<span class="k">def</span> <span class="nf">replace_adduct_string</span><span class="p">(</span><span class="n">adduct_string</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Replaces specific adduct strings with their standardized or chemical formula equivalents.</span>
+<span class="sd">    This function takes an adduct string and replaces it with a standardized version or its </span>
+<span class="sd">    corresponding chemical formula.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        adduct_string (str): The adduct string to be replaced.</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        adduct_string (str): The replaced adduct string.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">adduct_string</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;Cat&#39;</span><span class="p">,</span> <span class="s1">&#39;CAT&#39;</span><span class="p">,</span><span class="s1">&#39;[M+]&#39;</span><span class="p">,</span> <span class="s1">&#39;M+&#39;</span><span class="p">,</span><span class="s1">&#39;[Cat]+&#39;</span><span class="p">]:</span>
+        <span class="n">adduct_string</span> <span class="o">=</span> <span class="s1">&#39;[M]+&#39;</span>
+    <span class="k">if</span> <span class="n">adduct_string</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;Cat-&#39;</span><span class="p">,</span> <span class="s1">&#39;CAT-&#39;</span><span class="p">,</span><span class="s1">&#39;[M]-&#39;</span><span class="p">,</span> <span class="s1">&#39;M-&#39;</span><span class="p">,</span><span class="s1">&#39;[Cat]-&#39;</span><span class="p">]:</span>
+        <span class="n">adduct_string</span> <span class="o">=</span> <span class="s1">&#39;[M]-&#39;</span>
+    <span class="k">if</span> <span class="s1">&#39;Hac&#39;</span> <span class="ow">in</span> <span class="n">adduct_string</span><span class="p">:</span>
+        <span class="n">adduct_string</span> <span class="o">=</span> <span class="n">adduct_string</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;Hac&quot;</span><span class="p">,</span> <span class="s2">&quot;C2H4O2&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="s1">&#39;FA&#39;</span> <span class="ow">in</span> <span class="n">adduct_string</span><span class="p">:</span>
+        <span class="n">adduct_string</span> <span class="o">=</span> <span class="n">adduct_string</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;FA&quot;</span><span class="p">,</span> <span class="s2">&quot;CH2O2&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="s1">&#39;DMSO&#39;</span> <span class="ow">in</span> <span class="n">adduct_string</span><span class="p">:</span>
+        <span class="n">adduct_string</span> <span class="o">=</span> <span class="n">adduct_string</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;DMSO&quot;</span><span class="p">,</span> <span class="s2">&quot;C2H6OS&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="s1">&#39;ACN&#39;</span> <span class="ow">in</span> <span class="n">adduct_string</span><span class="p">:</span>
+        <span class="n">adduct_string</span> <span class="o">=</span> <span class="n">adduct_string</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;ACN&quot;</span><span class="p">,</span> <span class="s2">&quot;C2H3N&quot;</span><span class="p">)</span>
+    <span class="k">return</span><span class="p">(</span><span class="n">adduct_string</span><span class="p">)</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Fanzhou Kong.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -10,10 +10,9 @@ from rdkit import RDLogger
 RDLogger.DisableLog('rdApp.*')                                                                                                                                                           
 
 from molmass import Formula
-
-import spectral_denoising.spectral_operations as so
+from . import spectral_operations as so
 from .chem_utils import replace_adduct_string, calculate_precursormz
-from spectral_denoising.constant import proton_mass
+from .constant import proton_mass
 # key functions: electronic denoising and formula denoising
 _numpy_formula_format = np.int16
 def spectral_denoising_batch(msms_quene, smiles_quene, adduct_quene, mass_tolerance = 0.005):

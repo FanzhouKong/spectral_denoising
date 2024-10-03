@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>spectral_denoising.denoising_search &mdash; Spectral denoising 1.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=8d563738"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Spectral denoising
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">spectral_denoising</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">functions:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../spectral_denoising.html">spectral_denoising package</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Spectral denoising</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">spectral_denoising.denoising_search</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for spectral_denoising.denoising_search</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">.search_utils</span> <span class="kn">import</span> <span class="n">quick_search_values</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">multiprocessing</span> <span class="k">as</span> <span class="nn">mp</span>
+<span class="kn">from</span> <span class="nn">.spectral_denoising</span> <span class="kn">import</span> <span class="n">spectral_denoising</span>
+<span class="kn">from</span> <span class="nn">.spectral_operations</span> <span class="kn">import</span> <span class="n">entropy_similairty</span>
+<div class="viewcode-block" id="denoising_search_batch">
+<a class="viewcode-back" href="../../spectral_denoising.html#spectral_denoising.denoising_search.denoising_search_batch">[docs]</a>
+<span class="k">def</span> <span class="nf">denoising_search_batch</span><span class="p">(</span><span class="n">quene_msms</span><span class="p">,</span> <span class="n">quene_pmz</span><span class="p">,</span> <span class="n">reference_lib</span><span class="p">,</span> <span class="n">identitiy_search_mass_error</span> <span class="o">=</span> <span class="mf">0.01</span><span class="p">,</span> <span class="n">mass_tolernace</span><span class="o">=</span><span class="mf">0.005</span><span class="p">,</span><span class="n">pmz_col</span> <span class="o">=</span> <span class="s1">&#39;precursor_mz&#39;</span><span class="p">,</span> <span class="n">smiles_col</span> <span class="o">=</span> <span class="s1">&#39;smiles&#39;</span><span class="p">,</span>
+                           <span class="n">adduct_col</span> <span class="o">=</span> <span class="s1">&#39;adduct&#39;</span><span class="p">,</span> <span class="n">msms_col</span> <span class="o">=</span> <span class="s1">&#39;peaks&#39;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Perform batch denoising search on given MS/MS data and precursor m/z values with parallel processing.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        quene_msms (list): List of MS/MS spectra to be denoised.</span>
+<span class="sd">        quene_pmz (list): List of precursor m/z values corresponding to the MS/MS spectra.</span>
+<span class="sd">        reference_lib (pandas.DataFrame): Reference library containing known spectra for comparison.</span>
+<span class="sd">        identitiy_search_mass_error (float, optional): Mass error tolerance for identity search. Default is 0.01.</span>
+<span class="sd">        mass_tolerance (float, optional): Maximum allowed tolerance for denoising. Default is 0.005.</span>
+<span class="sd">        pmz_col (str, optional): Column name for precursor m/z in the reference library. Default is &#39;precursor_mz&#39;.</span>
+<span class="sd">        smiles_col (str, optional): Column name for SMILES in the reference library. Default is &#39;smiles&#39;.</span>
+<span class="sd">        adduct_col (str, optional): Column name for adducts in the reference library. Default is &#39;adduct&#39;.</span>
+<span class="sd">        msms_col (str, optional): Column name for MS/MS peaks in the reference library. Default is &#39;peaks&#39;.</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        pandas.DataFrame: DataFrame containing the results of the denoising search. Each index in the result DataFrame corresponds to the denoising search result of the corresponding input MS/MS spectrum.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">quene_msms</span><span class="p">)</span><span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">quene_pmz</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The length of msms and pmz should be the same&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+
+    <span class="k">with</span> <span class="n">mp</span><span class="o">.</span><span class="n">Pool</span><span class="p">(</span><span class="n">processes</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span> <span class="k">as</span> <span class="n">pool</span><span class="p">:</span>
+            <span class="c1"># Use starmap to handle multiple parameters</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">starmap</span><span class="p">(</span><span class="n">denoising_search</span><span class="p">,</span> <span class="n">tqdm</span><span class="p">([(</span><span class="n">msms</span><span class="p">,</span> <span class="n">pmz</span><span class="p">,</span> <span class="n">reference_lib</span><span class="p">,</span> <span class="n">identitiy_search_mass_error</span><span class="p">,</span> <span class="n">mass_tolernace</span><span class="p">,</span> 
+                            <span class="n">pmz_col</span><span class="p">,</span> <span class="n">smiles_col</span><span class="p">,</span> <span class="n">adduct_col</span><span class="p">,</span>  <span class="n">msms_col</span><span class="p">)</span> <span class="k">for</span> <span class="n">msms</span><span class="p">,</span> <span class="n">pmz</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">quene_msms</span><span class="p">,</span> <span class="n">quene_pmz</span><span class="p">)],</span> <span class="n">total</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">quene_msms</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">results</span></div>
+
+
+
+
+<div class="viewcode-block" id="denoising_search">
+<a class="viewcode-back" href="../../spectral_denoising.html#spectral_denoising.denoising_search.denoising_search">[docs]</a>
+<span class="k">def</span> <span class="nf">denoising_search</span><span class="p">(</span><span class="n">msms</span><span class="p">,</span> <span class="n">pmz</span><span class="p">,</span> <span class="n">reference_lib</span><span class="p">,</span> <span class="n">identitiy_search_mass_error</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">mass_tolernace</span> <span class="o">=</span> <span class="mf">0.005</span><span class="p">,</span> 
+                     <span class="n">pmz_col</span> <span class="o">=</span> <span class="s1">&#39;precursor_mz&#39;</span><span class="p">,</span> <span class="n">smiles_col</span> <span class="o">=</span> <span class="s1">&#39;smiles&#39;</span><span class="p">,</span> <span class="n">adduct_col</span> <span class="o">=</span> <span class="s1">&#39;adduct&#39;</span><span class="p">,</span> <span class="n">msms_col</span> <span class="o">=</span> <span class="s1">&#39;peaks&#39;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Perform a denoising search on mass spectrometry data.</span>
+<span class="sd">    In addition to traditional identity search, the quene msms will be denoised using molecular information of all candidates within predefined identitiy_search_mass_error range.</span>
+<span class="sd">    Then, entropy similarity scores are calculated for both the original and denoised spectra.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        msms (np.array): The mass spectrometry data (peaks) to be denoised.</span>
+<span class="sd">        pmz (float): The precursor m/z value associated with the quene MS/MS spectra.</span>
+<span class="sd">        reference_lib (pandas.DataFrame): The reference library containing known spectra and associated metadata.</span>
+<span class="sd">        identitiy_search_mass_error (float, optional): The mass error tolerance for the identity search. Default is 0.01.</span>
+<span class="sd">        mass_tolernace (float, optional): The mass tolerance for spectral denoising. Default is 0.005.</span>
+<span class="sd">        pmz_col (str, optional): The column name for precursor m/z values in the reference library. Default is &#39;precursor_mz&#39;.</span>
+<span class="sd">        smiles_col (str, optional): The column name for SMILES strings in the reference library. Default is &#39;smiles&#39;.</span>
+<span class="sd">        adduct_col (str, optional): The column name for adduct information in the reference library. Default is &#39;adduct&#39;.</span>
+<span class="sd">        msms_col (str, optional): The column name for MS/MS peaks in the reference library. Default is &#39;peaks&#39;.</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        pd.DataFrame: A DataFrame containing all the candidate spectra, with entropy similarity scores calculated based on both denoised and raw spectra.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">pmz_candidates</span> <span class="o">=</span> <span class="n">quick_search_values</span><span class="p">(</span><span class="n">reference_lib</span><span class="p">,</span> <span class="n">pmz_col</span><span class="p">,</span> <span class="n">pmz</span> <span class="o">-</span> <span class="n">identitiy_search_mass_error</span><span class="p">,</span> <span class="n">pmz</span> <span class="o">+</span> <span class="n">identitiy_search_mass_error</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">pmz_candidates</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span><span class="c1">#no pmz matches</span>
+    <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">pmz_candidates</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">msms_d</span> <span class="o">=</span> <span class="n">spectral_denoising</span><span class="p">(</span><span class="n">msms</span><span class="p">,</span> <span class="n">row</span><span class="p">[</span><span class="n">smiles_col</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="n">adduct_col</span><span class="p">],</span> <span class="n">mass_tolerance</span><span class="o">=</span><span class="n">mass_tolernace</span><span class="p">)</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="n">msms_d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+            <span class="k">continue</span>
+        <span class="n">pmz_candidates</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">index</span><span class="p">,</span> <span class="s1">&#39;entropy_similarity&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">entropy_similairty</span><span class="p">(</span><span class="n">msms</span><span class="p">,</span> <span class="n">row</span><span class="p">[</span><span class="n">msms_col</span><span class="p">],</span> <span class="n">pmz</span> <span class="o">=</span> <span class="n">pmz</span><span class="p">,</span> <span class="n">ms2_error</span> <span class="o">=</span> <span class="mf">0.01</span><span class="p">)</span>
+        <span class="n">pmz_candidates</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">index</span><span class="p">,</span> <span class="s1">&#39;denoised_similarity&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">entropy_similairty</span><span class="p">(</span><span class="n">msms_d</span><span class="p">,</span> <span class="n">row</span><span class="p">[</span><span class="n">msms_col</span><span class="p">],</span> <span class="n">pmz</span> <span class="o">=</span> <span class="n">pmz</span><span class="p">,</span> <span class="n">ms2_error</span> <span class="o">=</span> <span class="mf">0.01</span><span class="p">)</span>
+    <span class="n">pmz_candidates</span><span class="p">[</span><span class="s1">&#39;quene_peaks&#39;</span><span class="p">]</span><span class="o">=</span><span class="p">[</span><span class="n">msms</span><span class="p">]</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">pmz_candidates</span><span class="p">)</span>
+    <span class="n">pmz_candidates</span><span class="p">[</span><span class="s1">&#39;quene_pmz_denoised&#39;</span><span class="p">]</span><span class="o">=</span><span class="p">[</span><span class="n">msms_d</span><span class="p">]</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">pmz_candidates</span><span class="p">)</span>
+    <span class="n">pmz_candidates</span><span class="p">[</span><span class="s1">&#39;quene_pmz&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">pmz</span>
+    <span class="k">return</span> <span class="n">pmz_candidates</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Fanzhou Kong.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

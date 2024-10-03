@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>spectral_denoising.spectral_operations &mdash; Spectral denoising 1.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=8d563738"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Spectral denoising
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">spectral_denoising</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">functions:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../spectral_denoising.html">spectral_denoising package</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Spectral denoising</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">spectral_denoising.spectral_operations</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for spectral_denoising.spectral_operations</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">itertools</span>
+<span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">scipy</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">ms_entropy</span> <span class="k">as</span> <span class="nn">me</span>
+
+
+<span class="n">_numpy_formula_format</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">int16</span>
+<div class="viewcode-block" id="spctrum_entropy">
+<a class="viewcode-back" href="../../spectral_denoising.html#spectral_denoising.spectral_operations.spctrum_entropy">[docs]</a>
+<span class="k">def</span> <span class="nf">spctrum_entropy</span><span class="p">(</span><span class="n">msms</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculate the entropy of the givens.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        msms (numpy.ndarray): A 2D array where the each item are formated as [pmz, intensity].</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        float: The entropy of the query MS/MS spectrum.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">intensity</span> <span class="o">=</span> <span class="n">msms</span><span class="o">.</span><span class="n">T</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">S</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">entropy</span><span class="p">(</span><span class="n">intensity</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">S</span></div>
+
+<div class="viewcode-block" id="entropy_similairty">
+<a class="viewcode-back" href="../../spectral_denoising.html#spectral_denoising.spectral_operations.entropy_similairty">[docs]</a>
+<span class="k">def</span> <span class="nf">entropy_similairty</span><span class="p">(</span><span class="n">msms1</span><span class="p">,</span> <span class="n">msms2</span><span class="p">,</span><span class="n">pmz</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ms2_error</span> <span class="o">=</span> <span class="mf">0.02</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculate the entropy similarity between two mass spectrometry spectra.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        msms1 (numpy.ndarray): The first mass spectrometry spectrum. If a float is provided, NaN is returned.</span>
+<span class="sd">        msms1 (numpy.ndarray): The second mass spectrometry spectrum. If a float is provided, NaN is returned.</span>
+<span class="sd">        pmz (float, optional): The precursor m/z value. If provided, precursors in both spectra will be removed.</span>
+<span class="sd">        ms2_error (float, optional): The tolerance for matching peaks in the spectra. Default is 0.02.</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        float: The entropy similarity between the two spectra. Returns NaN if either input spectrum is invalid.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">msms1</span><span class="p">,</span> <span class="nb">float</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">msms2</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    <span class="n">msms1</span> <span class="o">=</span> <span class="n">truncate_spectrum</span><span class="p">(</span><span class="n">msms1</span><span class="p">,</span> <span class="n">pmz</span><span class="o">-</span><span class="mf">1.6</span><span class="p">)</span>
+    <span class="n">msms2</span> <span class="o">=</span> <span class="n">truncate_spectrum</span><span class="p">(</span><span class="n">msms2</span><span class="p">,</span> <span class="n">pmz</span><span class="o">-</span><span class="mf">1.6</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">msms1</span><span class="p">,</span> <span class="nb">float</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">msms2</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    <span class="k">if</span> <span class="n">pmz</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">similarity</span> <span class="o">=</span> <span class="n">me</span><span class="o">.</span><span class="n">calculate_entropy_similarity</span><span class="p">(</span><span class="n">msms1</span><span class="p">,</span> <span class="n">msms2</span><span class="p">,</span> <span class="n">ms2_tolerance_in_da</span> <span class="o">=</span> <span class="n">ms2_error</span><span class="p">,</span> <span class="n">noise_threshold</span><span class="o">=</span><span class="mf">0.00</span><span class="p">,</span> <span class="n">clean_spectra</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">max_mz</span> <span class="o">=</span> <span class="n">pmz</span><span class="o">-</span><span class="mf">1.6</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">similarity</span> <span class="o">=</span> <span class="n">me</span><span class="o">.</span><span class="n">calculate_entropy_similarity</span><span class="p">(</span><span class="n">msms1</span><span class="p">,</span> <span class="n">msms2</span><span class="p">,</span> <span class="n">ms2_tolerance_in_da</span> <span class="o">=</span> <span class="n">ms2_error</span><span class="p">,</span> <span class="n">noise_threshold</span><span class="o">=</span><span class="mf">0.00</span><span class="p">,</span> <span class="n">clean_spectra</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">similarity</span></div>
+
+<div class="viewcode-block" id="compare_spectra">
+<a class="viewcode-back" href="../../spectral_denoising.html#spectral_denoising.spectral_operations.compare_spectra">[docs]</a>
+<span class="k">def</span> <span class="nf">compare_spectra</span><span class="p">(</span><span class="n">msms1</span><span class="p">,</span> <span class="n">msms2</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compare two mass spectra and return the spectrum of the second input </span>
+<span class="sd">    that does not overlap with the first input. Juist a helper function, not actually in use.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        msms1 (numpy.ndarray): The first mass spectrum to compare.</span>
+<span class="sd">        msms2 (numpy.ndarray): The second mass spectrum to compare.</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        numpy.ndarray: A packed spectrum of mass and intensity values from `msms2` </span>
+<span class="sd">              that do not overlap with `msms1`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">msms2</span><span class="p">)</span><span class="o">&lt;</span><span class="nb">len</span><span class="p">(</span><span class="n">msms1</span><span class="p">):</span>
+        <span class="n">msms_temp</span> <span class="o">=</span> <span class="n">msms2</span>
+        <span class="n">msms2</span> <span class="o">=</span> <span class="n">msms1</span>
+        <span class="n">msms1</span> <span class="o">=</span> <span class="n">msms_temp</span>
+    <span class="n">mass1</span><span class="p">,</span> <span class="n">intensity1</span> <span class="o">=</span> <span class="n">break_spectrum</span><span class="p">(</span><span class="n">msms1</span><span class="p">)</span>
+    <span class="n">mass2</span><span class="p">,</span> <span class="n">intensity2</span> <span class="o">=</span> <span class="n">break_spectrum</span><span class="p">(</span><span class="n">msms2</span><span class="p">)</span>
+
+    <span class="n">indices</span> <span class="o">=</span> <span class="p">[</span><span class="n">index</span> <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">item</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">mass2</span><span class="p">)</span> <span class="k">if</span> <span class="n">item</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">mass1</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">pack_spectrum</span><span class="p">(</span><span class="n">mass2</span><span class="p">[</span><span class="n">indices</span><span class="p">],</span> <span class="n">intensity2</span><span class="p">[</span><span class="n">indices</span><span class="p">])</span></div>
+
+<div class="viewcode-block" id="search_ions">
+<a class="viewcode-back" href="../../spectral_denoising.html#spectral_denoising.spectral_operations.search_ions">[docs]</a>
+<span class="k">def</span> <span class="nf">search_ions</span><span class="p">(</span><span class="n">msms</span><span class="p">,</span> <span class="n">mz</span><span class="p">,</span> <span class="n">span</span> <span class="o">=</span> <span class="mi">3</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Search for ions within a specified mass-to-charge ratio (m/z) range in a given mass spectrum.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        msms (numpy.ndarray): The mass spectrum data.</span>
+<span class="sd">        mz (float): The target mass-to-charge ratio to search for.</span>
+<span class="sd">        span (float, optional): The range around the target m/z to search within. Default is 3.</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        numpy.ndarray: the slice of MS/MS spectra in the given region.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">mass</span><span class="p">,</span> <span class="n">intensity</span> <span class="o">=</span> <span class="n">break_spectrum</span><span class="p">(</span><span class="n">msms</span><span class="p">)</span>
+    <span class="n">idx_left</span><span class="p">,</span> <span class="n">idx_right</span> <span class="o">=</span> <span class="n">mass</span><span class="o">.</span><span class="n">searchsorted</span><span class="p">([</span><span class="n">mz</span><span class="o">-</span><span class="n">span</span><span class="p">,</span> <span class="n">mz</span><span class="o">+</span><span class="n">span</span><span class="p">])</span>
+    <span class="k">return</span><span class="p">(</span><span class="n">pack_spectrum</span><span class="p">(</span><span class="n">mass</span><span class="p">[</span><span class="n">idx_left</span><span class="p">:</span><span class="n">idx_right</span><span class="p">],</span> <span class="n">intensity</span><span class="p">[</span><span class="n">idx_left</span><span class="p">:</span><span class="n">idx_right</span><span class="p">]))</span></div>
+
+
+<div class="viewcode-block" id="break_spectrum">
+<a class="viewcode-back" href="../../spectral_denoising.html#spectral_denoising.spectral_operations.break_spectrum">[docs]</a>
+<span class="k">def</span> <span class="nf">break_spectrum</span><span class="p">(</span><span class="n">spectra</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Breaks down a given spectrum into its mass and intensity components. Not often used.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        spectra (numpy.ndarray): The input spectrum data. If a np.nan is provided, it returns two empty lists.</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        numpy.ndarray: A MS/MS spectrum formated in 2D array where the each item are formated as [pmz, intensity].</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">spectra</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">([],[])</span>
+    <span class="n">spectra</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">spectra</span><span class="p">)</span>
+    <span class="n">mass</span> <span class="o">=</span> <span class="n">spectra</span><span class="o">.</span><span class="n">T</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">intensity</span> <span class="o">=</span> <span class="n">spectra</span><span class="o">.</span><span class="n">T</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">mass</span><span class="p">,</span> <span class="n">intensity</span></div>
+
+
+<div class="viewcode-block" id="pack_spectrum">
+<a class="viewcode-back" href="../../spectral_denoising.html#spectral_denoising.spectral_operations.pack_spectrum">[docs]</a>
+<span class="k">def</span> <span class="nf">pack_spectrum</span><span class="p">(</span><span class="n">mass</span><span class="p">,</span> <span class="n">intensity</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Inverse of break_spectrum. Packs mass and intensity arrays into a single 2D array, which is standardized MS/MS spectrum data format in this project.</span>
+<span class="sd">    This function takes two arrays, `mass` and `intensity`, and combines them into a single 2D array where each row </span>
+<span class="sd">    corresponds to a pair of mass and intensity values. If either of the input arrays is empty, the function returns NaN.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters:</span>
+<span class="sd">        mass (numpy.ndarray): An array of mass values.</span>
+<span class="sd">        intensity (numpy.ndarray): An array of intensity values.</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        numpy.ndarray: A 2D array with mass and intensity pairs if both input arrays are non-empty, otherwise NaN.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">mass</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">0</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">intensity</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">mass</span><span class="p">,</span> <span class="n">intensity</span><span class="p">])</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="add_spectra">
+<a class="viewcode-back" href="../../spectral_denoising.html#spectral_denoising.spectral_operations.add_spectra">[docs]</a>
+<span class="k">def</span> <span class="nf">add_spectra</span><span class="p">(</span><span class="n">msms1</span><span class="p">,</span> <span class="n">msms2</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Add two spectra together.</span>
+<span class="sd">    This function takes two spectra (msms1 and msms2) and combines them. If one of the inputs is a float and the other </span>
+<span class="sd">    is not, it returns the non-float input. If both inputs are floats, it returns NaN.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        msms1 (numpy.ndarray): The first spectrum.</span>
+<span class="sd">        msms2 (numpy.ndarray): The second spectrum.</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        numpy.ndarray: The combined spectrum if both inputs are not floats, one of the inputs if the other is a float, or NaN if both inputs are floats.</span>
+<span class="sd">    Notes:</span>
+<span class="sd">        - This function is very naive mixing of 2 spectrum. If you wished to formulate the intensity, please do it before using this function.</span>
+<span class="sd">                    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">msms1</span><span class="p">,</span> <span class="nb">float</span><span class="p">)</span> <span class="o">==</span> <span class="kc">False</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">msms2</span><span class="p">,</span> <span class="nb">float</span><span class="p">)</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
+        
+        <span class="k">return</span><span class="p">(</span><span class="n">sort_spectrum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">msms1</span><span class="p">,</span> <span class="n">msms2</span><span class="p">])))</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">msms1</span><span class="p">,</span> <span class="nb">float</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">msms2</span><span class="p">,</span> <span class="nb">float</span><span class="p">)</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">msms2</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">msms2</span><span class="p">,</span> <span class="nb">float</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">msms1</span><span class="p">,</span> <span class="nb">float</span><span class="p">)</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">msms1</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span></div>
+
+<div class="viewcode-block" id="normalize_spectrum">
+<a class="viewcode-back" href="../../spectral_denoising.html#spectral_denoising.spectral_operations.normalize_spectrum">[docs]</a>
+<span class="k">def</span> <span class="nf">normalize_spectrum</span><span class="p">(</span><span class="n">msms</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Normalize the intensity values of a given mass spectrum.</span>
+<span class="sd">    This function takes a mass spectrum (msms) as input, transposes it, and normalizes</span>
+<span class="sd">    the intensity values (second row) by dividing each intensity by the sum of all intensities.</span>
+<span class="sd">    The normalized spectrum is then transposed back to its original form and returned.</span>
+<span class="sd">    Parameters:</span>
+<span class="sd">        msms (numpy.ndarray): A 2D numpy array where the first row contains mass-to-charge ratios (m/z) and the second row contains intensity values.</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        numpy.ndarray: A 2D numpy array with the same shape as the input, where the intensity values have been normalized.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">msms_T</span> <span class="o">=</span> <span class="n">msms</span><span class="o">.</span><span class="n">T</span>
+    <span class="n">msms_T</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">msms_T</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">i</span><span class="p">]</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">msms_T</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">msms_T</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="p">)])</span>
+    <span class="k">return</span> <span class="n">msms_T</span><span class="o">.</span><span class="n">T</span> </div>
+
+<div class="viewcode-block" id="sort_spectrum">
+<a class="viewcode-back" href="../../spectral_denoising.html#spectral_denoising.spectral_operations.sort_spectrum">[docs]</a>
+<span class="k">def</span> <span class="nf">sort_spectrum</span><span class="p">(</span><span class="n">msms</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Sorts the spectrum data based on m/z values.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        msms (numpy.ndarray): A 2D numpy array.</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        numpy.ndarray: A 2D numpy array with the same shape as the input, but sorted by the m/z values in ascending order.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">msms_T</span> <span class="o">=</span> <span class="n">msms</span><span class="o">.</span><span class="n">T</span>
+    <span class="n">order</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">msms_T</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">msms_T</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">msms_T</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">order</span><span class="p">]</span>
+    <span class="n">msms_T</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">msms_T</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">order</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">msms_T</span><span class="o">.</span><span class="n">T</span></div>
+
+<div class="viewcode-block" id="remove_precursor">
+<a class="viewcode-back" href="../../spectral_denoising.html#spectral_denoising.spectral_operations.remove_precursor">[docs]</a>
+<span class="k">def</span> <span class="nf">remove_precursor</span><span class="p">(</span><span class="n">msms</span><span class="p">,</span> <span class="n">pmz</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Removes the precursor ion from the given mass spectrometry/mass spectrometry (MS/MS) spectrum.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        msms (numpy.ndarray): A 2D numpy array.</span>
+<span class="sd">        pmz (float, optional): The precursor m/z value. If not provided, function will try to guess from the spectrum.</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        numpy.ndarray: The truncated MS/MS spectrum with the precursor ion removed.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">msms</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    <span class="k">if</span> <span class="n">pmz</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">pmz</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">break_spectrum</span><span class="p">(</span><span class="n">msms</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">msms_t</span> <span class="o">=</span> <span class="n">truncate_spectrum</span><span class="p">(</span><span class="n">msms</span><span class="p">,</span> <span class="n">pmz</span><span class="o">-</span><span class="mf">1.6</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">msms_t</span></div>
+
+<div class="viewcode-block" id="sanitize_spectrum">
+<a class="viewcode-back" href="../../spectral_denoising.html#spectral_denoising.spectral_operations.sanitize_spectrum">[docs]</a>
+<span class="k">def</span> <span class="nf">sanitize_spectrum</span><span class="p">(</span><span class="n">msms</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Sanitize the given mass spectrum.</span>
+<span class="sd">    This function performs the following operations on the input mass spectrum:</span>
+<span class="sd">    1. If the input is a nan, it returns NaN.</span>
+<span class="sd">    2. Sorts the spectrum using the `sort_spectrum` function.</span>
+<span class="sd">    3. Removes zero intensity ions using the `remove_zero_ions` function.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        msms (numpy.ndarray): The mass spectrum to be sanitized. </span>
+<span class="sd">    Returns:</span>
+<span class="sd">        numpy.ndarray: The sanitized mass spectrum. If the input is a nan, returns nan.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">msms</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    <span class="n">msms</span> <span class="o">=</span> <span class="n">sort_spectrum</span><span class="p">(</span><span class="n">msms</span><span class="p">)</span>
+    <span class="n">msms</span> <span class="o">=</span> <span class="n">remove_zero_ions</span><span class="p">(</span><span class="n">msms</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">msms</span></div>
+
+<div class="viewcode-block" id="truncate_spectrum">
+<a class="viewcode-back" href="../../spectral_denoising.html#spectral_denoising.spectral_operations.truncate_spectrum">[docs]</a>
+<span class="k">def</span> <span class="nf">truncate_spectrum</span><span class="p">(</span><span class="n">msms</span><span class="p">,</span> <span class="n">max_mz</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Truncate the given mass spectrum to only include peaks with m/z values less than or equal to max_mz.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        msms (numpy.ndarray): The mass spectrum to be truncated. If it is an empty spectrum (np.nan), will also return np.nan.</span>
+<span class="sd">        max_mz (float): The maximum m/z value to retain in the truncated spectrum.</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        numpy.ndarray: The truncated mass spectrum with m/z values less than or equal to max_mz.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">msms</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    <span class="n">msms</span> <span class="o">=</span> <span class="n">sort_spectrum</span><span class="p">(</span><span class="n">msms</span><span class="p">)</span>
+    <span class="n">mass</span><span class="p">,</span> <span class="n">intensity</span> <span class="o">=</span> <span class="n">msms</span><span class="o">.</span><span class="n">T</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">msms</span><span class="o">.</span><span class="n">T</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">upper_allowed</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">searchsorted</span><span class="p">(</span><span class="n">mass</span><span class="p">,</span> <span class="n">max_mz</span><span class="p">,</span><span class="n">side</span> <span class="o">=</span> <span class="s1">&#39;left&#39;</span><span class="p">)</span>
+    <span class="n">mass</span> <span class="o">=</span> <span class="n">mass</span><span class="p">[:</span><span class="n">upper_allowed</span><span class="p">]</span>
+    <span class="n">intensity</span> <span class="o">=</span> <span class="n">intensity</span><span class="p">[:</span><span class="n">upper_allowed</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">pack_spectrum</span><span class="p">(</span><span class="n">mass</span><span class="p">,</span> <span class="n">intensity</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="slice_spectrum">
+<a class="viewcode-back" href="../../spectral_denoising.html#spectral_denoising.spectral_operations.slice_spectrum">[docs]</a>
+<span class="k">def</span> <span class="nf">slice_spectrum</span><span class="p">(</span><span class="n">msms</span><span class="p">,</span> <span class="n">break_mz</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Slices a mass spectrum into two parts based on a given m/z value.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        msms (numpy.ndarray): The mass spectrum data, where each row represents a peak with m/z and intensity values. If a empty spectrum is provided, the function returns NaN.</span>
+<span class="sd">        break_mz (float): The break point where to slice the spectrum.</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        tuple: A tuple containing two numpy.ndarrays:</span>
+<span class="sd">            - The first array contains all peaks with m/z values less than the break_mz.</span>
+<span class="sd">            - The second array contains all peaks with m/z values greater than or equal to the break_mz.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">msms</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    
+    <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">searchsorted</span><span class="p">(</span><span class="n">msms</span><span class="o">.</span><span class="n">T</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">break_mz</span><span class="p">,</span> <span class="n">side</span> <span class="o">=</span> <span class="s1">&#39;left&#39;</span><span class="p">)</span>
+    <span class="k">return</span><span class="p">(</span><span class="n">msms</span><span class="p">[:</span><span class="n">idx</span><span class="p">],</span> <span class="n">msms</span><span class="p">[</span><span class="n">idx</span><span class="p">:])</span></div>
+
+<div class="viewcode-block" id="standardize_spectrum">
+<a class="viewcode-back" href="../../spectral_denoising.html#spectral_denoising.spectral_operations.standardize_spectrum">[docs]</a>
+<span class="k">def</span> <span class="nf">standardize_spectrum</span><span class="p">(</span><span class="n">ms</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Standardizes the intensity values of a given mass spectrum so that the base peak will have intensity of 1.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        ms (numpy.ndarray): A 2D array where the first column represents mass values and the second column represents intensity values.</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        numpy.ndarray: A 2D array with the same mass values and standardized intensity values. The intensity values are normalized to the range [0, 1] and rounded to 4 decimal places.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="n">mass</span><span class="p">,</span> <span class="n">intensity</span> <span class="o">=</span> <span class="n">ms</span><span class="o">.</span><span class="n">T</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">ms</span><span class="o">.</span><span class="n">T</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">intensity</span> <span class="o">=</span> <span class="n">intensity</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">intensity</span><span class="p">)</span>
+    <span class="n">intensity</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">intensity</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+    <span class="k">return</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">mass</span><span class="p">,</span> <span class="n">intensity</span><span class="p">])</span><span class="o">.</span><span class="n">T</span><span class="p">)</span></div>
+
+    
+<div class="viewcode-block" id="remove_zero_ions">
+<a class="viewcode-back" href="../../spectral_denoising.html#spectral_denoising.spectral_operations.remove_zero_ions">[docs]</a>
+<span class="k">def</span> <span class="nf">remove_zero_ions</span><span class="p">(</span><span class="n">msms</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Remove zero intensity ions from a mass spectrometry dataset.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        msms (numpy.ndarray or float): MS/MS spectrum in 2D numpy array.</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        numpy.ndarray: A filtered 2D numpy array with rows where the second column (ion intensities) is greater than zero, or np.nan if the input is an empty spectrum.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">msms</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    <span class="n">to_keep</span> <span class="o">=</span> <span class="n">msms</span><span class="o">.</span><span class="n">T</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span>
+    <span class="k">return</span> <span class="n">msms</span><span class="p">[</span><span class="n">to_keep</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="arr_to_str">
+<a class="viewcode-back" href="../../spectral_denoising.html#spectral_denoising.spectral_operations.arr_to_str">[docs]</a>
+<span class="k">def</span> <span class="nf">arr_to_str</span><span class="p">(</span><span class="n">msms</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    helper function for read_df and save_df</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">msms</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    <span class="n">mass</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">intensity</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">msms</span><span class="p">)):</span>
+        <span class="n">mass</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">msms</span><span class="p">[</span><span class="n">n</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">intensity</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">msms</span><span class="p">[</span><span class="n">n</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">mass</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">0</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">intensity</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">0</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">mass</span><span class="p">)</span><span class="o">==</span><span class="nb">len</span><span class="p">(</span><span class="n">intensity</span><span class="p">):</span>
+        <span class="n">intensity_return</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">inten</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="k">for</span> <span class="p">(</span><span class="n">inten</span><span class="p">)</span> <span class="ow">in</span> <span class="p">(</span><span class="n">intensity</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])]</span>
+        <span class="n">intensity_return</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">intensity</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
+        <span class="n">mass_cali_tab</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">mas</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span> <span class="k">for</span> <span class="p">(</span><span class="n">mas</span><span class="p">)</span> <span class="ow">in</span> <span class="n">mass</span><span class="p">]</span>
+        <span class="n">list_temp</span> <span class="o">=</span> <span class="p">[</span><span class="kc">None</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">mass_cali_tab</span><span class="p">)</span><span class="o">+</span><span class="nb">len</span><span class="p">(</span><span class="n">intensity_return</span><span class="p">))</span>
+        <span class="n">list_temp</span><span class="p">[::</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">mass_cali_tab</span>
+        <span class="n">list_temp</span><span class="p">[</span><span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">intensity_return</span>
+        <span class="n">list_temp</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">list_temp</span><span class="p">)</span>
+        <span class="k">return</span><span class="p">(</span><span class="n">list_temp</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="str_to_arr">
+<a class="viewcode-back" href="../../spectral_denoising.html#spectral_denoising.spectral_operations.str_to_arr">[docs]</a>
+<span class="k">def</span> <span class="nf">str_to_arr</span><span class="p">(</span><span class="n">msms</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    helper function for read_df and save_df</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">msms</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    <span class="n">spec_raw</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">x</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">msms</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+    <span class="k">return</span><span class="p">(</span><span class="n">spec_raw</span><span class="p">)</span></div>
+
+
+
+
+
+
+
+
+
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Fanzhou Kong.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

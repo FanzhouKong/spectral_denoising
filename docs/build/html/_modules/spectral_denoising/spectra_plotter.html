@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>spectral_denoising.spectra_plotter &mdash; Spectral denoising 1.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=8d563738"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Spectral denoising
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">spectral_denoising</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">functions:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../spectral_denoising.html">spectral_denoising package</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Spectral denoising</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">spectral_denoising.spectra_plotter</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for spectral_denoising.spectra_plotter</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python</span>
+<span class="c1"># coding: utf-8</span>
+
+
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">rdkit</span> <span class="kn">import</span> <span class="n">Chem</span>
+<span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">rcParams</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">spectral_operations</span> <span class="k">as</span> <span class="n">so</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">import</span> <span class="nn">plotly.express</span> <span class="k">as</span> <span class="nn">px</span>
+
+
+<span class="kn">import</span> <span class="nn">ast</span>
+<div class="viewcode-block" id="head_to_tail_plot">
+<a class="viewcode-back" href="../../spectral_denoising.html#spectral_denoising.spectra_plotter.head_to_tail_plot">[docs]</a>
+<span class="k">def</span> <span class="nf">head_to_tail_plot</span><span class="p">(</span><span class="n">msms1</span><span class="p">,</span> <span class="n">msms2</span><span class="p">,</span><span class="n">pmz</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">mz_start</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">mz_end</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">pmz2</span><span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="n">ms2_error</span> <span class="o">=</span> <span class="mf">0.02</span><span class="p">,</span>
+                      <span class="n">color1</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">color2</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                      <span class="n">savepath</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">publication</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span><span class="n">fontsize</span> <span class="o">=</span> <span class="mi">12</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Plots a head-to-tail comparison of two MS/MS spectra.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        msms1 (np.array): First mass spectrum data in 2D np.array format. e,g. np.array([[mz1, intensity1], [mz2, intensity2], ...]).</span>
+<span class="sd">        msms2 (np.array): Second mass spectrum data. Same as msms1.</span>
+<span class="sd">        pmz (float or str, optional): Precursor m/z value for the first spectrum. Default is None. If given, precursors will be removed from both spectra and precursor will be shown as a grey</span>
+<span class="sd">        dashed line in the plot.</span>
+<span class="sd">        mz_start (float, optional): Start of the m/z range for plotting. Zoom in function. Default is None.</span>
+<span class="sd">        mz_end (float, optional): End of the m/z range for plotting. Zoom in function. Default is None.</span>
+<span class="sd">        pmz2 (float or str, optional): Precursor m/z value for the second spectrum. Default is None. Just in case pmz1 and pmz2 are different.</span>
+<span class="sd">        ms2_error (float, optional): Error tolerance for m/z values. Default is 0.02.</span>
+<span class="sd">        color1 (str, optional): Color for the first spectrum&#39;s peaks. Default is None.</span>
+<span class="sd">        color2 (str, optional): Color for the second spectrum&#39;s peaks. Default is None.</span>
+<span class="sd">        </span>
+<span class="sd">        savepath (str, optional): Path to save the plot image. Default is None.</span>
+<span class="sd">        show (bool, optional): If True, displays the plot. Default is True. Turn it off if you want to save the plot without displaying it.</span>
+<span class="sd">        publication (bool, optional): If True, formats the plot for publication (size 3*2.5 inch for single column figure). Default is False.</span>
+<span class="sd">        fontsize (int, optional): Font size for plot labels. Default is 12.</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        matplotlib.pyplot or None: The plot object if show is True, otherwise None.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+                      
+    
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">pmz</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">pmz</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">pmz</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">msms1</span> <span class="ow">is</span> <span class="nb">float</span> <span class="ow">or</span> <span class="n">msms2</span> <span class="ow">is</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="c1"># return(np.NAN)</span>
+        <span class="k">return</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">msms1</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">msms1</span> <span class="o">=</span> <span class="n">ast</span><span class="o">.</span><span class="n">literal_eval</span><span class="p">(</span><span class="n">msms1</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">msms2</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">msms2</span> <span class="o">=</span> <span class="n">ast</span><span class="o">.</span><span class="n">literal_eval</span><span class="p">(</span><span class="n">msms2</span><span class="p">)</span>
+    <span class="n">msms1</span> <span class="o">=</span> <span class="n">so</span><span class="o">.</span><span class="n">sort_spectrum</span><span class="p">(</span><span class="n">msms1</span><span class="p">)</span>
+    <span class="n">msms2</span> <span class="o">=</span> <span class="n">so</span><span class="o">.</span><span class="n">sort_spectrum</span><span class="p">(</span><span class="n">msms2</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">pmz</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">pmz2</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">pmz2</span> <span class="o">=</span> <span class="n">pmz</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;entropy similarity is&#39;</span><span class="p">,</span> <span class="n">so</span><span class="o">.</span><span class="n">entropy_similairty</span><span class="p">(</span><span class="n">msms1</span><span class="p">,</span> <span class="n">msms2</span><span class="p">,</span> <span class="n">pmz</span><span class="p">,</span> <span class="n">ms2_error</span> <span class="o">=</span> <span class="n">ms2_error</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">pmz</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">pmz2</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">msms1</span> <span class="o">=</span> <span class="n">so</span><span class="o">.</span><span class="n">truncate_spectrum</span><span class="p">(</span><span class="n">msms1</span><span class="p">,</span> <span class="n">pmz</span><span class="o">-</span><span class="mf">1.6</span><span class="p">)</span>
+        <span class="n">msms2</span><span class="o">=</span> <span class="n">so</span><span class="o">.</span><span class="n">truncate_spectrum</span><span class="p">(</span><span class="n">msms2</span><span class="p">,</span> <span class="n">pmz2</span><span class="o">-</span><span class="mf">1.6</span><span class="p">)</span>
+    <span class="n">mass1</span><span class="p">,</span> <span class="n">intensity1</span> <span class="o">=</span> <span class="n">msms1</span><span class="o">.</span><span class="n">T</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">msms1</span><span class="o">.</span><span class="n">T</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">intensity_nor1</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">intensity1</span><span class="p">)</span><span class="o">*</span><span class="mi">100</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">intensity1</span><span class="p">]</span>
+
+    <span class="n">mass2</span><span class="p">,</span> <span class="n">intensity2</span> <span class="o">=</span> <span class="n">msms2</span><span class="o">.</span><span class="n">T</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">msms2</span><span class="o">.</span><span class="n">T</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">intensity_nor2</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">intensity2</span><span class="p">)</span><span class="o">*</span><span class="mi">100</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">intensity2</span><span class="p">]</span>
+    <span class="n">intensity_nor2</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">intensity_nor2</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">publication</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">wid</span> <span class="o">=</span> <span class="mi">3</span>
+        <span class="n">hi</span> <span class="o">=</span> <span class="mf">2.5</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">wid</span> <span class="o">=</span> <span class="mi">8</span>
+        <span class="n">hi</span> <span class="o">=</span> <span class="mi">6</span>
+    <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="n">wid</span><span class="p">,</span> <span class="n">hi</span><span class="p">))</span><span class="c1">#43</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">subplots_adjust</span><span class="p">()</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">mass1</span><span class="p">)):</span>
+        <span class="k">if</span> <span class="n">color1</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">vlines</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">mass1</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">ymin</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">ymax</span> <span class="o">=</span> <span class="n">intensity_nor1</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;blue&#39;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">color1</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">vlines</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">mass1</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">ymin</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">ymax</span> <span class="o">=</span> <span class="n">intensity_nor1</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="n">color</span> <span class="o">=</span> <span class="n">color1</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">pmz</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">vlines</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">pmz</span><span class="p">,</span> <span class="n">ymin</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">ymax</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span><span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;grey&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;dashed&#39;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">mass2</span><span class="p">)):</span>
+        <span class="k">if</span> <span class="n">color2</span> <span class="o">==</span><span class="kc">None</span><span class="p">:</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">vlines</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">mass2</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">ymin</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">ymax</span> <span class="o">=</span> <span class="n">intensity_nor2</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">color2</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">vlines</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">mass2</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">ymin</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">ymax</span> <span class="o">=</span> <span class="n">intensity_nor2</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="n">color</span> <span class="o">=</span> <span class="n">color2</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">pmz2</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">vlines</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">pmz2</span><span class="p">,</span> <span class="n">ymin</span> <span class="o">=</span> <span class="o">-</span><span class="mi">100</span><span class="p">,</span> <span class="n">ymax</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span><span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;grey&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;dashed&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">&#39;top&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">&#39;right&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">get_xaxis</span><span class="p">()</span><span class="o">.</span><span class="n">tick_bottom</span><span class="p">()</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">get_yaxis</span><span class="p">()</span><span class="o">.</span><span class="n">tick_left</span><span class="p">()</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$m/z$&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$Intensity\,[\%]$&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="s1">&#39;vertical&#39;</span><span class="p">)</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">mz_start</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">mz_end</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">mz_start</span><span class="p">,</span> <span class="n">mz_end</span><span class="p">)</span>
+
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">-</span><span class="mi">100</span><span class="p">,</span> <span class="o">+</span><span class="mi">100</span><span class="p">)</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">)</span>
+    <span class="n">start</span><span class="p">,</span> <span class="n">end</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_ylim</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_facecolor</span><span class="p">(</span><span class="s2">&quot;none&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;:&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">savepath</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">savepath</span><span class="p">,</span> <span class="n">dpi</span> <span class="o">=</span> <span class="mi">300</span><span class="p">,</span><span class="n">facecolor</span> <span class="o">=</span> <span class="s1">&#39;white&#39;</span><span class="p">,</span> <span class="n">edgecolor</span> <span class="o">=</span> <span class="s1">&#39;none&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">show</span><span class="o">==</span><span class="kc">True</span><span class="p">:</span>
+        <span class="k">return</span><span class="p">(</span><span class="n">plt</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span><span class="p">()</span></div>
+
+
+
+
+
+
+
+
+
+<div class="viewcode-block" id="ms2_plot">
+<a class="viewcode-back" href="../../spectral_denoising.html#spectral_denoising.spectra_plotter.ms2_plot">[docs]</a>
+<span class="k">def</span> <span class="nf">ms2_plot</span><span class="p">(</span><span class="n">msms_1</span><span class="p">,</span> <span class="n">pmz</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">lower</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">upper</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">savepath</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;blue&#39;</span><span class="p">):</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Plots a single MS/MS spectrum.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters:</span>
+<span class="sd">        msms_1 (numpy.ndarray): MS/MS (or MS1) spectrum in 2D np.array format. e,g. np.array([[mz1, intensity1], [mz2, intensity2], ...]).</span>
+<span class="sd">        pmz (float, optional): Precursor m/z value. If provided, precursor will be removed from the spectrum. Default is None.</span>
+<span class="sd">        lower (float, optional): Lower bound for m/z values to be plotted. Default is None.</span>
+<span class="sd">        upper (float, optional): Upper bound for m/z values to be plotted. Default is None.</span>
+<span class="sd">        savepath (str, optional): Path to save the plot image. If None, the plot will not be saved. Default is None.</span>
+<span class="sd">        color (str, optional): Color of the spectrum lines. Default is &#39;blue&#39;.</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        matplotlib.pyplot: The plot object.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">pmz</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">msms_1</span> <span class="o">=</span> <span class="n">so</span><span class="o">.</span><span class="n">truncate_spectrum</span><span class="p">(</span><span class="n">msms_1</span><span class="p">,</span> <span class="n">pmz</span><span class="o">-</span><span class="mf">1.6</span><span class="p">)</span>
+    <span class="n">mass1</span><span class="p">,</span> <span class="n">intensity1</span> <span class="o">=</span> <span class="n">msms_1</span><span class="o">.</span><span class="n">T</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">msms_1</span><span class="o">.</span><span class="n">T</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">lower</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">idx_left</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">searchsorted</span><span class="p">(</span><span class="n">mass1</span><span class="p">,</span> <span class="n">lower</span><span class="p">,</span> <span class="n">side</span><span class="o">=</span> <span class="s1">&#39;left&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">idx_left</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">if</span> <span class="n">upper</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">idx_right</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">searchsorted</span><span class="p">(</span><span class="n">mass1</span><span class="p">,</span> <span class="n">upper</span><span class="p">,</span> <span class="n">side</span> <span class="o">=</span> <span class="s1">&#39;right&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">idx_right</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">mass1</span><span class="p">)</span>
+    <span class="n">mass1</span> <span class="o">=</span> <span class="n">mass1</span><span class="p">[</span><span class="n">idx_left</span><span class="p">:</span><span class="n">idx_right</span><span class="p">]</span>
+    <span class="n">intensity1</span> <span class="o">=</span> <span class="n">intensity1</span><span class="p">[</span><span class="n">idx_left</span><span class="p">:</span><span class="n">idx_right</span><span class="p">]</span>
+    <span class="n">normalized_intensity</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">intensity1</span><span class="p">)</span><span class="o">*</span><span class="mi">100</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">intensity1</span><span class="p">]</span>
+
+
+    <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">subplots_adjust</span><span class="p">()</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">mass1</span><span class="p">)):</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">vlines</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">mass1</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">ymin</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">ymax</span> <span class="o">=</span> <span class="n">normalized_intensity</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="n">color</span> <span class="o">=</span> <span class="n">color</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">pmz</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">vlines</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">pmz</span><span class="p">,</span> <span class="n">ymin</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">ymax</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span><span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;grey&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;dashed&#39;</span><span class="p">)</span>
+    <span class="c1"># plt.legend()</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">&#39;top&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">&#39;right&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="n">ax</span><span class="o">.</span><span class="n">get_xaxis</span><span class="p">()</span><span class="o">.</span><span class="n">tick_bottom</span><span class="p">()</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">get_yaxis</span><span class="p">()</span><span class="o">.</span><span class="n">tick_left</span><span class="p">()</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$m/z$&quot;</span><span class="p">,</span> <span class="n">fontsize</span> <span class="o">=</span> <span class="mi">12</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$Intensity\,[\%]$&quot;</span><span class="p">,</span> <span class="n">fontsize</span> <span class="o">=</span> <span class="mi">12</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="s1">&#39;vertical&#39;</span><span class="p">)</span>
+    <span class="n">start</span><span class="p">,</span> <span class="n">end</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_xlim</span><span class="p">()</span>
+    <span class="c1"># start, end = ax.get_xlim(), </span>
+    <span class="k">if</span><span class="p">(</span><span class="n">lower</span><span class="o">!=</span><span class="kc">None</span> <span class="ow">and</span> <span class="n">upper</span><span class="o">!=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">lower</span><span class="p">,</span> <span class="n">upper</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">)</span>
+    <span class="n">start</span><span class="p">,</span> <span class="n">end</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_ylim</span><span class="p">()</span>
+    <span class="c1"># ax.yaxis.set_ticks(np.arange(start, end + 1, 10))</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;:&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_facecolor</span><span class="p">(</span><span class="s2">&quot;white&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">&#39;bottom&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_color</span><span class="p">(</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">&#39;top&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_color</span><span class="p">(</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">&#39;right&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_color</span><span class="p">(</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">&#39;left&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_color</span><span class="p">(</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
+    <span class="c1"># ax.set(xticklabels=[], yticklabels = [])</span>
+    <span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+    <span class="c1"># fig.set(xlabel = None)</span>
+    <span class="k">if</span> <span class="n">savepath</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">savepath</span><span class="p">,</span> <span class="n">dpi</span> <span class="o">=</span> <span class="mi">300</span><span class="p">,</span><span class="n">facecolor</span> <span class="o">=</span> <span class="s1">&#39;white&#39;</span><span class="p">,</span> <span class="n">edgecolor</span> <span class="o">=</span> <span class="s1">&#39;white&#39;</span><span class="p">)</span>
+
+    <span class="k">return</span><span class="p">(</span><span class="n">plt</span><span class="p">)</span></div>
+
+<span class="c1"># def ms2_overlay(msms_1=None,msms_2=None,msms_3 = None, pmz = None, savepath = None):</span>
+<span class="c1">#     fig = plt.figure(figsize = (8, 6))</span>
+<span class="c1">#     plt.subplots_adjust()</span>
+<span class="c1">#     ax = fig.add_subplot()</span>
+<span class="c1">#     if msms_1 is not None:</span>
+<span class="c1">#         mass1, intensity1 = msms_1.T[0], msms_1.T[1]</span>
+<span class="c1">#         intensity1 = [x/np.max(intensity1)*100 for x in intensity1]</span>
+<span class="c1">#         for i in range(len(mass1)):</span>
+
+<span class="c1">#             plt.vlines(x = mass1[i], ymin = 0, ymax = intensity1[i],color = &#39;orange&#39;, linewidth=2)</span>
+
+<span class="c1">#     if msms_2 is not None:</span>
+<span class="c1">#         mass2, intensity2 = msms_2.T[0], msms_2.T[1]</span>
+<span class="c1">#         intensity2 = [x*100 for x in intensity2]</span>
+<span class="c1">#         for i in range(len(mass2)):</span>
+<span class="c1">#             plt.vlines(x = mass2[i], ymin = 0, ymax = intensity2[i],color = &#39;red&#39;, linewidth=2)</span>
+<span class="c1">#     if msms_3 is not None:</span>
+<span class="c1">#         mass3, intensity3 = msms_3.T[0], msms_3.T[1]</span>
+<span class="c1">#         intensity3 = [x/np.max(intensity3)*100 for x in intensity3]</span>
+<span class="c1">#         for i in range(len(mass3)):</span>
+<span class="c1">#             plt.vlines(x = mass3[i], ymin = 0, ymax = intensity3[i],color = &#39;blue&#39;, linewidth=2)</span>
+
+<span class="c1">#     if pmz != None:</span>
+<span class="c1">#         plt.vlines(x = pmz, ymin = 0, ymax = 100,color = &#39;grey&#39;, linestyle=&#39;dashed&#39;)</span>
+<span class="c1">#     # plt.legend()</span>
+<span class="c1">#     ax.spines[&#39;top&#39;].set_visible(False)</span>
+<span class="c1">#     ax.spines[&#39;right&#39;].set_visible(False)</span>
+
+<span class="c1">#     ax.get_xaxis().tick_bottom()</span>
+<span class="c1">#     ax.get_yaxis().tick_left()</span>
+<span class="c1">#     ax.set_xlabel(r&quot;$m/z$&quot;, fontsize = 12)</span>
+<span class="c1">#     ax.set_ylabel(r&quot;$Intensity\,[\%]$&quot;, fontsize = 12)</span>
+<span class="c1">#     plt.xticks(rotation=&#39;vertical&#39;)</span>
+<span class="c1">#     start, end = ax.get_xlim()</span>
+<span class="c1">#     # start, end = ax.get_xlim(),</span>
+<span class="c1">#     ax.set_ylim(0, 100)</span>
+<span class="c1">#     plt.axhline(y=0, color=&#39;black&#39;, linestyle=&#39;-&#39;)</span>
+<span class="c1">#     start, end = ax.get_ylim()</span>
+<span class="c1">#     # ax.yaxis.set_ticks(np.arange(start, end + 1, 10))</span>
+<span class="c1">#     plt.grid(True, axis=&quot;y&quot;, color=&#39;black&#39;, linestyle=&#39;:&#39;, linewidth=0.1)</span>
+<span class="c1">#     ax.grid(False)</span>
+<span class="c1">#     ax.set_facecolor(&quot;white&quot;)</span>
+<span class="c1">#     ax.spines[&#39;bottom&#39;].set_color(&#39;black&#39;)</span>
+<span class="c1">#     ax.spines[&#39;top&#39;].set_color(&#39;black&#39;)</span>
+<span class="c1">#     ax.spines[&#39;right&#39;].set_color(&#39;black&#39;)</span>
+<span class="c1">#     ax.spines[&#39;left&#39;].set_color(&#39;black&#39;)</span>
+<span class="c1">#     # ax.set(xticklabels=[], yticklabels = [])</span>
+<span class="c1">#     fig.tight_layout()</span>
+<span class="c1">#     # fig.set(xlabel = None)</span>
+<span class="c1">#     if savepath != None:</span>
+<span class="c1">#         fig.tight_layout()</span>
+<span class="c1">#         plt.savefig(savepath, dpi = 300,facecolor = &#39;white&#39;, edgecolor = &#39;white&#39;)</span>
+
+<span class="c1">#     return(plt)</span>
+
+
+
+
+<span class="c1"># def ms2_clean_noise(msms_1, msms_2, pmz1 = None, lower=None, upper=None, savepath = None, hline= None):</span>
+<span class="c1">#     mass1, intensity1 = msms_1.T[0], msms_1.T[1]</span>
+<span class="c1">#     mass2, intensity2 = msms2.T[0], msms2.T[1]</span>
+<span class="c1">#     mass1 = [float(x) for x in mass1]</span>
+<span class="c1">#     intensity1 = [float(x) for x in intensity1]</span>
+<span class="c1">#     mass2 = [float(x) for x in mass2]</span>
+<span class="c1">#     intensity2 = [float(x) for x in intensity2]</span>
+<span class="c1">#     d = {&#39;m/z&#39;:mass1, &#39;intensity&#39;:intensity1}</span>
+<span class="c1">#     msms1 = pd.DataFrame(d)</span>
+<span class="c1">#     d = {&#39;m/z&#39;:mass2, &#39;intensity&#39;:intensity2}</span>
+<span class="c1">#     msms2 = pd.DataFrame(d)</span>
+<span class="c1">#     max_val = np.max(intensity1+intensity2)</span>
+<span class="c1">#     msms1[&quot;normalized_intensity&quot;] = msms1[&#39;intensity&#39;] / max_val * 100.0  # normalize intensity to percent</span>
+<span class="c1">#     msms2[&quot;normalized_intensity&quot;] = msms2[&#39;intensity&#39;] / max_val * 100.0  # normalize intensity to percent</span>
+<span class="c1">#     fig = plt.figure(figsize = (4, 3))</span>
+<span class="c1">#     plt.subplots_adjust()</span>
+<span class="c1">#     ax = fig.add_subplot()</span>
+<span class="c1">#     for i in range(len(msms1[&#39;m/z&#39;])):</span>
+<span class="c1">#         plt.vlines(x = msms1[&quot;m/z&quot;][i], ymin = 0, ymax = msms1[&quot;normalized_intensity&quot;][i],color = &#39;red&#39;, linewidth=3)</span>
+<span class="c1">#     for i in range(len(msms2[&#39;m/z&#39;])):</span>
+<span class="c1">#         plt.vlines(x = msms2[&quot;m/z&quot;][i], ymin = 0, ymax = msms2[&quot;normalized_intensity&quot;][i],color = &#39;blue&#39;, linewidth=3)</span>
+<span class="c1">#     if pmz1 != None:</span>
+<span class="c1">#         plt.vlines(x = pmz1, ymin = 0, ymax = 100,color = &#39;grey&#39;, linestyle=&#39;dashed&#39;)</span>
+<span class="c1">#     # pltalegend()</span>
+<span class="c1">#     ax.spines[&#39;top&#39;].set_visible(False)</span>
+<span class="c1">#     ax.spines[&#39;right&#39;].set_visible(False)</span>
+<span class="c1">#     if hline is not None:</span>
+<span class="c1">#         x_min, x_max = ax.get_xlim()</span>
+<span class="c1">#         # x_min = np.min(mass1+mass2)</span>
+<span class="c1">#         # x_max = pmz1</span>
+<span class="c1">#         plt.hlines(xmin = x_min, xmax = pmz1, y = hline,color = &#39;red&#39;, linewidth=1.5, linestyles=&#39;dashed&#39;)</span>
+<span class="c1">#     ax.get_xaxis().tick_bottom()</span>
+<span class="c1">#     ax.get_yaxis().tick_left()</span>
+<span class="c1">#     ax.set_xlabel(r&quot;$m/z$&quot;, fontsize = 12)</span>
+<span class="c1">#     ax.set_ylabel(r&quot;$Intensity\,[\%]$&quot;, fontsize = 12)</span>
+<span class="c1">#     plt.xticks(rotation=&#39;vertical&#39;)</span>
+<span class="c1">#     start, end = ax.get_xlim()</span>
+<span class="c1">#     # start, end = ax.get_xlim(),</span>
+<span class="c1">#     if(lower!=None and upper!= None):</span>
+<span class="c1">#         ax.set_xlim(lower, upper)</span>
+<span class="c1">#     ax.set_ylim(0, 100)</span>
+<span class="c1">#     plt.axhline(y=0, color=&#39;black&#39;, linestyle=&#39;-&#39;)</span>
+<span class="c1">#     start, end = ax.get_ylim()</span>
+<span class="c1">#     # ax.yaxis.set_ticks(np.arange(start, end + 1, 10))</span>
+<span class="c1">#     plt.grid(True, axis=&quot;y&quot;, color=&#39;black&#39;, linestyle=&#39;:&#39;, linewidth=0.1)</span>
+<span class="c1">#     ax.grid(False)</span>
+<span class="c1">#     ax.set_facecolor(&quot;white&quot;)</span>
+<span class="c1">#     ax.spines[&#39;bottom&#39;].set_color(&#39;black&#39;)</span>
+<span class="c1">#     ax.spines[&#39;top&#39;].set_color(&#39;black&#39;)</span>
+<span class="c1">#     ax.spines[&#39;right&#39;].set_color(&#39;black&#39;)</span>
+<span class="c1">#     ax.spines[&#39;left&#39;].set_color(&#39;black&#39;)</span>
+<span class="c1">#     ax.set(xticklabels=[], yticklabels = [])</span>
+<span class="c1">#     fig.tight_layout()</span>
+<span class="c1">#     # fig.set(xlabel = None)</span>
+<span class="c1">#     if savepath != None:</span>
+<span class="c1">#         plt.savefig(savepath, dpi = 300,facecolor = &#39;white&#39;, edgecolor = &#39;white&#39;)</span>
+
+<span class="c1">#     return(plt)</span>
+<span class="c1"># In[17]:</span>
+
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Fanzhou Kong.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
