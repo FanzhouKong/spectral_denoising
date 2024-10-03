@@ -1,4 +1,4 @@
-[![Test Spectral denoising package](https://pypi.org/project/spectral-denoising/)]  
+[![Test Spectral denoising package] (https://pypi.org/project/spectral-denoising/)]  
 
 
 If you have any questions, feel free to send me E-mails: fzkong@ucdavis.edu. If you find this package useful, please consider citing the following papers:
@@ -15,7 +15,9 @@ This project also provides useful tools to read, write, visualize and compare sp
 
 # How to use this package
 
-This repository in Python. A python version >= 3.8 is preferred.
+This repository in Python. A python version >= 3.8 is preferred. 
+
+Detailed documentation can be found at: https://spectral-denoising.readthedocs.io/en/latest/index.html
 
 ### Installation
 
