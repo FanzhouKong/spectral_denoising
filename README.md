@@ -29,7 +29,7 @@ pip install spectral-denoising
 
 ### Usage of Classic spectral denoising (electronic denoising and chemical denoising)
 
-## Simple usage on single spectra
+#### Simple usage on single spectra
 ```python
 import numpy as np
 import spectral_denoising as sd
@@ -62,11 +62,11 @@ print(f'the entropy similarity of denoised spectrum and the raw spectrum is {ent
 # use head_to_tail_plot to visualize the spectra, only in jupyter notebook
 # sd.head_to_tail_plot(peaks_denoised,peaks ,pmz)
 ```
-### Spectral denoising on the all spectra from whole .msp file
+#### Spectral denoising on the all spectra from .msp file
 ```python
 import spectral_denoising as sd
 query_data = sd.read_msp('sample_data/noisy_spectra.msp')
-query_peaks,query_smiles,query_adduct, query_pmz = query_data['peaks'],query_data['smiles'],query_data['adduct'], query_data['precursor_mz']
+query_peaks,query_smiles,query_adduct, query_pmz = query_data['peaks'],query_data['smiles'],query_data['adduct'], query_data['precursor_mz'] 
 desnoied_peaks = sd.spectra_denoising_batch(quene_peaks,quene_smiles,quene_adduct) # this will return all denoised spectra in a list
 ```
 
