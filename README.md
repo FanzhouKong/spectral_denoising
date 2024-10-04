@@ -78,6 +78,7 @@ query_spectra= sd.read_msp('sample_data/query_spectra.msp')
 reference_library =sd.read_msp('sample_data/reference_library.msp')
 quene_spectrum, quene_pmz = quene_spectra.iloc[0]['peaks'], quene_spectra.iloc[0]['precursor_mz'] # just the first spectrum
 result = sd.denoising_search(quene_spectrum, quene_pmz, reference_library)
+# result will return all precursor candidates of the quene spectrum, each with entropy similarities of both raw and denoised spectra
 display(result)
 ```
 
