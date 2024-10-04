@@ -28,7 +28,7 @@ pip install spectral-denoising
 ```
 
 ### Usage of Classic spectral denoising (electronic denoising and chemical denoising)
-
+The demo data used here can be found under sample_data directory.
 #### Simple usage on single spectra
 ```python
 import numpy as np
