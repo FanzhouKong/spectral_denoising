@@ -92,3 +92,5 @@ results = sd.denoising_search_batch(query_spectra['peaks'], query_spectra['precu
 # results will be a list of all correspoinding precursor mz candidates, each one with entropy similarities of both raw and denoised spectra (using reference spectra melecular information)
 display(results[0])# this will show denoising search result for the first spectra in msp file
 ```
+## Working examples
+More working examples can be found under notebooks directory.
