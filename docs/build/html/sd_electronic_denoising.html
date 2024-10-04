@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Spectral denoising: electronic denoising &mdash; Spectral denoising 1.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=8d563738"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Spectral denoising: formula denoising" href="sd_formula_denoising.html" />
+    <link rel="prev" title="Quickstart" href="quickstart.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Spectral denoising
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Quickstart:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Spectral denoising</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Spectral denoising: electronic denoising</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#references">References</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="sd_formula_denoising.html">Spectral denoising: formula denoising</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sd_single_spectrum_denoising.html">Spectral denoising: for single spectrum</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sd_batch_spectra_denoising.html">Spectral denoising: in bacth mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sd_useful_functions.html">Spectral denoising: useful functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sd_api.html">Spectral denoising: API references</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Denoising search</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="ds_single_spectrum_search.html">Denoising search: for single spectrum</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ds_batch_spectra_search.html">Denoising search: bacth mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ds_useful_functions.html">Denoising search: useful functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ds_api.html">Denoising search: API reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Spectral denoising</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Spectral denoising: electronic denoising</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/sd_electronic_denoising.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="spectral-denoising-electronic-denoising">
+<h1>Spectral denoising: electronic denoising<a class="headerlink" href="#spectral-denoising-electronic-denoising" title="Link to this heading"></a></h1>
+<p>The <code class="docutils literal notranslate"><span class="pre">electronic_denoising</span></code> function removes obvious electronic noise ions in MS/MS spectra, usually shown as multiple ions with identical intensities ( <a class="reference external" href="https://mzmine.github.io/mzmine_documentation/module_docs/featdet_mass_detection/mass-detection.html">Grass noise</a> )</p>
+<p>According to empiracally tested on NIST23 database, in a given spectrum, the number of ions with identical intensities more than 4 is extremely unlikely (&lt; 0.05%). Thus, the <code class="docutils literal notranslate"><span class="pre">electronic_denoising</span></code> function removes ions with identical intensities greater than 4.</p>
+<p>Here’s an example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">spectral_denoising</span> <span class="k">as</span> <span class="nn">sd</span>
+<span class="kn">from</span> <span class="nn">spectral_denoising.noise</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="n">peak</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">69.071</span><span class="p">,</span> <span class="mf">7.917962</span><span class="p">],</span> <span class="p">[</span><span class="mf">86.066</span><span class="p">,</span> <span class="mf">1.021589</span><span class="p">],</span> <span class="p">[</span><span class="mf">86.0969</span><span class="p">,</span> <span class="mf">100.0</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+<span class="n">pmz</span> <span class="o">=</span> <span class="mi">91</span>
+<span class="n">noise</span> <span class="o">=</span> <span class="n">generate_noise</span><span class="p">(</span><span class="n">pmz</span><span class="p">,</span> <span class="n">lamda</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">n</span> <span class="o">=</span> <span class="mi">50</span><span class="p">)</span>
+<span class="n">peak_with_noise</span> <span class="o">=</span> <span class="n">add_noise</span><span class="p">(</span><span class="n">peak</span><span class="p">,</span> <span class="n">noise</span><span class="p">)</span>
+
+<span class="n">peak_denoised</span> <span class="o">=</span> <span class="n">sd</span><span class="o">.</span><span class="n">electronic_denoising</span><span class="p">(</span><span class="n">peak</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Entropy similarity of spectra with noise: </span><span class="si">{</span><span class="n">sd</span><span class="o">.</span><span class="n">entropy_similairty</span><span class="p">(</span><span class="n">peak_with_noise</span><span class="p">,</span><span class="n">peak</span><span class="p">,</span><span class="w"> </span><span class="n">pmz</span><span class="w"> </span><span class="p">)</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">.&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Entropy similarity of spectra with noise: </span><span class="si">{</span><span class="n">sd</span><span class="o">.</span><span class="n">entropy_similairty</span><span class="p">(</span><span class="n">peak_denoised</span><span class="p">,</span><span class="n">peak</span><span class="p">,</span><span class="w"> </span><span class="n">pmz</span><span class="w"> </span><span class="p">)</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">.&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The output will be:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">Entropy</span> <span class="n">similarity</span> <span class="n">of</span> <span class="n">spectra</span> <span class="k">with</span> <span class="n">noise</span><span class="p">:</span> <span class="mf">0.37</span><span class="o">.</span>
+<span class="n">Entropy</span> <span class="n">similarity</span> <span class="n">of</span> <span class="n">spectra</span> <span class="k">with</span> <span class="n">noise</span><span class="p">:</span> <span class="mf">1.00</span><span class="o">.</span>
+</pre></div>
+</div>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">spectral_denoising.</span></span><span class="sig-name descname"><span class="pre">electronic_denoising</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msms</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral_denoising/spectral_denoising.html#electronic_denoising"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Perform electronic denoising on a given mass spectrometry (MS/MS) spectrum.
+This function processes the input MS/MS spectrum by sorting the peaks based on their intensity,
+and then iteratively selects and confirms peaks based on a specified intensity threshold.
+The confirmed peaks are then packed and sorted before being returned.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>msms (np.ndarray): The first item is always m/z and the second item is intensity.</p>
+</dd>
+<dt>Returns:</dt><dd><p>np.ndarray: The cleaned spectrum with electronic noises removed. If no ion presents, will return np.nan.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">spectral_denoising.noise.</span></span><span class="sig-name descname"><span class="pre">generate_noise</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pmz</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lamda</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral_denoising/noise.html#generate_noise"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Generate synthetic electronic noise for spectral data.</p>
+<dl>
+<dt>Parameters:</dt><dd><p>pmz (float): The upper bound for the mass range.</p>
+<p>lamda (float): The lambda parameter for the Poisson distribution, which serves as both mean and standard deviation of the distribution.</p>
+<p>n (int, optional): The number of random noise ions to generate. Defaults to 100.</p>
+</dd>
+<dt>Returns:</dt><dd><p>np.array: A synthetic spectrum with electronic noise.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">spectral_denoising.noise.</span></span><span class="sig-name descname"><span class="pre">generate_chemical_noise</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pmz</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lamda</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">polarity</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">formula_db</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral_denoising/noise.html#generate_chemical_noise"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Generate chemical noise for a given mass-to-charge ratio (m/z) and other parameters.
+The m/z of the chemical noise is taken from a database of all true possible mass values. 
+The detailes about this database can be found paper: LibGen: Generating High Quality Spectral Libraries of Natural Products for EAD-, UVPD-, and HCD-High Resolution Mass Spectrometers</p>
+<dl>
+<dt>Args:</dt><dd><p>pmz (float): The target mass-to-charge ratio (m/z) value.</p>
+<p>lamda (float): The lambda parameter for the Poisson distribution used to generate intensities, which serves as both mean and standard deviation of the distribution.</p>
+<p>polarity (str): The polarity of the adduct, either ‘+’ or ‘-‘.</p>
+<p>formula_db (pandas.DataFrame): A DataFrame containing a column ‘mass’ with possible mass values.</p>
+<p>n (int, optional): The number of noise peaks to generate. Default is 100.</p>
+</dd>
+<dt>Returns:</dt><dd><p>np.array: A synthetic spectrum with chemical noise.</p>
+</dd>
+<dt>Raises:</dt><dd><p>ValueError: If the polarity is not ‘+’ or ‘-‘.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">spectral_denoising.noise.</span></span><span class="sig-name descname"><span class="pre">add_noise</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msms</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">noise</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral_denoising/noise.html#add_noise"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Add noise to a mass spectrum and process the resulting spectrum.
+This function takes a mass spectrum and a noise spectrum, standardizes the mass spectrum,
+adds the noise to it, normalizes the resulting spectrum, and sorts it.</p>
+<dl>
+<dt>Args:</dt><dd><p>msms (np.ndarray): The mass spectrum to which noise will be added.</p>
+<p>noise (np.ndarray): The noise spectrum to be added to the mass spectrum.</p>
+</dd>
+<dt>Returns:</dt><dd><p>np.ndarray: The processed mass spectrum after adding noise, normalization, and sorting.</p>
+</dd>
+<dt>Notes:</dt><dd><ul class="simple">
+<li><p>The noise spectrum is generated with intensity as ralatie measure (from 0-1)</p></li>
+<li><p>Thus, the mass spectrum is standardized using the standardize_spectrum function.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="quickstart.html" class="btn btn-neutral float-left" title="Quickstart" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="sd_formula_denoising.html" class="btn btn-neutral float-right" title="Spectral denoising: formula denoising" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Fanzhou Kong.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

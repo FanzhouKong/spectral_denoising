@@ -102,10 +102,10 @@ def electronic_denoising(msms):
     The confirmed peaks are then packed and sorted before being returned.
 
     Parameters:
-        msms (numpy.ndarray): A 2D array where the first column represents the mass-to-charge ratio (m/z)
-                          and the second column represents the intensity of the peaks.
+        msms (np.ndarray): The first item is always m/z and the second item is intensity.
+
     Returns:
-        numpy.ndarray: A sorted and packed spectrum of confirmed peaks as a 2D array, or NaN if no peaks are confirmed.
+        np.ndarray: The cleaned spectrum with electronic noises removed. If no ion presents, will return np.nan.
     """
 
     mass, intensity = msms.T[0], msms.T[1]
@@ -326,11 +326,11 @@ def dnl_denoising(msms):
     Parameters:
         msms (numpy.ndarray): A 2D numpy array with shape (2, n) where n is the number of data points. For each instance, first item is pmz and second item is intensity.
     Returns:
-        numpy.ndarray: A 2D numpy array containing the denoised mass spectrometry data, sorted and packed. 
-        If the input data has only two points and does not meet the criteria, returns NaN.
+        numpy.ndarray: A 2D numpy array containing the denoised mass spectrometry data, sorted and packed. If the input data has only two points and does not meet the criteria, returns NaN.
     Notes:
-    - The function assumes that the input data is a numpy array with two columns.
-    - The function uses a linear regression model to predict the signal region.
+        - The function assumes that the input data is a numpy array with two columns.
+        - The function uses a linear regression model to predict the signal region.
+
     """
 
     mass, intensity = msms.T[0], msms.T[1]

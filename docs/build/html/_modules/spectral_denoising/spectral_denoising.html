@@ -41,13 +41,26 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Quickstart:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../modules.html">spectral_denoising</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quickstart.html">Quickstart</a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">functions:</span></p>
+<p class="caption" role="heading"><span class="caption-text">Spectral denoising</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../spectral_denoising.html">spectral_denoising package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../sd_electronic_denoising.html">Spectral denoising: electronic denoising</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../sd_formula_denoising.html">Spectral denoising: formula denoising</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../sd_single_spectrum_denoising.html">Spectral denoising: for single spectrum</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../sd_batch_spectra_denoising.html">Spectral denoising: in bacth mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../sd_useful_functions.html">Spectral denoising: useful functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../sd_api.html">Spectral denoising: API references</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Denoising search</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ds_single_spectrum_search.html">Denoising search: for single spectrum</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ds_batch_spectra_search.html">Denoising search: bacth mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ds_useful_functions.html">Denoising search: useful functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ds_api.html">Denoising search: API reference</a></li>
 </ul>
 
         </div>
@@ -93,7 +106,7 @@
 <span class="c1"># key functions: electronic denoising and formula denoising</span>
 <span class="n">_numpy_formula_format</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">int16</span>
 <div class="viewcode-block" id="spectral_denoising_batch">
-<a class="viewcode-back" href="../../spectral_denoising.html#spectral_denoising.spectral_denoising.spectral_denoising_batch">[docs]</a>
+<a class="viewcode-back" href="../../spectral_denoising.html#spectral_denoising.spectral_denoising_batch">[docs]</a>
 <span class="k">def</span> <span class="nf">spectral_denoising_batch</span><span class="p">(</span><span class="n">msms_quene</span><span class="p">,</span> <span class="n">smiles_quene</span><span class="p">,</span> <span class="n">adduct_quene</span><span class="p">,</span> <span class="n">mass_tolerance</span> <span class="o">=</span> <span class="mf">0.005</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Perform batch spectral denoising on multiple sets of MS/MS spectra, SMILES strings, and adducts. Uses multiprocessing to parallelize the denoising process.</span>
@@ -121,7 +134,7 @@
     <span class="k">return</span> <span class="n">results</span></div>
 
 <div class="viewcode-block" id="spectral_denoising">
-<a class="viewcode-back" href="../../spectral_denoising.html#spectral_denoising.spectral_denoising.spectral_denoising">[docs]</a>
+<a class="viewcode-back" href="../../spectral_denoising.html#spectral_denoising.spectral_denoising">[docs]</a>
 <span class="k">def</span> <span class="nf">spectral_denoising</span><span class="p">(</span><span class="n">msms</span><span class="p">,</span> <span class="n">smiles</span><span class="p">,</span> <span class="n">adduct</span><span class="p">,</span> <span class="n">mass_tolerance</span> <span class="o">=</span> <span class="mf">0.005</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Perform spectral denoising on the given mass spectrometry data. The function first performs electronic denoising, followed by formula denoising.</span>
@@ -151,7 +164,7 @@
     <span class="k">return</span> <span class="n">formula_denoised</span></div>
 
 <div class="viewcode-block" id="formula_denoising">
-<a class="viewcode-back" href="../../spectral_denoising.html#spectral_denoising.spectral_denoising.formula_denoising">[docs]</a>
+<a class="viewcode-back" href="../../spectral_denoising.html#spectral_denoising.formula_denoising">[docs]</a>
 <span class="k">def</span> <span class="nf">formula_denoising</span><span class="p">(</span><span class="n">msms</span><span class="p">,</span> <span class="n">smiles</span><span class="p">,</span> <span class="n">adduct</span><span class="p">,</span> <span class="n">mass_tolerance</span><span class="o">=</span><span class="mf">0.005</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Perform formula denoising on the given mass spectrometry data. The function first re-generate formula based on chemical rules, get the statistic of the precursor m/z, and then perform formula denoising.</span>
@@ -181,7 +194,7 @@
 
 
 <div class="viewcode-block" id="electronic_denoising">
-<a class="viewcode-back" href="../../spectral_denoising.html#spectral_denoising.spectral_denoising.electronic_denoising">[docs]</a>
+<a class="viewcode-back" href="../../spectral_denoising.html#spectral_denoising.electronic_denoising">[docs]</a>
 <span class="k">def</span> <span class="nf">electronic_denoising</span><span class="p">(</span><span class="n">msms</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Perform electronic denoising on a given mass spectrometry (MS/MS) spectrum.</span>
@@ -189,11 +202,11 @@
 <span class="sd">    and then iteratively selects and confirms peaks based on a specified intensity threshold.</span>
 <span class="sd">    The confirmed peaks are then packed and sorted before being returned.</span>
 
-<span class="sd">    Parameters:</span>
-<span class="sd">        msms (numpy.ndarray): A 2D array where the first column represents the mass-to-charge ratio (m/z)</span>
-<span class="sd">                          and the second column represents the intensity of the peaks.</span>
+<span class="sd">    Args:</span>
+<span class="sd">        msms (np.ndarray): The first item is always m/z and the second item is intensity.</span>
+
 <span class="sd">    Returns:</span>
-<span class="sd">        numpy.ndarray: A sorted and packed spectrum of confirmed peaks as a 2D array, or NaN if no peaks are confirmed.</span>
+<span class="sd">        np.ndarray: The cleaned spectrum with electronic noises removed. If no ion presents, will return np.nan.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">mass</span><span class="p">,</span> <span class="n">intensity</span> <span class="o">=</span> <span class="n">msms</span><span class="o">.</span><span class="n">T</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">msms</span><span class="o">.</span><span class="n">T</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
@@ -221,7 +234,7 @@
 <span class="kn">from</span> <span class="nn">.chem_utils</span> <span class="kn">import</span> <span class="n">determine_adduct_charge</span><span class="p">,</span> <span class="n">determine_parent_coefs</span><span class="p">,</span> <span class="n">parse_adduct</span>
 <span class="kn">from</span> <span class="nn">.seven_golden_rules</span> <span class="kn">import</span> <span class="n">check_ratio</span>
 <div class="viewcode-block" id="get_denoise_tag">
-<a class="viewcode-back" href="../../spectral_denoising.html#spectral_denoising.spectral_denoising.get_denoise_tag">[docs]</a>
+<a class="viewcode-back" href="../../spectral_denoising.html#spectral_denoising.get_denoise_tag">[docs]</a>
 <span class="k">def</span> <span class="nf">get_denoise_tag</span><span class="p">(</span><span class="n">frag_msms</span><span class="p">,</span> <span class="n">all_possible_candidate_formula</span><span class="p">,</span> <span class="n">all_possible_mass</span><span class="p">,</span> <span class="n">pmz</span><span class="p">,</span><span class="n">has_benzene</span><span class="p">,</span> <span class="n">mass_threshold</span><span class="p">):</span>
 <span class="w">    </span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -255,7 +268,7 @@
     <span class="k">return</span> <span class="n">tag</span></div>
 
 <div class="viewcode-block" id="check_candidates">
-<a class="viewcode-back" href="../../spectral_denoising.html#spectral_denoising.spectral_denoising.check_candidates">[docs]</a>
+<a class="viewcode-back" href="../../spectral_denoising.html#spectral_denoising.check_candidates">[docs]</a>
 <span class="k">def</span> <span class="nf">check_candidates</span><span class="p">(</span><span class="n">candidates</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Checks a list of candidates to see if any of them meet a certain ratio condition.</span>
@@ -271,7 +284,7 @@
     <span class="k">return</span> <span class="kc">False</span></div>
 
 <div class="viewcode-block" id="get_pmz_statistics">
-<a class="viewcode-back" href="../../spectral_denoising.html#spectral_denoising.spectral_denoising.get_pmz_statistics">[docs]</a>
+<a class="viewcode-back" href="../../spectral_denoising.html#spectral_denoising.get_pmz_statistics">[docs]</a>
 <span class="k">def</span> <span class="nf">get_pmz_statistics</span><span class="p">(</span><span class="n">msms</span><span class="p">,</span> <span class="n">c_pmz</span><span class="p">,</span> <span class="n">mass_tolerance</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Use the real precursor m/z to estimate the mass deviation in a given spectrum.</span>
@@ -301,7 +314,7 @@
         <span class="k">return</span> <span class="n">r_pmz</span><span class="p">,</span> <span class="n">mass_tolerance</span></div>
 
 <div class="viewcode-block" id="get_all_subformulas">
-<a class="viewcode-back" href="../../spectral_denoising.html#spectral_denoising.spectral_denoising.get_all_subformulas">[docs]</a>
+<a class="viewcode-back" href="../../spectral_denoising.html#spectral_denoising.get_all_subformulas">[docs]</a>
 <span class="k">def</span> <span class="nf">get_all_subformulas</span><span class="p">(</span><span class="n">raw_formula</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Generate all possible subformulas and their corresponding masses from a given chemical formula.</span>
@@ -332,7 +345,7 @@
     <span class="k">return</span> <span class="n">all_possible_candidate_formula</span><span class="p">,</span><span class="n">all_possible_mass</span></div>
 
 <div class="viewcode-block" id="dict_to_formula">
-<a class="viewcode-back" href="../../spectral_denoising.html#spectral_denoising.spectral_denoising.dict_to_formula">[docs]</a>
+<a class="viewcode-back" href="../../spectral_denoising.html#spectral_denoising.dict_to_formula">[docs]</a>
 <span class="k">def</span> <span class="nf">dict_to_formula</span><span class="p">(</span><span class="n">candidate</span><span class="p">,</span> <span class="n">element_dict</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Helper function, to get the chemical formula from a candidate list and element dictionary.</span>
@@ -353,7 +366,7 @@
     <span class="k">return</span> <span class="n">string</span></div>
 
 <div class="viewcode-block" id="prep_formula">
-<a class="viewcode-back" href="../../spectral_denoising.html#spectral_denoising.spectral_denoising.prep_formula">[docs]</a>
+<a class="viewcode-back" href="../../spectral_denoising.html#spectral_denoising.prep_formula">[docs]</a>
 <span class="k">def</span> <span class="nf">prep_formula</span><span class="p">(</span><span class="n">smiles</span><span class="p">,</span> <span class="n">adduct</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Prepares the molecular formula based on the given SMILES string and adduct.</span>
@@ -406,7 +419,7 @@
 
 <span class="kn">from</span> <span class="nn">.identifier_utils</span> <span class="kn">import</span> <span class="n">is_mol</span><span class="p">,</span> <span class="n">is_smiles</span>
 <div class="viewcode-block" id="has_benzene">
-<a class="viewcode-back" href="../../spectral_denoising.html#spectral_denoising.spectral_denoising.has_benzene">[docs]</a>
+<a class="viewcode-back" href="../../spectral_denoising.html#spectral_denoising.has_benzene">[docs]</a>
 <span class="k">def</span> <span class="nf">has_benzene</span><span class="p">(</span><span class="n">molecule</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Check if the given molecule contains a benzene ring.</span>
@@ -429,7 +442,7 @@
 
 
 <div class="viewcode-block" id="dnl_denoising">
-<a class="viewcode-back" href="../../spectral_denoising.html#spectral_denoising.spectral_denoising.dnl_denoising">[docs]</a>
+<a class="viewcode-back" href="../../spectral_denoising.html#spectral_denoising.dnl_denoising">[docs]</a>
 <span class="k">def</span> <span class="nf">dnl_denoising</span><span class="p">(</span><span class="n">msms</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Perform Dynamic noise level estimation denoising on given msms spectra.</span>
@@ -438,11 +451,11 @@
 <span class="sd">    Parameters:</span>
 <span class="sd">        msms (numpy.ndarray): A 2D numpy array with shape (2, n) where n is the number of data points. For each instance, first item is pmz and second item is intensity.</span>
 <span class="sd">    Returns:</span>
-<span class="sd">        numpy.ndarray: A 2D numpy array containing the denoised mass spectrometry data, sorted and packed. </span>
-<span class="sd">        If the input data has only two points and does not meet the criteria, returns NaN.</span>
+<span class="sd">        numpy.ndarray: A 2D numpy array containing the denoised mass spectrometry data, sorted and packed. If the input data has only two points and does not meet the criteria, returns NaN.</span>
 <span class="sd">    Notes:</span>
-<span class="sd">    - The function assumes that the input data is a numpy array with two columns.</span>
-<span class="sd">    - The function uses a linear regression model to predict the signal region.</span>
+<span class="sd">        - The function assumes that the input data is a numpy array with two columns.</span>
+<span class="sd">        - The function uses a linear regression model to predict the signal region.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">mass</span><span class="p">,</span> <span class="n">intensity</span> <span class="o">=</span> <span class="n">msms</span><span class="o">.</span><span class="n">T</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">msms</span><span class="o">.</span><span class="n">T</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
@@ -472,7 +485,7 @@
     <span class="k">return</span><span class="p">(</span><span class="n">so</span><span class="o">.</span><span class="n">sort_spectrum</span><span class="p">(</span><span class="n">so</span><span class="o">.</span><span class="n">pack_spectrum</span><span class="p">(</span><span class="n">mass_signal</span><span class="p">,</span> <span class="n">intensity_signal</span><span class="p">)))</span></div>
 
 <div class="viewcode-block" id="ms_reduce">
-<a class="viewcode-back" href="../../spectral_denoising.html#spectral_denoising.spectral_denoising.ms_reduce">[docs]</a>
+<a class="viewcode-back" href="../../spectral_denoising.html#spectral_denoising.ms_reduce">[docs]</a>
 <span class="k">def</span> <span class="nf">ms_reduce</span><span class="p">(</span><span class="n">msms</span><span class="p">,</span> <span class="n">reduce_factor</span> <span class="o">=</span> <span class="mi">90</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Reimplementation of MS-Reduce algorithm. </span>
@@ -510,7 +523,7 @@
     <span class="k">return</span> <span class="n">so</span><span class="o">.</span><span class="n">sort_spectrum</span><span class="p">(</span><span class="n">so</span><span class="o">.</span><span class="n">pack_spectrum</span><span class="p">(</span><span class="n">mass_taken</span><span class="p">,</span> <span class="n">intensity_taken</span><span class="p">))</span></div>
 
 <div class="viewcode-block" id="threshold_denoising">
-<a class="viewcode-back" href="../../spectral_denoising.html#spectral_denoising.spectral_denoising.threshold_denoising">[docs]</a>
+<a class="viewcode-back" href="../../spectral_denoising.html#spectral_denoising.threshold_denoising">[docs]</a>
 <span class="k">def</span> <span class="nf">threshold_denoising</span><span class="p">(</span><span class="n">msms</span><span class="p">,</span> <span class="n">threshold</span> <span class="o">=</span> <span class="mi">1</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    The most widely used and simple denoising algorithm, which discard all peaks below a predefined threshold.</span>

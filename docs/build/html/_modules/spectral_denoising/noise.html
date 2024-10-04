@@ -41,13 +41,26 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Quickstart:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../modules.html">spectral_denoising</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quickstart.html">Quickstart</a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">functions:</span></p>
+<p class="caption" role="heading"><span class="caption-text">Spectral denoising</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../spectral_denoising.html">spectral_denoising package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../sd_electronic_denoising.html">Spectral denoising: electronic denoising</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../sd_formula_denoising.html">Spectral denoising: formula denoising</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../sd_single_spectrum_denoising.html">Spectral denoising: for single spectrum</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../sd_batch_spectra_denoising.html">Spectral denoising: in bacth mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../sd_useful_functions.html">Spectral denoising: useful functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../sd_api.html">Spectral denoising: API references</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Denoising search</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ds_single_spectrum_search.html">Denoising search: for single spectrum</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ds_batch_spectra_search.html">Denoising search: bacth mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ds_useful_functions.html">Denoising search: useful functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ds_api.html">Denoising search: API reference</a></li>
 </ul>
 
         </div>
@@ -86,7 +99,9 @@
 <span class="sd">    </span>
 <span class="sd">    Parameters:</span>
 <span class="sd">        pmz (float): The upper bound for the mass range.</span>
+
 <span class="sd">        lamda (float): The lambda parameter for the Poisson distribution, which serves as both mean and standard deviation of the distribution.</span>
+<span class="sd">        </span>
 <span class="sd">        n (int, optional): The number of random noise ions to generate. Defaults to 100.</span>
 <span class="sd">    Returns:</span>
 <span class="sd">        np.array: A synthetic spectrum with electronic noise.</span>
@@ -116,9 +131,12 @@
 
 <span class="sd">    Args:</span>
 <span class="sd">        msms (np.ndarray): The mass spectrum to which noise will be added.</span>
+
 <span class="sd">        noise (np.ndarray): The noise spectrum to be added to the mass spectrum.</span>
+
 <span class="sd">    Returns:</span>
 <span class="sd">        np.ndarray: The processed mass spectrum after adding noise, normalization, and sorting.</span>
+<span class="sd">    </span>
 <span class="sd">    Notes:</span>
 <span class="sd">        - The noise spectrum is generated with intensity as ralatie measure (from 0-1)</span>
 <span class="sd">        - Thus, the mass spectrum is standardized using the standardize_spectrum function.</span>
@@ -138,14 +156,20 @@
 <span class="sd">    The m/z of the chemical noise is taken from a database of all true possible mass values. </span>
 <span class="sd">    The detailes about this database can be found paper: LibGen: Generating High Quality Spectral Libraries of Natural Products for EAD-, UVPD-, and HCD-High Resolution Mass Spectrometers</span>
 
-<span class="sd">    Parameters:</span>
+<span class="sd">    Args:</span>
 <span class="sd">        pmz (float): The target mass-to-charge ratio (m/z) value.</span>
+<span class="sd">        </span>
 <span class="sd">        lamda (float): The lambda parameter for the Poisson distribution used to generate intensities, which serves as both mean and standard deviation of the distribution.</span>
+
 <span class="sd">        polarity (str): The polarity of the adduct, either &#39;+&#39; or &#39;-&#39;.</span>
+
 <span class="sd">        formula_db (pandas.DataFrame): A DataFrame containing a column &#39;mass&#39; with possible mass values.</span>
+<span class="sd">        </span>
 <span class="sd">        n (int, optional): The number of noise peaks to generate. Default is 100.</span>
+
 <span class="sd">    Returns:</span>
 <span class="sd">        np.array: A synthetic spectrum with chemical noise.</span>
+
 <span class="sd">    Raises:</span>
 <span class="sd">        ValueError: If the polarity is not &#39;+&#39; or &#39;-&#39;.</span>
 <span class="sd">    &quot;&quot;&quot;</span>

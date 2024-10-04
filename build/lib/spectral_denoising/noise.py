@@ -7,7 +7,9 @@ def generate_noise(pmz, lamda, n = 100):
     
     Parameters:
         pmz (float): The upper bound for the mass range.
+
         lamda (float): The lambda parameter for the Poisson distribution, which serves as both mean and standard deviation of the distribution.
+        
         n (int, optional): The number of random noise ions to generate. Defaults to 100.
     Returns:
         np.array: A synthetic spectrum with electronic noise.
@@ -34,9 +36,12 @@ def add_noise(msms, noise):
 
     Args:
         msms (np.ndarray): The mass spectrum to which noise will be added.
+
         noise (np.ndarray): The noise spectrum to be added to the mass spectrum.
+
     Returns:
         np.ndarray: The processed mass spectrum after adding noise, normalization, and sorting.
+    
     Notes:
         - The noise spectrum is generated with intensity as ralatie measure (from 0-1)
         - Thus, the mass spectrum is standardized using the standardize_spectrum function.
@@ -53,14 +58,20 @@ def generate_chemical_noise(pmz, lamda, polarity,formula_db,n = 100):
     The m/z of the chemical noise is taken from a database of all true possible mass values. 
     The detailes about this database can be found paper: LibGen: Generating High Quality Spectral Libraries of Natural Products for EAD-, UVPD-, and HCD-High Resolution Mass Spectrometers
 
-    Parameters:
+    Args:
         pmz (float): The target mass-to-charge ratio (m/z) value.
+        
         lamda (float): The lambda parameter for the Poisson distribution used to generate intensities, which serves as both mean and standard deviation of the distribution.
+
         polarity (str): The polarity of the adduct, either '+' or '-'.
+
         formula_db (pandas.DataFrame): A DataFrame containing a column 'mass' with possible mass values.
+        
         n (int, optional): The number of noise peaks to generate. Default is 100.
+
     Returns:
         np.array: A synthetic spectrum with chemical noise.
+
     Raises:
         ValueError: If the polarity is not '+' or '-'.
     """

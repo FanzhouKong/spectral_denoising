@@ -201,8 +201,7 @@ def everything_to_image(molecule, savepath):
 
     Args:
         molecule (str or RDKit Mol object): The molecular representation, which can be a SMILES string, 
-                                        an RDKit Mol object, or any other format that can be converted 
-                                        to a SMILES string.
+        an RDKit Mol object, or any other format that can be converted to a SMILES string.
         savepath (str): The file path where the generated image will be saved.
     Returns:
         None

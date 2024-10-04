@@ -41,13 +41,26 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Quickstart:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../modules.html">spectral_denoising</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quickstart.html">Quickstart</a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">functions:</span></p>
+<p class="caption" role="heading"><span class="caption-text">Spectral denoising</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../spectral_denoising.html">spectral_denoising package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../sd_electronic_denoising.html">Spectral denoising: electronic denoising</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../sd_formula_denoising.html">Spectral denoising: formula denoising</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../sd_single_spectrum_denoising.html">Spectral denoising: for single spectrum</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../sd_batch_spectra_denoising.html">Spectral denoising: in bacth mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../sd_useful_functions.html">Spectral denoising: useful functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../sd_api.html">Spectral denoising: API references</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Denoising search</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ds_single_spectrum_search.html">Denoising search: for single spectrum</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ds_batch_spectra_search.html">Denoising search: bacth mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ds_useful_functions.html">Denoising search: useful functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ds_api.html">Denoising search: API reference</a></li>
 </ul>
 
         </div>
@@ -83,9 +96,14 @@
 <span class="kn">import</span> <span class="nn">scipy</span>
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">ms_entropy</span> <span class="k">as</span> <span class="nn">me</span>
-
+<span class="kn">import</span> <span class="nn">math</span>
 
 <span class="n">_numpy_formula_format</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">int16</span>
+<div class="viewcode-block" id="normalized_entropy">
+<a class="viewcode-back" href="../../spectral_denoising.html#spectral_denoising.spectral_operations.normalized_entropy">[docs]</a>
+<span class="k">def</span> <span class="nf">normalized_entropy</span><span class="p">(</span><span class="n">msms</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">spctrum_entropy</span><span class="p">(</span><span class="n">msms</span><span class="p">)</span><span class="o">/</span><span class="n">math</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">msms</span><span class="p">)))</span><span class="o">**</span><span class="mi">4</span></div>
+
 <div class="viewcode-block" id="spctrum_entropy">
 <a class="viewcode-back" href="../../spectral_denoising.html#spectral_denoising.spectral_operations.spctrum_entropy">[docs]</a>
 <span class="k">def</span> <span class="nf">spctrum_entropy</span><span class="p">(</span><span class="n">msms</span><span class="p">):</span>
@@ -98,8 +116,7 @@
 <span class="sd">        float: The entropy of the query MS/MS spectrum.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">intensity</span> <span class="o">=</span> <span class="n">msms</span><span class="o">.</span><span class="n">T</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-    <span class="n">S</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">entropy</span><span class="p">(</span><span class="n">intensity</span><span class="p">)</span>
+    <span class="n">S</span> <span class="o">=</span> <span class="n">me</span><span class="o">.</span><span class="n">calculate_spectral_entropy</span><span class="p">(</span><span class="n">msms</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">S</span></div>
 
 <div class="viewcode-block" id="entropy_similairty">
@@ -248,6 +265,7 @@
 <span class="sd">    This function takes a mass spectrum (msms) as input, transposes it, and normalizes</span>
 <span class="sd">    the intensity values (second row) by dividing each intensity by the sum of all intensities.</span>
 <span class="sd">    The normalized spectrum is then transposed back to its original form and returned.</span>
+
 <span class="sd">    Parameters:</span>
 <span class="sd">        msms (numpy.ndarray): A 2D numpy array where the first row contains mass-to-charge ratios (m/z) and the second row contains intensity values.</span>
 <span class="sd">    Returns:</span>

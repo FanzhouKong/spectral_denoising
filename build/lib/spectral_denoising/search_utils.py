@@ -69,8 +69,7 @@ def num_search(data, column_name,number, direction, step = None,inclusion = Fals
         data (pd.DataFrame): The DataFrame to search within.
         column_name (str): The name of the column to perform the search on.
         number (float or int): The reference number for the search condition.
-        direction (str): The direction of the comparison. Can be one of the following:
-                            '>', '<', '==', 'between'.
+        direction (str): The direction of the comparison. Can be one of the following: '>', '<', '==', 'between'.
         step (float or int, optional): The step value for the 'between' direction. Default is None.
         inclusion (bool, optional): Whether to include the boundary values in the comparison. Default is False.
     Returns:

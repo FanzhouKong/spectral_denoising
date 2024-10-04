@@ -15,6 +15,5 @@ spectral_denoising/spectral_operations.py
 spectral_denoising.egg-info/PKG-INFO
 spectral_denoising.egg-info/SOURCES.txt
 spectral_denoising.egg-info/dependency_links.txt
-spectral_denoising.egg-info/entry_points.txt
 spectral_denoising.egg-info/requires.txt
 spectral_denoising.egg-info/top_level.txt

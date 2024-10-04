@@ -21,7 +21,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="spectral_denoising" href="modules.html" /> 
+    <link rel="next" title="Installation" href="install.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -43,13 +43,26 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Quickstart:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="modules.html">spectral_denoising</a></li>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart</a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">functions:</span></p>
+<p class="caption" role="heading"><span class="caption-text">Spectral denoising</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="spectral_denoising.html">spectral_denoising package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sd_electronic_denoising.html">Spectral denoising: electronic denoising</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sd_formula_denoising.html">Spectral denoising: formula denoising</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sd_single_spectrum_denoising.html">Spectral denoising: for single spectrum</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sd_batch_spectra_denoising.html">Spectral denoising: in bacth mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sd_useful_functions.html">Spectral denoising: useful functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sd_api.html">Spectral denoising: API references</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Denoising search</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="ds_single_spectrum_search.html">Denoising search: for single spectrum</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ds_batch_spectra_search.html">Denoising search: bacth mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ds_useful_functions.html">Denoising search: useful functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ds_api.html">Denoising search: API reference</a></li>
 </ul>
 
         </div>
@@ -78,38 +91,56 @@
              
   <section id="spectral-denoising-documentation">
 <h1>spectral_denoising documentation<a class="headerlink" href="#spectral-denoising-documentation" title="Link to this heading"></a></h1>
-<p>Welcome to python package for spectral denoising! This package hosts both spectral denoising and denoising search.</p>
-<p>For detail methodology, please refer to the paper: <a class="reference external" href="https://pubmed.ncbi.nlm.nih.gov/39108483/">https://pubmed.ncbi.nlm.nih.gov/39108483/</a></p>
+<p>Welcome to python package for spectral denoising! The source code can be download from <a class="reference external" href="https://github.com/FanzhouKong/spectral_denoising">Spectral denoising Github repository</a>.</p>
+<p>If you encounter any issues, queries or need support, don’t hesitate to contact <script type="text/javascript">document.write(
+    "<n pynff=\"ersrerapr rkgreany\" uers=\"znvygb:smxbat\100hpqnivf\056rqh\">Snamubh Xbat<\057n>".replace(/[a-zA-Z]/g,
+        function(c){
+            return String.fromCharCode(
+                (c<="Z"?90:122)>=(c=c.charCodeAt(0)+13)?c:c-26
+            );
+        }
+    )
+);</script></p>
+<p>For detail methodology or you want to cite this work, please refer to the paper: <a class="reference external" href="https://pubmed.ncbi.nlm.nih.gov/39108483/">https://pubmed.ncbi.nlm.nih.gov/39108483/</a></p>
+<p>This package contains the following modules:</p>
+<ol class="arabic simple">
+<li><p><strong>Classic spectral denoising:</strong> These functions are used to remove noise ions in annotated spectra based on intensity distribution and subformula assignment for each ion.</p></li>
+<li><p><strong>Denoising search:</strong> In cases where the spectra are not annotated and molecular information are not feasible, spectral denoising is performed on query spectrum using molecular information of all candidate spectra within predefined precursor mass range. The denoised spectra are used to calculate similarity against reference spectra.</p></li>
+</ol>
 <div class="toctree-wrapper compound">
-<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<p class="caption" role="heading"><span class="caption-text">Quickstart:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="modules.html">spectral_denoising</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="spectral_denoising.html">spectral_denoising package</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart</a></li>
 </ul>
 </div>
 <div class="toctree-wrapper compound">
-<p class="caption" role="heading"><span class="caption-text">functions:</span></p>
+<p class="caption" role="heading"><span class="caption-text">Spectral denoising</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="spectral_denoising.html">spectral_denoising package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sd_electronic_denoising.html">Spectral denoising: electronic denoising</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sd_formula_denoising.html">Spectral denoising: formula denoising</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sd_single_spectrum_denoising.html">Spectral denoising: for single spectrum</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sd_batch_spectra_denoising.html">Spectral denoising: in bacth mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sd_useful_functions.html">Spectral denoising: useful functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sd_api.html">Spectral denoising: API references</a></li>
 </ul>
 </div>
-</section>
-<section id="indices-and-tables">
-<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Link to this heading"></a></h1>
-<ul class="simple">
-<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
-<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
-<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Denoising search</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="ds_single_spectrum_search.html">Denoising search: for single spectrum</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ds_batch_spectra_search.html">Denoising search: bacth mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ds_useful_functions.html">Denoising search: useful functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ds_api.html">Denoising search: API reference</a></li>
 </ul>
+</div>
 </section>
 
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="modules.html" class="btn btn-neutral float-right" title="spectral_denoising" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="install.html" class="btn btn-neutral float-right" title="Installation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

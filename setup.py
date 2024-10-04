@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-VERSION = '0.0.9'
+VERSION = '0.1.1'
 DESCRIPTION = 'Spectral denoising and denoising search'
 REQUIREMENTS = [i.strip() for i in open("requirements.txt").readlines()]
 with open("README.md", "r") as file:
@@ -15,11 +15,6 @@ setup(
     packages=find_packages(),
     install_requires=REQUIREMENTS,
     keywords=['python', 'metabolomics', 'MSMS denoise'],
-    entry_points = {
-        "console_scripts":[
-            'spectral_denoiisng_status = spectral_denoising:verify_status',
-        ],
-    },
     long_description= long_description,
     long_description_content_type='text/markdown',
 

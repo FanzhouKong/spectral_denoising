@@ -1,2 +1,0 @@
-[console_scripts]
-spectral_denoiisng_status = spectral_denoising:verify_status

@@ -149,6 +149,7 @@ def normalize_spectrum(msms):
     This function takes a mass spectrum (msms) as input, transposes it, and normalizes
     the intensity values (second row) by dividing each intensity by the sum of all intensities.
     The normalized spectrum is then transposed back to its original form and returned.
+
     Parameters:
         msms (numpy.ndarray): A 2D numpy array where the first row contains mass-to-charge ratios (m/z) and the second row contains intensity values.
     Returns:
