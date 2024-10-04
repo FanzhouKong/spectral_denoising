@@ -47,7 +47,7 @@ print(f'the spectrum entropy is {spctrum_entropy(peak):.2f}, the normalized entr
 # e.g.mass,intensity = [48.992496490478516, 63.006099700927734, 79.02062225341797], [154.0, 265.0, 521.0]
 # peak = pack_spectrum(mass, intensity)
 
-# generate some electronic noise and add it to the peaks
+# generate some noise ions and add it to the peaks
 from spectral_denoising.noise import *
 noise = generate_noise(pmz, lamda=10, n = 50)
 peak_with_noise = add_noise(peak, noise)
