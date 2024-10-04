@@ -42,7 +42,7 @@ pmz = calculate_precursormz(adduct,smiles)
 peak = np.array([[48.992496490478516 ,154.0],
                   [63.006099700927734, 265.0],
                   [79.02062225341797, 521.0]], dtype = np.float32)
-print(f'the spectrum entropy is {spctrum_entropy(peak):.2f}, the normalized entropy is {normalized_entropy(peak):.2f}')
+print(f'the spectrum entropy of raw spectrum is {spctrum_entropy(peak):.2f}, the normalized entropy of raw spectrum is {normalized_entropy(peak):.2f}')
 # alternatively, you can store mass and intensity in separate arrays, and use pack_spectrum(mass, intensity) to get the peaks array
 # e.g.mass,intensity = [48.992496490478516, 63.006099700927734, 79.02062225341797], [154.0, 265.0, 521.0]
 # peak = pack_spectrum(mass, intensity)
@@ -53,7 +53,7 @@ noise = generate_noise(pmz, lamda=10, n = 50)
 peak_with_noise = add_noise(peak, noise)
 # use head_to_tail_plot to visualize the spectra, only in jupyter notebook
 # sd.head_to_tail_plot(peaks_with_noise,peaks ,pmz)
-print(f'the spectrum entropy is {spctrum_entropy(peak_with_noise):.2f}, the normalized entropy is {normalized_entropy(peak_with_noise):.2f}')
+print(f'the spectrum entropy of contaminated spectrum is {spctrum_entropy(peak_with_noise):.2f}, the normalized entropy of contaminated spectrum is {normalized_entropy(peak_with_noise):.2f}')
 print(f'the entropy similarity of contaminated spectrum and the raw spectrum is {entropy_similairty(peak_with_noise,peak,  pmz = pmz):.2f}')
 
 # perform spectral denosing and compare against the raw spectrum
