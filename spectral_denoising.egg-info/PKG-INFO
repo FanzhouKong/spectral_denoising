@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: spectral_denoising
-Version: 0.0.8
+Version: 0.0.9
 Summary: Spectral denoising and denoising search
 Author: Fanzhou Kong
 Author-email: <fzkong@ucdavis.edu>
@@ -24,7 +24,9 @@ Requires-Dist: scipy==1.14.1
 Requires-Dist: seaborn==0.13.2
 Requires-Dist: tqdm==4.66.5
 
-[![Test Spectral denoising package](https://pypi.org/project/spectral-denoising/)]  
+# Spectral denoising and denoising search
+
+Test the package at: https://pypi.org/project/spectral-denoising/
 
 
 If you have any questions, feel free to send me E-mails: fzkong@ucdavis.edu. If you find this package useful, please consider citing the following papers:
@@ -41,7 +43,9 @@ This project also provides useful tools to read, write, visualize and compare sp
 
 # How to use this package
 
-This repository in Python. A python version >= 3.8 is preferred.
+This repository in Python. A python version >= 3.8 is preferred. 
+
+Detailed documentation can be found at: https://spectral-denoising.readthedocs.io/en/latest/index.html
 
 ### Installation
 
@@ -76,7 +80,7 @@ sd.head_to_tail_plot(msms_denoised, reference_spectra, pmz = quene_pmz)
 ### Example of usage for batch mode can be found in /notebook/spectral_denoising_demo.ipynb
 
 
-### Usage of Flash Entropy Search
+### Usage of Denoising search
 
 ```python
 import spectral_denoising as sd
@@ -87,4 +91,4 @@ quene_spectrum, quene_pmz = quene_spectra.iloc[0]['peaks'], quene_spectra.iloc[0
 sd.denoising_search(quene_spectrum, quene_pmz, reference_library)
 ```
 
-### Example of usage for batch mode can be found in /notebook/denoising_search_demo.ipynb
+### More example of usage for batch mode can be found in /notebook/denoising_search_demo.ipynb

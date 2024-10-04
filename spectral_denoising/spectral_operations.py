@@ -6,9 +6,11 @@ import numpy as np
 import scipy
 import os
 import ms_entropy as me
-
+import math
 
 _numpy_formula_format = np.int16
+def normalized_entropy(msms):
+    return (spctrum_entropy(msms)/math.log(len(msms)))**4
 def spctrum_entropy(msms):
     """
     Calculate the entropy of the givens.
@@ -19,8 +21,7 @@ def spctrum_entropy(msms):
         float: The entropy of the query MS/MS spectrum.
     """
 
-    intensity = msms.T[1]
-    S = scipy.stats.entropy(intensity)
+    S = me.calculate_spectral_entropy(msms)
     return S
 def entropy_similairty(msms1, msms2,pmz=None, ms2_error = 0.02):
     """
