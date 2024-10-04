@@ -67,7 +67,7 @@ print(f'the entropy similarity of denoised spectrum and the raw spectrum is {ent
 import spectral_denoising as sd
 query_data = sd.read_msp('sample_data/noisy_spectra.msp')
 query_peaks,query_smiles,query_adduct, query_pmz = query_data['peaks'],query_data['smiles'],query_data['adduct'], query_data['precursor_mz'] 
-desnoied_peaks = sd.spectra_denoising_batch(quene_peaks,quene_smiles,quene_adduct) # this will return all denoised spectra in a list
+desnoied_peaks = sd.spectra_denoising_batch(query_peaks,query_smiles,query_adduct) # this will return all denoised spectra in a list
 ```
 
 ### Usage of Denoising search
@@ -76,10 +76,10 @@ desnoied_peaks = sd.spectra_denoising_batch(quene_peaks,quene_smiles,quene_adduc
 import spectral_denoising as sd
 query_spectra= sd.read_msp('sample_data/query_spectra.msp')
 reference_library =sd.read_msp('sample_data/reference_library.msp')
-quene_spectrum, quene_pmz = quene_spectra.iloc[0]['peaks'], quene_spectra.iloc[0]['precursor_mz'] # just the first spectrum
-result = sd.denoising_search(quene_spectrum, quene_pmz, reference_library)
-# result will return all precursor candidates of the quene spectrum, each with entropy similarities of both raw and denoised spectra
-display(result)
+query_spectrum, query_pmz = query_spectra.iloc[0]['peaks'], query_spectra.iloc[0]['precursor_mz'] # just the first spectrum
+result = sd.denoising_search(query_spectrum, query_pmz, reference_library)
+# result will return all precursor candidates of the query spectrum, each with entropy similarities of both raw and denoised spectra
+print(result)
 ```
 
 #### Denoising search on all spectra against reference library
@@ -90,7 +90,7 @@ reference_library =sd.read_msp('sample_data/reference_library.msp')
 
 results = sd.denoising_search_batch(query_spectra['peaks'], query_spectra['precursor_mz'], reference_library) 
 # results will be a list of all correspoinding precursor mz candidates, each one with entropy similarities of both raw and denoised spectra (using reference spectra melecular information)
-display(results[0])# this will show denoising search result for the first spectra in msp file
+print(results[0])# this will show denoising search result for the first spectra in msp file
 ```
 ## Working examples
 More working examples can be found under notebooks directory.
