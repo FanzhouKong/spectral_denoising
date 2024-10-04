@@ -71,13 +71,23 @@ desnoied_peaks = sd.spectra_denoising_batch(quene_peaks,quene_smiles,quene_adduc
 ```
 
 ### Usage of Denoising search
-
+#### Denoising search on a single spectrum against reference library
 ```python
 import spectral_denoising as sd
-quene_spectra= sd.read_msp('sample_data/quene_spectra.msp')
-reference_library =sd.read_msp('sample_data/sample_library.msp')
-quene_spectrum, quene_pmz = quene_spectra.iloc[0]['peaks'], quene_spectra.iloc[0]['precursor_mz']
-sd.denoising_search(quene_spectrum, quene_pmz, reference_library)
+query_spectra= sd.read_msp('sample_data/query_spectra.msp')
+reference_library =sd.read_msp('sample_data/reference_library.msp')
+quene_spectrum, quene_pmz = quene_spectra.iloc[0]['peaks'], quene_spectra.iloc[0]['precursor_mz'] # just the first spectrum
+result = sd.denoising_search(quene_spectrum, quene_pmz, reference_library)
+print(result)
 ```
 
-### More example of usage for batch mode can be found in /notebook/denoising_search_demo.ipynb
+#### Denoising search on all spectra against reference library
+```python
+import spectral_denoising as sd
+query_spectra= sd.read_msp('sample_data/query_spectra.msp')
+reference_library =sd.read_msp('sample_data/reference_library.msp')
+
+results = sd.denoising_search_batch(query_spectra['peaks'], query_spectra['precursor_mz'], reference_library) 
+# results will be a list of all correspoinding precursor mz candidates, each one with entropy similarities of both raw and denoised spectra (using reference spectra melecular information)
+display(results[0])# this will show denoising search result for the first spectra in msp file
+```
