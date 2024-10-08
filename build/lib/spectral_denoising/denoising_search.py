@@ -67,7 +67,7 @@ def denoising_search(msms, pmz, reference_lib, identitiy_search_mass_error=0.01,
             continue
         pmz_candidates.loc[index, 'entropy_similarity'] = entropy_similairty(msms, row[msms_col], pmz = pmz, ms2_error = 0.01)
         pmz_candidates.loc[index, 'denoised_similarity'] = entropy_similairty(msms_d, row[msms_col], pmz = pmz, ms2_error = 0.01)
-    pmz_candidates['quene_peaks']=[msms]*len(pmz_candidates)
-    pmz_candidates['quene_pmz_denoised']=[msms_d]*len(pmz_candidates)
-    pmz_candidates['quene_pmz']=pmz
+    pmz_candidates['query_peaks']=[msms]*len(pmz_candidates)
+    pmz_candidates['query_peaks_denoised']=[msms_d]*len(pmz_candidates)
+    pmz_candidates['query_pmz']=pmz
     return pmz_candidates

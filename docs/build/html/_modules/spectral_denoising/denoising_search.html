@@ -53,14 +53,15 @@
 <li class="toctree-l1"><a class="reference internal" href="../../sd_single_spectrum_denoising.html">Spectral denoising: for single spectrum</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../sd_batch_spectra_denoising.html">Spectral denoising: in bacth mode</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../sd_useful_functions.html">Spectral denoising: useful functions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../sd_api.html">Spectral denoising: API references</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Denoising search</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../ds_single_spectrum_search.html">Denoising search: for single spectrum</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../ds_batch_spectra_search.html">Denoising search: bacth mode</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../ds_useful_functions.html">Denoising search: useful functions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../ds_api.html">Denoising search: API reference</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">All API References</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../spectral_denoising.html">spectral_denoising package</a></li>
 </ul>
 
         </div>
@@ -96,7 +97,7 @@
 <span class="kn">from</span> <span class="nn">.spectral_denoising</span> <span class="kn">import</span> <span class="n">spectral_denoising</span>
 <span class="kn">from</span> <span class="nn">.spectral_operations</span> <span class="kn">import</span> <span class="n">entropy_similairty</span>
 <div class="viewcode-block" id="denoising_search_batch">
-<a class="viewcode-back" href="../../spectral_denoising.html#spectral_denoising.denoising_search.denoising_search_batch">[docs]</a>
+<a class="viewcode-back" href="../../spectral_denoising.html#spectral_denoising.denoising_search_batch">[docs]</a>
 <span class="k">def</span> <span class="nf">denoising_search_batch</span><span class="p">(</span><span class="n">quene_msms</span><span class="p">,</span> <span class="n">quene_pmz</span><span class="p">,</span> <span class="n">reference_lib</span><span class="p">,</span> <span class="n">identitiy_search_mass_error</span> <span class="o">=</span> <span class="mf">0.01</span><span class="p">,</span> <span class="n">mass_tolernace</span><span class="o">=</span><span class="mf">0.005</span><span class="p">,</span><span class="n">pmz_col</span> <span class="o">=</span> <span class="s1">&#39;precursor_mz&#39;</span><span class="p">,</span> <span class="n">smiles_col</span> <span class="o">=</span> <span class="s1">&#39;smiles&#39;</span><span class="p">,</span>
                            <span class="n">adduct_col</span> <span class="o">=</span> <span class="s1">&#39;adduct&#39;</span><span class="p">,</span> <span class="n">msms_col</span> <span class="o">=</span> <span class="s1">&#39;peaks&#39;</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -129,7 +130,7 @@
 
 
 <div class="viewcode-block" id="denoising_search">
-<a class="viewcode-back" href="../../spectral_denoising.html#spectral_denoising.denoising_search.denoising_search">[docs]</a>
+<a class="viewcode-back" href="../../spectral_denoising.html#spectral_denoising.denoising_search">[docs]</a>
 <span class="k">def</span> <span class="nf">denoising_search</span><span class="p">(</span><span class="n">msms</span><span class="p">,</span> <span class="n">pmz</span><span class="p">,</span> <span class="n">reference_lib</span><span class="p">,</span> <span class="n">identitiy_search_mass_error</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">mass_tolernace</span> <span class="o">=</span> <span class="mf">0.005</span><span class="p">,</span> 
                      <span class="n">pmz_col</span> <span class="o">=</span> <span class="s1">&#39;precursor_mz&#39;</span><span class="p">,</span> <span class="n">smiles_col</span> <span class="o">=</span> <span class="s1">&#39;smiles&#39;</span><span class="p">,</span> <span class="n">adduct_col</span> <span class="o">=</span> <span class="s1">&#39;adduct&#39;</span><span class="p">,</span> <span class="n">msms_col</span> <span class="o">=</span> <span class="s1">&#39;peaks&#39;</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -162,9 +163,9 @@
             <span class="k">continue</span>
         <span class="n">pmz_candidates</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">index</span><span class="p">,</span> <span class="s1">&#39;entropy_similarity&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">entropy_similairty</span><span class="p">(</span><span class="n">msms</span><span class="p">,</span> <span class="n">row</span><span class="p">[</span><span class="n">msms_col</span><span class="p">],</span> <span class="n">pmz</span> <span class="o">=</span> <span class="n">pmz</span><span class="p">,</span> <span class="n">ms2_error</span> <span class="o">=</span> <span class="mf">0.01</span><span class="p">)</span>
         <span class="n">pmz_candidates</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">index</span><span class="p">,</span> <span class="s1">&#39;denoised_similarity&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">entropy_similairty</span><span class="p">(</span><span class="n">msms_d</span><span class="p">,</span> <span class="n">row</span><span class="p">[</span><span class="n">msms_col</span><span class="p">],</span> <span class="n">pmz</span> <span class="o">=</span> <span class="n">pmz</span><span class="p">,</span> <span class="n">ms2_error</span> <span class="o">=</span> <span class="mf">0.01</span><span class="p">)</span>
-    <span class="n">pmz_candidates</span><span class="p">[</span><span class="s1">&#39;quene_peaks&#39;</span><span class="p">]</span><span class="o">=</span><span class="p">[</span><span class="n">msms</span><span class="p">]</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">pmz_candidates</span><span class="p">)</span>
-    <span class="n">pmz_candidates</span><span class="p">[</span><span class="s1">&#39;quene_pmz_denoised&#39;</span><span class="p">]</span><span class="o">=</span><span class="p">[</span><span class="n">msms_d</span><span class="p">]</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">pmz_candidates</span><span class="p">)</span>
-    <span class="n">pmz_candidates</span><span class="p">[</span><span class="s1">&#39;quene_pmz&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">pmz</span>
+    <span class="n">pmz_candidates</span><span class="p">[</span><span class="s1">&#39;query_peaks&#39;</span><span class="p">]</span><span class="o">=</span><span class="p">[</span><span class="n">msms</span><span class="p">]</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">pmz_candidates</span><span class="p">)</span>
+    <span class="n">pmz_candidates</span><span class="p">[</span><span class="s1">&#39;query_peaks_denoised&#39;</span><span class="p">]</span><span class="o">=</span><span class="p">[</span><span class="n">msms_d</span><span class="p">]</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">pmz_candidates</span><span class="p">)</span>
+    <span class="n">pmz_candidates</span><span class="p">[</span><span class="s1">&#39;query_pmz&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">pmz</span>
     <span class="k">return</span> <span class="n">pmz_candidates</span></div>
 
 </pre></div>

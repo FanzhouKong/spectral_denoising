@@ -1,8 +1,8 @@
 spectral\_denoising package
 ===========================
 
-Submodules
-----------
+All API References
+-------------------
 
 spectral\_denoising.chem\_utils module
 --------------------------------------
@@ -92,10 +92,4 @@ spectral\_denoising.spectral\_operations module
    :undoc-members:
    :show-inheritance:
 
-Module contents
----------------
 
-.. automodule:: spectral_denoising
-   :members:
-   :undoc-members:
-   :show-inheritance:

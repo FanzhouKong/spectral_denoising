@@ -21,7 +21,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Spectral denoising: API references" href="sd_api.html" />
+    <link rel="next" title="Denoising search: for single spectrum" href="ds_single_spectrum_search.html" />
     <link rel="prev" title="Spectral denoising: in bacth mode" href="sd_batch_spectra_denoising.html" /> 
 </head>
 
@@ -55,15 +55,25 @@
 <li class="toctree-l1"><a class="reference internal" href="sd_formula_denoising.html">Spectral denoising: formula denoising</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sd_single_spectrum_denoising.html">Spectral denoising: for single spectrum</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sd_batch_spectra_denoising.html">Spectral denoising: in bacth mode</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Spectral denoising: useful functions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="sd_api.html">Spectral denoising: API references</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Spectral denoising: useful functions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#read-data">Read data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#write-data">Write data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#manipulating-spectra">Manipulating spectra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#formating-spectra">Formating spectra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#comparing-spectra-and-entropy-related-functions">Comparing spectra and entropy related functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#visualizing-spectra">Visualizing spectra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#generating-noise">Generating noise</a></li>
+</ul>
+</li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Denoising search</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="ds_single_spectrum_search.html">Denoising search: for single spectrum</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ds_batch_spectra_search.html">Denoising search: bacth mode</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ds_useful_functions.html">Denoising search: useful functions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ds_api.html">Denoising search: API reference</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">All API References</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="spectral_denoising.html">spectral_denoising package</a></li>
 </ul>
 
         </div>
@@ -92,6 +102,424 @@
              
   <section id="spectral-denoising-useful-functions">
 <h1>Spectral denoising: useful functions<a class="headerlink" href="#spectral-denoising-useful-functions" title="Link to this heading"></a></h1>
+<p>Here we provide a list of useful functions in the project for read and write data in differnt formats. We also provide functions for manipulating, visualizing, and comparing spectra.</p>
+<section id="read-data">
+<h2>Read data<a class="headerlink" href="#read-data" title="Link to this heading"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">file_io.read_msp</span></code> will read in all standard MSP files into a pandas.Dataframe, with basic spectra cleaning performed (sorted + zero intensity ions removed).</p>
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">spectral_denoising.file_io.</span></span><span class="sig-name descname"><span class="pre">read_msp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral_denoising/file_io.html#read_msp"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Reads the MSP files into the pandas dataframe, and sort/remove zero intensity ions in MS/MS spectra.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>file_path (str): target path path for the MSP file.</p>
+</dd>
+<dt>Returns:</dt><dd><p>pd.DataFrame: DataFrame containing the MS/MS spectra information</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p><code class="docutils literal notranslate"><span class="pre">file_io.read_df</span></code> will read in a pandas.Dataframe from a csv file, and convert any stringed spectra column (m/z and intensity are separated by ‘t’ and new fragment are separated by ‘n’) to numpy array.</p>
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">spectral_denoising.file_io.</span></span><span class="sig-name descname"><span class="pre">read_df</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral_denoising/file_io.html#read_df"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Pair function of write_df.
+Reads a CSV file into a DataFrame, processes specific columns based on a pattern check, 
+and MS/MS in string format to 2-D numpy array (string is used to avoid storage issue in csv files).</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>path (str): The file path to the CSV file.</p>
+</dd>
+<dt>Returns:</dt><dd><p>pandas.DataFrame: The processed DataFrame with specific columns converted.</p>
+</dd>
+<dt>Raises:</dt><dd><p>FileNotFoundError: If the file at the specified path does not exist.
+pd.errors.EmptyDataError: If the CSV file is empty.
+pd.errors.ParserError: If the CSV file contains parsing errors.</p>
+</dd>
+<dt>Notes:</dt><dd><ul class="simple">
+<li><p>The function assumes that the first row of the CSV file contains the column headers.</p></li>
+<li><p>The <cite>check_pattern</cite> function is used to determine which columns to process.</p></li>
+<li><p>The <cite>so.str_to_arr</cite> function is used to convert the values in the selected columns.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="write-data">
+<h2>Write data<a class="headerlink" href="#write-data" title="Link to this heading"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">file_io.write_to_msp</span></code> will write a pandas.Dataframe to a MSP file with output location specified. The target spectra column to be exported to MSP file should also be specified since each dataframe file could contain multiple versions of MS/MS spectra.</p>
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">spectral_denoising.file_io.</span></span><span class="sig-name descname"><span class="pre">write_to_msp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msms_col</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'peaks'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral_denoising/file_io.html#write_to_msp"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Pair function of read_msp.
+Exports a pandas DataFrame to an MSP file.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>df (pd.DataFrame): DataFrame containing spectrum information. Should have columns for ‘name’, ‘peaks’, and other metadata.
+file_path (str): Destination path for the MSP file.</p>
+</dd>
+<dt>Returns:</dt><dd><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p><code class="docutils literal notranslate"><span class="pre">file_io.save_df</span></code> will write a pandas.Dataframe to a csv file with output location specified. All spectra column will be automatically converted to string format for saving.</p>
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">spectral_denoising.file_io.</span></span><span class="sig-name descname"><span class="pre">save_df</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral_denoising/file_io.html#save_df"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Pair function of save_df.</p>
+<p>Save a DataFrame contaning MS/MS spectra to a CSV file, converting any columns containing 2D numpy arrays to string format.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>df (pandas.DataFrame): The DataFrame to be saved.
+save_path (str): The file path where the DataFrame should be saved. If the path does not end with ‘.csv’, it will be appended automatically.</p>
+</dd>
+<dt>Returns:</dt><dd><p>None</p>
+</dd>
+<dt>Notes:</dt><dd><ul class="simple">
+<li><p>This function identifies columns in the DataFrame that contain 2D numpy arrays with a second dimension of size 2.</p></li>
+<li><p>These identified columns are converted to string format before saving to the CSV file.</p></li>
+<li><p>The function uses tqdm to display a progress bar while processing the rows of the DataFrame.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="manipulating-spectra">
+<h2>Manipulating spectra<a class="headerlink" href="#manipulating-spectra" title="Link to this heading"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">spectral_operations.break_spectrum</span></code> will break a given np ndarray spectra into 2 np ndarrays of mass and intensities.</p>
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">spectral_denoising.spectral_operations.</span></span><span class="sig-name descname"><span class="pre">break_spectrum</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spectra</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral_denoising/spectral_operations.html#break_spectrum"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Breaks down a given spectrum into its mass and intensity components. Not often used.</p>
+<dl class="simple">
+<dt>Parameters:</dt><dd><p>spectra (numpy.ndarray): The input spectrum data. If a np.nan is provided, it returns two empty lists.</p>
+</dd>
+<dt>Returns:</dt><dd><p>numpy.ndarray: A MS/MS spectrum formated in 2D array where the each item are formated as [pmz, intensity].</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p><code class="docutils literal notranslate"><span class="pre">spectral_operations.pack_spectrum</span></code> do the reverse operation of <code class="docutils literal notranslate"><span class="pre">break_spectrum</span></code>. It will pack 2 np ndarrays of mass and intensities into a single np ndarray with shape [n, 2].</p>
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">spectral_denoising.spectral_operations.</span></span><span class="sig-name descname"><span class="pre">pack_spectrum</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mass</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">intensity</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral_denoising/spectral_operations.html#pack_spectrum"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Inverse of break_spectrum. Packs mass and intensity arrays into a single 2D array, which is standardized MS/MS spectrum data format in this project.
+This function takes two arrays, <cite>mass</cite> and <cite>intensity</cite>, and combines them into a single 2D array where each row 
+corresponds to a pair of mass and intensity values. If either of the input arrays is empty, the function returns NaN.</p>
+<dl class="simple">
+<dt>Parameters:</dt><dd><p>mass (numpy.ndarray): An array of mass values.
+intensity (numpy.ndarray): An array of intensity values.</p>
+</dd>
+<dt>Returns:</dt><dd><p>numpy.ndarray: A 2D array with mass and intensity pairs if both input arrays are non-empty, otherwise NaN.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p><code class="docutils literal notranslate"><span class="pre">spectral_operations.normalize_spectrum</span></code> normalized the query spectrum so that the sum of intensities is 1.</p>
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">spectral_denoising.spectral_operations.</span></span><span class="sig-name descname"><span class="pre">normalize_spectrum</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msms</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral_denoising/spectral_operations.html#normalize_spectrum"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Normalize the intensity values of a given mass spectrum.
+This function takes a mass spectrum (msms) as input, transposes it, and normalizes
+the intensity values (second row) by dividing each intensity by the sum of all intensities.
+The normalized spectrum is then transposed back to its original form and returned.</p>
+<dl class="simple">
+<dt>Parameters:</dt><dd><p>msms (numpy.ndarray): A 2D numpy array where the first row contains mass-to-charge ratios (m/z) and the second row contains intensity values.</p>
+</dd>
+<dt>Returns:</dt><dd><p>numpy.ndarray: A 2D numpy array with the same shape as the input, where the intensity values have been normalized.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p><code class="docutils literal notranslate"><span class="pre">spectral_operations.standardize_spectrum</span></code> standardize the query spectrum so that the base peak has intensity of 1.</p>
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">spectral_denoising.spectral_operations.</span></span><span class="sig-name descname"><span class="pre">standardize_spectrum</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ms</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral_denoising/spectral_operations.html#standardize_spectrum"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Standardizes the intensity values of a given mass spectrum so that the base peak will have intensity of 1.</p>
+<dl class="simple">
+<dt>Parameters:</dt><dd><p>ms (numpy.ndarray): A 2D array where the first column represents mass values and the second column represents intensity values.</p>
+</dd>
+<dt>Returns:</dt><dd><p>numpy.ndarray: A 2D array with the same mass values and standardized intensity values. The intensity values are normalized to the range [0, 1] and rounded to 4 decimal places.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p><code class="docutils literal notranslate"><span class="pre">spectral_operations.sort_spectrum</span></code> sort the query spectrum by mass.</p>
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">spectral_denoising.spectral_operations.</span></span><span class="sig-name descname"><span class="pre">sort_spectrum</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msms</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral_denoising/spectral_operations.html#sort_spectrum"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Sorts the spectrum data based on m/z values.</p>
+<dl class="simple">
+<dt>Parameters:</dt><dd><p>msms (numpy.ndarray): A 2D numpy array.</p>
+</dd>
+<dt>Returns:</dt><dd><p>numpy.ndarray: A 2D numpy array with the same shape as the input, but sorted by the m/z values in ascending order.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p><code class="docutils literal notranslate"><span class="pre">spectral_operations.remove_precursor</span></code> will remove the precursor ion region from the query spectrum. If no pmz is provided, the function will use the max m/z in the query spectrum as the precursor ion.</p>
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">spectral_denoising.spectral_operations.</span></span><span class="sig-name descname"><span class="pre">remove_precursor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msms</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pmz</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral_denoising/spectral_operations.html#remove_precursor"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Removes the precursor ion from the given mass spectrometry/mass spectrometry (MS/MS) spectrum.</p>
+<dl class="simple">
+<dt>Parameters:</dt><dd><p>msms (numpy.ndarray): A 2D numpy array.
+pmz (float, optional): The precursor m/z value. If not provided, function will try to guess from the spectrum.</p>
+</dd>
+<dt>Returns:</dt><dd><p>numpy.ndarray: The truncated MS/MS spectrum with the precursor ion removed.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p><code class="docutils literal notranslate"><span class="pre">spectral_operations.remove_zero_ions</span></code> will remove ions with zero intensity from the query spectrum.</p>
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">spectral_denoising.spectral_operations.</span></span><span class="sig-name descname"><span class="pre">remove_zero_ions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msms</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral_denoising/spectral_operations.html#remove_zero_ions"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Remove zero intensity ions from a mass spectrometry dataset.</p>
+<dl class="simple">
+<dt>Parameters:</dt><dd><p>msms (numpy.ndarray or float): MS/MS spectrum in 2D numpy array.</p>
+</dd>
+<dt>Returns:</dt><dd><p>numpy.ndarray: A filtered 2D numpy array with rows where the second column (ion intensities) is greater than zero, or np.nan if the input is an empty spectrum.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p><code class="docutils literal notranslate"><span class="pre">spectral_operations.sanitize_spectrum</span></code> is just a wrapper function for <code class="docutils literal notranslate"><span class="pre">spectral_operations.remove_zero_ions</span></code> and <code class="docutils literal notranslate"><span class="pre">spectral_operations.sort_spectrum</span></code>.</p>
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">spectral_denoising.spectral_operations.</span></span><span class="sig-name descname"><span class="pre">sanitize_spectrum</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msms</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral_denoising/spectral_operations.html#sanitize_spectrum"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Sanitize the given mass spectrum.
+This function performs the following operations on the input mass spectrum:
+1. If the input is a nan, it returns NaN.
+2. Sorts the spectrum using the <cite>sort_spectrum</cite> function.
+3. Removes zero intensity ions using the <cite>remove_zero_ions</cite> function.</p>
+<dl class="simple">
+<dt>Parameters:</dt><dd><p>msms (numpy.ndarray): The mass spectrum to be sanitized.</p>
+</dd>
+<dt>Returns:</dt><dd><p>numpy.ndarray: The sanitized mass spectrum. If the input is a nan, returns nan.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p><code class="docutils literal notranslate"><span class="pre">spectral_operations.truncate_spectrum</span></code> will truncate the query spectrum up to the max_mz provided. This is the function used in <code class="docutils literal notranslate"><span class="pre">remove_precursor</span></code> function.</p>
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">spectral_denoising.spectral_operations.</span></span><span class="sig-name descname"><span class="pre">truncate_spectrum</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msms</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_mz</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral_denoising/spectral_operations.html#truncate_spectrum"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Truncate the given mass spectrum to only include peaks with m/z values less than or equal to max_mz.</p>
+<dl class="simple">
+<dt>Parameters:</dt><dd><p>msms (numpy.ndarray): The mass spectrum to be truncated. If it is an empty spectrum (np.nan), will also return np.nan.
+max_mz (float): The maximum m/z value to retain in the truncated spectrum.</p>
+</dd>
+<dt>Returns:</dt><dd><p>numpy.ndarray: The truncated mass spectrum with m/z values less than or equal to max_mz.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p><code class="docutils literal notranslate"><span class="pre">spectral_operations.slice_spectrum</span></code> will slice the query spectrum at the break_mz.</p>
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">spectral_denoising.spectral_operations.</span></span><span class="sig-name descname"><span class="pre">slice_spectrum</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msms</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">break_mz</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral_denoising/spectral_operations.html#slice_spectrum"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Slices a mass spectrum into two parts based on a given m/z value.</p>
+<dl class="simple">
+<dt>Parameters:</dt><dd><p>msms (numpy.ndarray): The mass spectrum data, where each row represents a peak with m/z and intensity values. If a empty spectrum is provided, the function returns NaN.
+break_mz (float): The break point where to slice the spectrum.</p>
+</dd>
+<dt>Returns:</dt><dd><dl class="simple">
+<dt>tuple: A tuple containing two numpy.ndarrays:</dt><dd><ul class="simple">
+<li><p>The first array contains all peaks with m/z values less than the break_mz.</p></li>
+<li><p>The second array contains all peaks with m/z values greater than or equal to the break_mz.</p></li>
+</ul>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">spectral_denoising.spectral_operations.</span></span><span class="sig-name descname"><span class="pre">pack_spectrum</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mass</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">intensity</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral_denoising/spectral_operations.html#pack_spectrum"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Inverse of break_spectrum. Packs mass and intensity arrays into a single 2D array, which is standardized MS/MS spectrum data format in this project.
+This function takes two arrays, <cite>mass</cite> and <cite>intensity</cite>, and combines them into a single 2D array where each row 
+corresponds to a pair of mass and intensity values. If either of the input arrays is empty, the function returns NaN.</p>
+<dl class="simple">
+<dt>Parameters:</dt><dd><p>mass (numpy.ndarray): An array of mass values.
+intensity (numpy.ndarray): An array of intensity values.</p>
+</dd>
+<dt>Returns:</dt><dd><p>numpy.ndarray: A 2D array with mass and intensity pairs if both input arrays are non-empty, otherwise NaN.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p><code class="docutils literal notranslate"><span class="pre">spectral_operations.add_spectra</span></code> will naively add 2 spectra together.</p>
+</section>
+<section id="formating-spectra">
+<h2>Formating spectra<a class="headerlink" href="#formating-spectra" title="Link to this heading"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">spectral_operations.arr_to_str</span></code> will format the np ndarray query spectrum into a string format with m/z and intensity separated by ‘t’ and new fragment separated by ‘n’.
+Reverse of <code class="docutils literal notranslate"><span class="pre">str_to_arr</span></code>.</p>
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">spectral_denoising.spectral_operations.</span></span><span class="sig-name descname"><span class="pre">arr_to_str</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msms</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral_denoising/spectral_operations.html#arr_to_str"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>helper function for read_df and save_df</p>
+</dd></dl>
+
+<p><code class="docutils literal notranslate"><span class="pre">spectral_operations.str_to_arr</span></code> will format the stringed query spectrum with m/z and intensity separated by ‘t’ and new fragment separated by ‘n’ into a np ndarray format.
+Reverse of <code class="docutils literal notranslate"><span class="pre">arr_to_str</span></code>.</p>
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">spectral_denoising.spectral_operations.</span></span><span class="sig-name descname"><span class="pre">str_to_arr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msms</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral_denoising/spectral_operations.html#str_to_arr"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>helper function for read_df and save_df</p>
+</dd></dl>
+
+</section>
+<section id="comparing-spectra-and-entropy-related-functions">
+<h2>Comparing spectra and entropy related functions<a class="headerlink" href="#comparing-spectra-and-entropy-related-functions" title="Link to this heading"></a></h2>
+<p>The package provides entropy-based similarity measures to compare 2 spectra. While spectral entropy can also be used to measure spectral information content and spectral quality.</p>
+<p><code class="docutils literal notranslate"><span class="pre">spectral_operations.entropy_similairty</span></code> measures the entropy similarity between 2 spectra. If pmz is provided, the precursor region will be removed before calculating the similarity.</p>
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">spectral_denoising.spectral_operations.</span></span><span class="sig-name descname"><span class="pre">entropy_similairty</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msms1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msms2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pmz</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ms2_error</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.02</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral_denoising/spectral_operations.html#entropy_similairty"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Calculate the entropy similarity between two mass spectrometry spectra.</p>
+<dl class="simple">
+<dt>Parameters:</dt><dd><p>msms1 (numpy.ndarray): The first mass spectrometry spectrum. If a float is provided, NaN is returned.
+msms1 (numpy.ndarray): The second mass spectrometry spectrum. If a float is provided, NaN is returned.
+pmz (float, optional): The precursor m/z value. If provided, precursors in both spectra will be removed.
+ms2_error (float, optional): The tolerance for matching peaks in the spectra. Default is 0.02.</p>
+</dd>
+<dt>Returns:</dt><dd><p>float: The entropy similarity between the two spectra. Returns NaN if either input spectrum is invalid.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p><code class="docutils literal notranslate"><span class="pre">spectral_operations.spectral_entropy</span></code> measures the entropy of a given spectrum.</p>
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">spectral_denoising.spectral_operations.</span></span><span class="sig-name descname"><span class="pre">spectral_entropy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msms</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pmz</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral_denoising/spectral_operations.html#spectral_entropy"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Calculate the entropy of the givens.</p>
+<dl>
+<dt>Parameters:</dt><dd><p>msms (numpy.ndarray): A 2D array where the each item are formated as [pmz, intensity].</p>
+<p>pmz (float, optional): The precursor m/z value. If provided, precursors in both spectra will be removed.</p>
+</dd>
+<dt>Returns:</dt><dd><p>float: The entropy of the query MS/MS spectrum.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p><code class="docutils literal notranslate"><span class="pre">spectral_operations.normalized_entropy</span></code> will calculate the normalized entropy of the query spectrum. It is a coarse measure of the spectral quality.</p>
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">spectral_denoising.spectral_operations.</span></span><span class="sig-name descname"><span class="pre">normalized_entropy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msms</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral_denoising/spectral_operations.html#normalized_entropy"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="visualizing-spectra">
+<h2>Visualizing spectra<a class="headerlink" href="#visualizing-spectra" title="Link to this heading"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">spectra_plotter.head_to_tail_plot</span></code> will plot the head-to-tail plot of the query spectra. If pmz is given, the precursor region will be removed before plotting and precursor m/z will be marked as grey dashed line.
+If savepath is provided, the plot will be saved to the location.</p>
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">spectral_denoising.spectra_plotter.</span></span><span class="sig-name descname"><span class="pre">head_to_tail_plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msms1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msms2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pmz</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mz_start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mz_end</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pmz2</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ms2_error</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.02</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color1</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color2</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">savepath</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">publication</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fontsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">12</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral_denoising/spectra_plotter.html#head_to_tail_plot"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Plots a head-to-tail comparison of two MS/MS spectra.</p>
+<dl>
+<dt>Parameters:</dt><dd><p>msms1 (np.array): First mass spectrum data in 2D np.array format. e,g. np.array([[mz1, intensity1], [mz2, intensity2], …]).
+msms2 (np.array): Second mass spectrum data. Same as msms1.
+pmz (float or str, optional): Precursor m/z value for the first spectrum. Default is None. If given, precursors will be removed from both spectra and precursor will be shown as a grey
+dashed line in the plot.
+mz_start (float, optional): Start of the m/z range for plotting. Zoom in function. Default is None.
+mz_end (float, optional): End of the m/z range for plotting. Zoom in function. Default is None.
+pmz2 (float or str, optional): Precursor m/z value for the second spectrum. Default is None. Just in case pmz1 and pmz2 are different.
+ms2_error (float, optional): Error tolerance for m/z values. Default is 0.02.
+color1 (str, optional): Color for the first spectrum’s peaks. Default is None.
+color2 (str, optional): Color for the second spectrum’s peaks. Default is None.</p>
+<p>savepath (str, optional): Path to save the plot image. Default is None.
+show (bool, optional): If True, displays the plot. Default is True. Turn it off if you want to save the plot without displaying it.
+publication (bool, optional): If True, formats the plot for publication (size 3*2.5 inch for single column figure). Default is False.
+fontsize (int, optional): Font size for plot labels. Default is 12.</p>
+</dd>
+<dt>Returns:</dt><dd><p>matplotlib.pyplot or None: The plot object if show is True, otherwise None.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p><code class="docutils literal notranslate"><span class="pre">spectra_plotter.ms2_plot</span></code> will plot the query spectrum. It takes similary parameters as <code class="docutils literal notranslate"><span class="pre">head_to_tail_plot</span></code>.</p>
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">spectral_denoising.spectra_plotter.</span></span><span class="sig-name descname"><span class="pre">ms2_plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msms_1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pmz</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lower</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">upper</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">savepath</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'blue'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral_denoising/spectra_plotter.html#ms2_plot"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Plots a single MS/MS spectrum.</p>
+<dl class="simple">
+<dt>Parameters:</dt><dd><p>msms_1 (numpy.ndarray): MS/MS (or MS1) spectrum in 2D np.array format. e,g. np.array([[mz1, intensity1], [mz2, intensity2], …]).
+pmz (float, optional): Precursor m/z value. If provided, precursor will be removed from the spectrum. Default is None.
+lower (float, optional): Lower bound for m/z values to be plotted. Default is None.
+upper (float, optional): Upper bound for m/z values to be plotted. Default is None.
+savepath (str, optional): Path to save the plot image. If None, the plot will not be saved. Default is None.
+color (str, optional): Color of the spectrum lines. Default is ‘blue’.</p>
+</dd>
+<dt>Returns:</dt><dd><p>matplotlib.pyplot: The plot object.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="generating-noise">
+<h2>Generating noise<a class="headerlink" href="#generating-noise" title="Link to this heading"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">noise.generate_noise</span></code> will generate synthetic noise with m/z from 50 to pmz. The m/z follows random distribution and the intensity follows Possion distribution with lamda provided.
+The parameter n is the number of noise ions to be generated.</p>
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">spectral_denoising.noise.</span></span><span class="sig-name descname"><span class="pre">generate_noise</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pmz</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lamda</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral_denoising/noise.html#generate_noise"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Generate synthetic electronic noise for spectral data.</p>
+<dl>
+<dt>Parameters:</dt><dd><p>pmz (float): The upper bound for the mass range.</p>
+<p>lamda (float): The lambda parameter for the Poisson distribution, which serves as both mean and standard deviation of the distribution.</p>
+<p>n (int, optional): The number of random noise ions to generate. Defaults to 100.</p>
+</dd>
+<dt>Returns:</dt><dd><p>np.array: A synthetic spectrum with electronic noise.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p><code class="docutils literal notranslate"><span class="pre">noise.generate_chemical_noise</span></code> will generate synthetic chemical noise with m/z from 50 to pmz. The m/z are randomly sampled from the formula_db provided.
+The intensity is determined in the similar manner as <code class="docutils literal notranslate"><span class="pre">generate_noise</span></code>.</p>
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">spectral_denoising.noise.</span></span><span class="sig-name descname"><span class="pre">generate_chemical_noise</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pmz</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lamda</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">polarity</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">formula_db</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral_denoising/noise.html#generate_chemical_noise"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Generate chemical noise for a given mass-to-charge ratio (m/z) and other parameters.
+The m/z of the chemical noise is taken from a database of all true possible mass values. 
+The detailes about this database can be found paper: LibGen: Generating High Quality Spectral Libraries of Natural Products for EAD-, UVPD-, and HCD-High Resolution Mass Spectrometers</p>
+<dl>
+<dt>Args:</dt><dd><p>pmz (float): The target mass-to-charge ratio (m/z) value.</p>
+<p>lamda (float): The lambda parameter for the Poisson distribution used to generate intensities, which serves as both mean and standard deviation of the distribution.</p>
+<p>polarity (str): The polarity of the adduct, either ‘+’ or ‘-‘.</p>
+<p>formula_db (pandas.DataFrame): A DataFrame containing a column ‘mass’ with possible mass values.</p>
+<p>n (int, optional): The number of noise peaks to generate. Default is 100.</p>
+</dd>
+<dt>Returns:</dt><dd><p>np.array: A synthetic spectrum with chemical noise.</p>
+</dd>
+<dt>Raises:</dt><dd><p>ValueError: If the polarity is not ‘+’ or ‘-‘.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p><code class="docutils literal notranslate"><span class="pre">noise.add_noise</span></code> will add noise to the query spectrum. The noise is generated by <code class="docutils literal notranslate"><span class="pre">generate_noise</span></code> or <code class="docutils literal notranslate"><span class="pre">generate_chemical_noise</span></code>.</p>
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">spectral_denoising.noise.</span></span><span class="sig-name descname"><span class="pre">add_noise</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msms</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">noise</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral_denoising/noise.html#add_noise"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Add noise to a mass spectrum and process the resulting spectrum.
+This function takes a mass spectrum and a noise spectrum, standardizes the mass spectrum,
+adds the noise to it, normalizes the resulting spectrum, and sorts it.</p>
+<dl>
+<dt>Args:</dt><dd><p>msms (np.ndarray): The mass spectrum to which noise will be added.</p>
+<p>noise (np.ndarray): The noise spectrum to be added to the mass spectrum.</p>
+</dd>
+<dt>Returns:</dt><dd><p>np.ndarray: The processed mass spectrum after adding noise, normalization, and sorting.</p>
+</dd>
+<dt>Notes:</dt><dd><ul class="simple">
+<li><p>The noise spectrum is generated with intensity as ralatie measure (from 0-1)</p></li>
+<li><p>Thus, the mass spectrum is standardized using the standardize_spectrum function.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
 </section>
 
 
@@ -99,7 +527,7 @@
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="sd_batch_spectra_denoising.html" class="btn btn-neutral float-left" title="Spectral denoising: in bacth mode" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="sd_api.html" class="btn btn-neutral float-right" title="Spectral denoising: API references" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="ds_single_spectrum_search.html" class="btn btn-neutral float-right" title="Denoising search: for single spectrum" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

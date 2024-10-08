@@ -22,7 +22,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Denoising search: bacth mode" href="ds_batch_spectra_search.html" />
-    <link rel="prev" title="Spectral denoising: API references" href="sd_api.html" /> 
+    <link rel="prev" title="Spectral denoising: useful functions" href="sd_useful_functions.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -56,14 +56,18 @@
 <li class="toctree-l1"><a class="reference internal" href="sd_single_spectrum_denoising.html">Spectral denoising: for single spectrum</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sd_batch_spectra_denoising.html">Spectral denoising: in bacth mode</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sd_useful_functions.html">Spectral denoising: useful functions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="sd_api.html">Spectral denoising: API references</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Denoising search</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Denoising search: for single spectrum</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Denoising search: for single spectrum</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#references">References</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="ds_batch_spectra_search.html">Denoising search: bacth mode</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ds_useful_functions.html">Denoising search: useful functions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ds_api.html">Denoising search: API reference</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">All API References</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="spectral_denoising.html">spectral_denoising package</a></li>
 </ul>
 
         </div>
@@ -92,13 +96,51 @@
              
   <section id="denoising-search-for-single-spectrum">
 <h1>Denoising search: for single spectrum<a class="headerlink" href="#denoising-search-for-single-spectrum" title="Link to this heading"></a></h1>
+<p>The <code class="docutils literal notranslate"><span class="pre">denoising_search</span></code> function, which is the core function of the project, performs identity search with spectral denoising integrated.
+In this way, the query spectrum is denoised using all molecular information obtained from candidate spectra with predefined precursor mass range. The entropy similarity scores are computed with denoised spectra.</p>
+<p>Example usage:
+The demo data can be found <a class="reference external" href="https://github.com/FanzhouKong/spectral_denoising/tree/main/sample_data">here</a>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">spectral_denoising</span> <span class="k">as</span> <span class="nn">sd</span>
+<span class="n">quene_spectra</span><span class="o">=</span> <span class="n">sd</span><span class="o">.</span><span class="n">read_msp</span><span class="p">(</span><span class="s1">&#39;sample_data/query_spectra.msp&#39;</span><span class="p">)</span>
+<span class="n">reference_library</span> <span class="o">=</span><span class="n">sd</span><span class="o">.</span><span class="n">read_msp</span><span class="p">(</span><span class="s1">&#39;sample_data/reference_library.msp&#39;</span><span class="p">)</span>
+<span class="n">quene_spectrum</span><span class="p">,</span> <span class="n">quene_pmz</span> <span class="o">=</span> <span class="n">quene_spectra</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;peaks&#39;</span><span class="p">],</span> <span class="n">quene_spectra</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;precursor_mz&#39;</span><span class="p">]</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">sd</span><span class="o">.</span><span class="n">denoising_search</span><span class="p">(</span><span class="n">quene_spectrum</span><span class="p">,</span> <span class="n">quene_pmz</span><span class="p">,</span> <span class="n">reference_library</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The result will give all candidate spectra within the precursor mass range, with additional column of ‘query_peaks’ (query spectrum), ‘query_peaks_denoised’ (denoised query spectra), ‘entrpy_similarity’ (entropy similarity of query spectra to reference spectra), and ‘denoised_similarity’ (entropy similarity of denoised query spectra to reference spectra).</p>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">spectral_denoising.</span></span><span class="sig-name descname"><span class="pre">denoising_search</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msms</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pmz</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reference_lib</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">identitiy_search_mass_error</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.01</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mass_tolernace</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.005</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pmz_col</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'precursor_mz'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">smiles_col</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'smiles'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">adduct_col</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'adduct'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msms_col</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'peaks'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral_denoising/denoising_search.html#denoising_search"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Perform a denoising search on mass spectrometry data.
+In addition to traditional identity search, the quene msms will be denoised using molecular information of all candidates within predefined identitiy_search_mass_error range.
+Then, entropy similarity scores are calculated for both the original and denoised spectra.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>msms (np.array): The mass spectrometry data (peaks) to be denoised.
+pmz (float): The precursor m/z value associated with the quene MS/MS spectra.
+reference_lib (pandas.DataFrame): The reference library containing known spectra and associated metadata.
+identitiy_search_mass_error (float, optional): The mass error tolerance for the identity search. Default is 0.01.
+mass_tolernace (float, optional): The mass tolerance for spectral denoising. Default is 0.005.
+pmz_col (str, optional): The column name for precursor m/z values in the reference library. Default is ‘precursor_mz’.
+smiles_col (str, optional): The column name for SMILES strings in the reference library. Default is ‘smiles’.
+adduct_col (str, optional): The column name for adduct information in the reference library. Default is ‘adduct’.
+msms_col (str, optional): The column name for MS/MS peaks in the reference library. Default is ‘peaks’.</p>
+</dd>
+<dt>Returns:</dt><dd><p>pd.DataFrame: A DataFrame containing all the candidate spectra, with entropy similarity scores calculated based on both denoised and raw spectra.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
 </section>
 
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="sd_api.html" class="btn btn-neutral float-left" title="Spectral denoising: API references" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="sd_useful_functions.html" class="btn btn-neutral float-left" title="Spectral denoising: useful functions" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="ds_batch_spectra_search.html" class="btn btn-neutral float-right" title="Denoising search: bacth mode" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

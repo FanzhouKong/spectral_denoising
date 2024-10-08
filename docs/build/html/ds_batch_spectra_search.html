@@ -21,7 +21,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Denoising search: useful functions" href="ds_useful_functions.html" />
+    <link rel="next" title="spectral_denoising package" href="spectral_denoising.html" />
     <link rel="prev" title="Denoising search: for single spectrum" href="ds_single_spectrum_search.html" /> 
 </head>
 
@@ -56,14 +56,18 @@
 <li class="toctree-l1"><a class="reference internal" href="sd_single_spectrum_denoising.html">Spectral denoising: for single spectrum</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sd_batch_spectra_denoising.html">Spectral denoising: in bacth mode</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sd_useful_functions.html">Spectral denoising: useful functions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="sd_api.html">Spectral denoising: API references</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Denoising search</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="ds_single_spectrum_search.html">Denoising search: for single spectrum</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Denoising search: bacth mode</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ds_useful_functions.html">Denoising search: useful functions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ds_api.html">Denoising search: API reference</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Denoising search: bacth mode</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#references">References</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">All API References</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="spectral_denoising.html">spectral_denoising package</a></li>
 </ul>
 
         </div>
@@ -92,6 +96,41 @@
              
   <section id="denoising-search-bacth-mode">
 <h1>Denoising search: bacth mode<a class="headerlink" href="#denoising-search-bacth-mode" title="Link to this heading"></a></h1>
+<p>The <code class="docutils literal notranslate"><span class="pre">denoising_search_batch</span></code> function is essentially a wrapper function of <code class="docutils literal notranslate"><span class="pre">denoising_search</span></code> for batch data, while implemented in parallel processing.
+The function takes similari parameters as <code class="docutils literal notranslate"><span class="pre">denoising_search</span></code>, but msms, pmz are now list or iteratable objects instead of single spectrum and float.</p>
+<p>Example usage:
+The demo data can be found <a class="reference external" href="https://github.com/FanzhouKong/spectral_denoising/tree/main/sample_data">here</a>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">spectral_denoising</span> <span class="k">as</span> <span class="nn">sd</span>
+<span class="n">quene_spectra</span><span class="o">=</span> <span class="n">sd</span><span class="o">.</span><span class="n">read_msp</span><span class="p">(</span><span class="s1">&#39;sample_data/query_spectra.msp&#39;</span><span class="p">)</span>
+<span class="n">reference_library</span> <span class="o">=</span><span class="n">sd</span><span class="o">.</span><span class="n">read_msp</span><span class="p">(</span><span class="s1">&#39;sample_data/reference_library.msp&#39;</span><span class="p">)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">sd</span><span class="o">.</span><span class="n">denoising_search_batch</span><span class="p">(</span><span class="n">quene_spectra</span><span class="p">[</span><span class="s1">&#39;peaks&#39;</span><span class="p">],</span> <span class="n">quene_spectra</span><span class="p">[</span><span class="s1">&#39;precursor_mz&#39;</span><span class="p">],</span><span class="n">reference_library</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The results will be a list. At each index, it will give all candidate spectra with denoised information, just as in <code class="docutils literal notranslate"><span class="pre">denoising_search</span></code>.</p>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">spectral_denoising.</span></span><span class="sig-name descname"><span class="pre">denoising_search_batch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">quene_msms</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quene_pmz</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reference_lib</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">identitiy_search_mass_error</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.01</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mass_tolernace</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.005</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pmz_col</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'precursor_mz'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">smiles_col</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'smiles'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">adduct_col</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'adduct'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msms_col</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'peaks'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral_denoising/denoising_search.html#denoising_search_batch"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Perform batch denoising search on given MS/MS data and precursor m/z values with parallel processing.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>quene_msms (list): List of MS/MS spectra to be denoised.
+quene_pmz (list): List of precursor m/z values corresponding to the MS/MS spectra.
+reference_lib (pandas.DataFrame): Reference library containing known spectra for comparison.
+identitiy_search_mass_error (float, optional): Mass error tolerance for identity search. Default is 0.01.
+mass_tolerance (float, optional): Maximum allowed tolerance for denoising. Default is 0.005.
+pmz_col (str, optional): Column name for precursor m/z in the reference library. Default is ‘precursor_mz’.
+smiles_col (str, optional): Column name for SMILES in the reference library. Default is ‘smiles’.
+adduct_col (str, optional): Column name for adducts in the reference library. Default is ‘adduct’.
+msms_col (str, optional): Column name for MS/MS peaks in the reference library. Default is ‘peaks’.</p>
+</dd>
+<dt>Returns:</dt><dd><p>pandas.DataFrame: DataFrame containing the results of the denoising search. Each index in the result DataFrame corresponds to the denoising search result of the corresponding input MS/MS spectrum.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
 </section>
 
 
@@ -99,7 +138,7 @@
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="ds_single_spectrum_search.html" class="btn btn-neutral float-left" title="Denoising search: for single spectrum" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="ds_useful_functions.html" class="btn btn-neutral float-right" title="Denoising search: useful functions" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="spectral_denoising.html" class="btn btn-neutral float-right" title="spectral_denoising package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

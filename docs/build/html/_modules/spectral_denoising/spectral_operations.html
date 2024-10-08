@@ -53,14 +53,15 @@
 <li class="toctree-l1"><a class="reference internal" href="../../sd_single_spectrum_denoising.html">Spectral denoising: for single spectrum</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../sd_batch_spectra_denoising.html">Spectral denoising: in bacth mode</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../sd_useful_functions.html">Spectral denoising: useful functions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../sd_api.html">Spectral denoising: API references</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Denoising search</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../ds_single_spectrum_search.html">Denoising search: for single spectrum</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../ds_batch_spectra_search.html">Denoising search: bacth mode</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../ds_useful_functions.html">Denoising search: useful functions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../ds_api.html">Denoising search: API reference</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">All API References</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../spectral_denoising.html">spectral_denoising package</a></li>
 </ul>
 
         </div>
@@ -102,20 +103,25 @@
 <div class="viewcode-block" id="normalized_entropy">
 <a class="viewcode-back" href="../../spectral_denoising.html#spectral_denoising.spectral_operations.normalized_entropy">[docs]</a>
 <span class="k">def</span> <span class="nf">normalized_entropy</span><span class="p">(</span><span class="n">msms</span><span class="p">):</span>
-    <span class="k">return</span> <span class="p">(</span><span class="n">spctrum_entropy</span><span class="p">(</span><span class="n">msms</span><span class="p">)</span><span class="o">/</span><span class="n">math</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">msms</span><span class="p">)))</span><span class="o">**</span><span class="mi">4</span></div>
+    <span class="k">return</span> <span class="p">(</span><span class="n">spectral_entropy</span><span class="p">(</span><span class="n">msms</span><span class="p">)</span><span class="o">/</span><span class="n">math</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">msms</span><span class="p">)))</span><span class="o">**</span><span class="mi">4</span></div>
 
-<div class="viewcode-block" id="spctrum_entropy">
-<a class="viewcode-back" href="../../spectral_denoising.html#spectral_denoising.spectral_operations.spctrum_entropy">[docs]</a>
-<span class="k">def</span> <span class="nf">spctrum_entropy</span><span class="p">(</span><span class="n">msms</span><span class="p">):</span>
+<div class="viewcode-block" id="spectral_entropy">
+<a class="viewcode-back" href="../../spectral_denoising.html#spectral_denoising.spectral_operations.spectral_entropy">[docs]</a>
+<span class="k">def</span> <span class="nf">spectral_entropy</span><span class="p">(</span><span class="n">msms</span><span class="p">,</span> <span class="n">pmz</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Calculate the entropy of the givens.</span>
 
 <span class="sd">    Parameters:</span>
 <span class="sd">        msms (numpy.ndarray): A 2D array where the each item are formated as [pmz, intensity].</span>
+
+<span class="sd">        pmz (float, optional): The precursor m/z value. If provided, precursors in both spectra will be removed.</span>
 <span class="sd">    Returns:</span>
 <span class="sd">        float: The entropy of the query MS/MS spectrum.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">msms</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    <span class="k">if</span> <span class="n">pmz</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">msms</span> <span class="o">=</span> <span class="n">truncate_spectrum</span><span class="p">(</span><span class="n">msms</span><span class="p">,</span> <span class="n">pmz</span><span class="o">-</span><span class="mf">1.6</span><span class="p">)</span>
     <span class="n">S</span> <span class="o">=</span> <span class="n">me</span><span class="o">.</span><span class="n">calculate_spectral_entropy</span><span class="p">(</span><span class="n">msms</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">S</span></div>
 

@@ -10,17 +10,22 @@ import math
 
 _numpy_formula_format = np.int16
 def normalized_entropy(msms):
-    return (spctrum_entropy(msms)/math.log(len(msms)))**4
-def spctrum_entropy(msms):
+    return (spectral_entropy(msms)/math.log(len(msms)))**4
+def spectral_entropy(msms, pmz = None):
     """
     Calculate the entropy of the givens.
 
     Parameters:
         msms (numpy.ndarray): A 2D array where the each item are formated as [pmz, intensity].
+
+        pmz (float, optional): The precursor m/z value. If provided, precursors in both spectra will be removed.
     Returns:
         float: The entropy of the query MS/MS spectrum.
     """
-
+    if isinstance(msms, float):
+        return np.nan
+    if pmz is not None:
+        msms = truncate_spectrum(msms, pmz-1.6)
     S = me.calculate_spectral_entropy(msms)
     return S
 def entropy_similairty(msms1, msms2,pmz=None, ms2_error = 0.02):

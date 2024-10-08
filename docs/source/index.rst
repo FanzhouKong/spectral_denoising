@@ -33,7 +33,7 @@ This package contains the following modules:
    sd_single_spectrum_denoising
    sd_batch_spectra_denoising
    sd_useful_functions
-   sd_api
+
 
 .. toctree::
    :maxdepth: 1
@@ -41,5 +41,9 @@ This package contains the following modules:
    
    ds_single_spectrum_search
    ds_batch_spectra_search
-   ds_useful_functions
-   ds_api
+
+.. toctree::
+   :maxdepth: 1
+   :caption: All API References
+
+   spectral_denoising

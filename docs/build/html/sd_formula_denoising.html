@@ -62,8 +62,8 @@
 <li class="toctree-l3"><a class="reference internal" href="#step-1-get-precursor-ion-infrmation">Step 1: Get precursor ion infrmation</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#step2-populate-all-possible-subformulas-from-master-formula">Step2: Populate all possible subformulas from master formula</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#step-3-evaluate-if-a-given-ion-could-be-formed-from-a-plausible-subformula-loss">Step 3: Evaluate if a given ion could be formed from a plausible subformula loss</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#step-4-filter-out-ions-that-could-not-be-formed-from-a-plausible-subformula-loss">Step 4: Filter out ions that could not be formed from a plausible subformula loss</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#step-5-add-back-the-precursor-ions">Step 5: Add back the precursor ions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step-4-retaining-true-fragment-ions-and-add-back-the-precursor-ions">Step 4: Retaining True fragment ions and add back the precursor ions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id1">References</a></li>
 </ul>
 </li>
 </ul>
@@ -71,14 +71,15 @@
 <li class="toctree-l1"><a class="reference internal" href="sd_single_spectrum_denoising.html">Spectral denoising: for single spectrum</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sd_batch_spectra_denoising.html">Spectral denoising: in bacth mode</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sd_useful_functions.html">Spectral denoising: useful functions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="sd_api.html">Spectral denoising: API references</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Denoising search</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="ds_single_spectrum_search.html">Denoising search: for single spectrum</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ds_batch_spectra_search.html">Denoising search: bacth mode</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ds_useful_functions.html">Denoising search: useful functions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ds_api.html">Denoising search: API reference</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">All API References</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="spectral_denoising.html">spectral_denoising package</a></li>
 </ul>
 
         </div>
@@ -129,8 +130,8 @@
 </pre></div>
 </div>
 <p>The output will be:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">Entropy</span> <span class="n">similarity</span> <span class="n">of</span> <span class="n">spectra</span> <span class="k">with</span> <span class="n">noise</span><span class="p">:</span> <span class="mf">0.33</span><span class="o">.</span>
-<span class="n">Entropy</span> <span class="n">similarity</span> <span class="n">of</span> <span class="n">spectra</span> <span class="k">with</span> <span class="n">noise</span><span class="p">:</span> <span class="mf">1.00</span><span class="o">.</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">Entropy</span> <span class="n">similarity</span> <span class="n">of</span> <span class="n">spectrum</span> <span class="k">with</span> <span class="n">noise</span><span class="p">:</span> <span class="mf">0.33</span><span class="o">.</span>
+<span class="n">Entropy</span> <span class="n">similarity</span> <span class="n">of</span> <span class="n">denoised</span> <span class="n">spectrum</span><span class="p">:</span> <span class="mf">1.00</span><span class="o">.</span>
 </pre></div>
 </div>
 <section id="references">
@@ -177,21 +178,258 @@ The detailes about this database can be found paper: LibGen: Generating High Qua
 <h2>Want to know details about implementation?<a class="headerlink" href="#want-to-know-details-about-implementation" title="Link to this heading"></a></h2>
 <section id="step-0-modify-the-master-formula-based-on-smiles-and-adduct-information">
 <h3>Step 0: Modify the master formula based on SMILES and adduct information<a class="headerlink" href="#step-0-modify-the-master-formula-based-on-smiles-and-adduct-information" title="Link to this heading"></a></h3>
+<p>The very first step is to get the molecular formula of the precursor ion using the SMILES code. If the adduct contains atom other than a proton, the master formula will be modified accordingly to allow loss with the adduct. Moreover, 2 nitrogen and 1 oxygen is added if benzene substructure is present, to account for forming of rare adduct in the collision cells (<a class="reference external" href="https://chemistry-europe.onlinelibrary.wiley.com/doi/full/10.1002/cphc.201200313">More info</a>.)</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">spectral_denoising.spectral_denoising</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="n">smiles</span> <span class="o">=</span> <span class="s1">&#39;O=c1nc[nH]c2nc[nH]c12&#39;</span>
+<span class="n">adduct</span> <span class="o">=</span> <span class="s1">&#39;[M+Na]+&#39;</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">prep_formula</span><span class="p">(</span><span class="n">smiles</span><span class="p">,</span> <span class="n">adduct</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>The output will be:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="s1">&#39;C5H4N4NaO&#39;</span>
+</pre></div>
+</div>
 </section>
 <section id="step-1-get-precursor-ion-infrmation">
 <h3>Step 1: Get precursor ion infrmation<a class="headerlink" href="#step-1-get-precursor-ion-infrmation" title="Link to this heading"></a></h3>
+<p>Then we want to get precursor statistics. If real precursor ion exist, the algorithm will prefer to use it since then the loss calculation will be free of systematic error. If not, the algorithm will use the computed precursor m/z. The real mass error would also be calculated for this step, and if it is larger than the mass_tolerance fed into the function, it will also be slightly increased to account for that.</p>
+<p>For this reason, it is recommended to use a smaller mass tolerance to start with.</p>
+<p>At this step, the spectra is also sliced into 2 parts, the precursor region and fragment region, using <code class="docutils literal notranslate"><span class="pre">slice_spectrum</span></code> function. Since the algorithm focuses on the relative loss, only the fragment region is denoised, while the precursor region was kept intact and will be returned at the very last.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">spectral_denoising.spectral_denoising</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">spectral_denoising.chem_utils</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="n">smiles</span> <span class="o">=</span> <span class="s1">&#39;O=c1nc[nH]c2nc[nH]c12&#39;</span>
+<span class="n">adduct</span> <span class="o">=</span> <span class="s1">&#39;[M+Na]+&#39;</span>
+<span class="n">peak</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">48.992496490478516</span> <span class="p">,</span><span class="mf">154.0</span><span class="p">],</span>
+                <span class="p">[</span><span class="mf">63.006099700927734</span><span class="p">,</span> <span class="mf">265.0</span><span class="p">],</span>
+                <span class="p">[</span><span class="mf">79.02062225341797</span><span class="p">,</span> <span class="mf">521.0</span><span class="p">],</span>
+                <span class="p">[</span><span class="mf">159.02373146795</span><span class="p">,</span> <span class="mi">999</span><span class="p">]],</span>
+
+                <span class="n">dtype</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+<span class="n">computed_pmz</span> <span class="o">=</span> <span class="n">calculate_precursormz</span><span class="p">(</span><span class="n">adduct</span><span class="p">,</span> <span class="n">smiles</span><span class="p">)</span>
+<span class="n">pmz</span><span class="p">,</span> <span class="n">mass_threshold</span> <span class="o">=</span> <span class="n">get_pmz_statistics</span><span class="p">(</span><span class="n">peak</span><span class="p">,</span> <span class="n">computed_pmz</span><span class="p">,</span> <span class="n">mass_tolerance</span><span class="o">=</span><span class="mf">0.005</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">pmz</span><span class="p">,</span> <span class="n">mass_threshold</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="mf">159.02373</span> <span class="mf">0.006996155</span>
+</pre></div>
+</div>
 </section>
 <section id="step2-populate-all-possible-subformulas-from-master-formula">
 <h3>Step2: Populate all possible subformulas from master formula<a class="headerlink" href="#step2-populate-all-possible-subformulas-from-master-formula" title="Link to this heading"></a></h3>
+<p>The next step is to populate all possible subformulas (with their masses) from the master formula. This can be easiily done with <code class="docutils literal notranslate"><span class="pre">get_all_subfromulas</span></code> function. The candidate formulas and masses are sorted so that search speed get facilitated.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">all_possible_candidate_formula</span><span class="p">,</span><span class="n">all_possible_mass</span> <span class="o">=</span> <span class="n">get_all_subformulas</span><span class="p">(</span><span class="n">master_formula</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">all_possible_candidate_formula</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">5</span><span class="p">],</span> <span class="n">all_possible_mass</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">5</span><span class="p">])</span> <span class="c1"># only show first 5 for brevity</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="s1">&#39;H&#39;</span><span class="p">,</span> <span class="s1">&#39;H2&#39;</span><span class="p">,</span> <span class="s1">&#39;H3&#39;</span><span class="p">,</span> <span class="s1">&#39;H4&#39;</span><span class="p">]</span> <span class="p">[</span><span class="mf">1.00782503</span> <span class="mf">2.01565006</span> <span class="mf">3.0234751</span>  <span class="mf">4.03130013</span><span class="p">]</span>
+</pre></div>
+</div>
 </section>
 <section id="step-3-evaluate-if-a-given-ion-could-be-formed-from-a-plausible-subformula-loss">
 <h3>Step 3: Evaluate if a given ion could be formed from a plausible subformula loss<a class="headerlink" href="#step-3-evaluate-if-a-given-ion-could-be-formed-from-a-plausible-subformula-loss" title="Link to this heading"></a></h3>
+<p>For any given fragment ion, the algorithm will try to find a plausible subformula loss that could form this ion (function <code class="docutils literal notranslate"><span class="pre">check_cnadidates</span></code>).</p>
+<p>If such loss can be found, this ion will be given a tag ‘True’, otherwise a ‘False’ tag. This is done through function <code class="docutils literal notranslate"><span class="pre">get_denoise_tag</span></code>.</p>
 </section>
-<section id="step-4-filter-out-ions-that-could-not-be-formed-from-a-plausible-subformula-loss">
-<h3>Step 4: Filter out ions that could not be formed from a plausible subformula loss<a class="headerlink" href="#step-4-filter-out-ions-that-could-not-be-formed-from-a-plausible-subformula-loss" title="Link to this heading"></a></h3>
+<section id="step-4-retaining-true-fragment-ions-and-add-back-the-precursor-ions">
+<h3>Step 4: Retaining True fragment ions and add back the precursor ions<a class="headerlink" href="#step-4-retaining-true-fragment-ions-and-add-back-the-precursor-ions" title="Link to this heading"></a></h3>
+<p>Once the denoised tag was created, only ions with ‘True’ tag will be kept. The return spectra will be denoised fragment ions and precursor ions (function <code class="docutils literal notranslate"><span class="pre">add_spectra</span></code>).</p>
 </section>
-<section id="step-5-add-back-the-precursor-ions">
-<h3>Step 5: Add back the precursor ions<a class="headerlink" href="#step-5-add-back-the-precursor-ions" title="Link to this heading"></a></h3>
+<section id="id1">
+<h3>References<a class="headerlink" href="#id1" title="Link to this heading"></a></h3>
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">spectral_denoising.spectral_denoising.</span></span><span class="sig-name descname"><span class="pre">formula_denoising</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msms</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">smiles</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">adduct</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mass_tolerance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.005</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral_denoising/spectral_denoising.html#formula_denoising"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Perform formula denoising on the given mass spectrometry data. The function first re-generate formula based on chemical rules, get the statistic of the precursor m/z, and then perform formula denoising.
+The precursor region is not affected by the denoising process, only the frgamnet region is denoised.</p>
+<dl class="simple">
+<dt>Parameters:</dt><dd><p>msms (numpy.array): The mass spectrometry data to be denoised. 
+smiles (str): The SMILES string representing the molecular structure.
+adduct (str): The adduct type used in the mass spectrometry.
+mass_tolerance (float, optional): The mass tolerance for precursor m/z calculation. Default is 0.005.</p>
+</dd>
+<dt>Returns:</dt><dd><p>numpy.ndarray: The denoised mass spectrometry data, or np.nan If the SMILES string or adduct is invalid, or all ions removed.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">spectral_denoising.spectral_denoising.</span></span><span class="sig-name descname"><span class="pre">prep_formula</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">smiles</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">adduct</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral_denoising/spectral_denoising.html#prep_formula"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Prepares the molecular formula based on the given SMILES string and adduct.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>smiles (str): The SMILES representation of the molecule.
+adduct (str): The adduct string representing the ionization state.</p>
+</dd>
+<dt>Returns:</dt><dd><p>str: The calculated molecular formula, or NaN if the formula cannot be determined.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">spectral_denoising.spectral_denoising.</span></span><span class="sig-name descname"><span class="pre">get_pmz_statistics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msms</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c_pmz</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mass_tolerance</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral_denoising/spectral_denoising.html#get_pmz_statistics"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Use the real precursor m/z to estimate the mass deviation in a given spectrum.</p>
+<dl class="simple">
+<dt>Parameters:</dt><dd><p>msms (numpy.ndarray): A 2D array where the first row contains m/z values and the second row contains intensity values.
+c_pmz (float): The computed m/z value around which to search for the most intense peak.
+mass_tolerance (float): The mass tolerance within which to search for the most intense peak.</p>
+</dd>
+<dt>Returns:</dt><dd><p>tuple: A tuple containing:
+- r_pmz (float): The actual precursor m/z. If not found (precursor is fully fragmented), the computed m/z is returned.
+- float: The deviation between computed and actual precursor m/z, scaled by 1.75 if it exceeds the initial mass tolerance.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">spectral_denoising.spectral_denoising.</span></span><span class="sig-name descname"><span class="pre">get_all_subformulas</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">raw_formula</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral_denoising/spectral_denoising.html#get_all_subformulas"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Generate all possible subformulas and their corresponding masses from a given chemical formula.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>raw_formula (str): The input chemical formula, which can be in SMILES format or a standard chemical formula.</p>
+</dd>
+<dt>Returns:</dt><dd><dl class="simple">
+<dt>tuple: A tuple containing:</dt><dd><ul class="simple">
+<li><p>all_possible_candidate_formula (list of str): A list of all possible subformulas derived from the input formula.</p></li>
+<li><p>all_possible_mass (numpy.ndarray): An array of masses corresponding to each subformula.</p></li>
+</ul>
+</dd>
+</dl>
+</dd>
+<dt>Notes:</dt><dd><ul class="simple">
+<li><p>If the input formula is in SMILES format, it will be converted to a standard chemical formula.</p></li>
+<li><p>The function uses the <cite>chemparse</cite> library to parse the chemical formula and <cite>itertools.product</cite> to generate all possible combinations of subformulas.</p></li>
+<li><p>The resulting subformulas and their masses are sorted in ascending order of mass for enhancing search process.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">spectral_denoising.spectral_denoising.</span></span><span class="sig-name descname"><span class="pre">get_all_subformulas</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">raw_formula</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral_denoising/spectral_denoising.html#get_all_subformulas"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Generate all possible subformulas and their corresponding masses from a given chemical formula.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>raw_formula (str): The input chemical formula, which can be in SMILES format or a standard chemical formula.</p>
+</dd>
+<dt>Returns:</dt><dd><dl class="simple">
+<dt>tuple: A tuple containing:</dt><dd><ul class="simple">
+<li><p>all_possible_candidate_formula (list of str): A list of all possible subformulas derived from the input formula.</p></li>
+<li><p>all_possible_mass (numpy.ndarray): An array of masses corresponding to each subformula.</p></li>
+</ul>
+</dd>
+</dl>
+</dd>
+<dt>Notes:</dt><dd><ul class="simple">
+<li><p>If the input formula is in SMILES format, it will be converted to a standard chemical formula.</p></li>
+<li><p>The function uses the <cite>chemparse</cite> library to parse the chemical formula and <cite>itertools.product</cite> to generate all possible combinations of subformulas.</p></li>
+<li><p>The resulting subformulas and their masses are sorted in ascending order of mass for enhancing search process.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">spectral_denoising.spectral_denoising.</span></span><span class="sig-name descname"><span class="pre">get_denoise_tag</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frag_msms</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">all_possible_candidate_formula</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">all_possible_mass</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pmz</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">has_benzene</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mass_threshold</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral_denoising/spectral_denoising.html#get_denoise_tag"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Determine which ions in the fragment regions are chemically feasible ion.
+This function calculates the mass loss for each fragment in the MS/MS data and 
+searches for candidate formulas within a specified mass threshold. If the 
+<cite>has_benzene</cite> flag is set, the precursor mass (<cite>pmz</cite>) is adjusted by adding the 
+mass of the N2O isotope to count for rare cases of forming N2/H2O adducts in the collision chamber.
+The ions will be given a True only if it can be associated with at least 1 chemically feasible subformula of the molecular formula.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>frag_msms (numpy.array): Array of fragment MS/MS data, where each tuple contains the mass and intensity of a fragment.
+all_possible_candidate_formula (list): List of all possible candidate formulas.
+all_possible_mass (numpy.ndarray): Sorted array of all possible masses.
+pmz (float): Precursor mass.
+has_benzene (bool): Flag indicating if benzene is present.
+mass_threshold (float): Mass threshold for searching candidate formulas.</p>
+</dd>
+<dt>Returns:</dt><dd><p>list: List of denoise tags for each fragment.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">spectral_denoising.spectral_denoising.</span></span><span class="sig-name descname"><span class="pre">check_candidates</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">candidates</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral_denoising/spectral_denoising.html#check_candidates"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Checks a list of candidates to see if any of them meet a certain ratio condition.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>candidates (list): A list of candidate formulas to be checked.</p>
+</dd>
+<dt>Returns:</dt><dd><p>bool: True if at least one candidate meets the ratio condition, False otherwise.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">spectral_denoising.seven_golden_rules.</span></span><span class="sig-name descname"><span class="pre">check_ratio</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">formula</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral_denoising/seven_golden_rules.html#check_ratio"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Checks the composition of chemical formula using ratio checks in the “7 golden rules” 
+(‘Seven Golden Rules for heuristic filtering of molecular formulas obtained by accurate mass spectrometry’).</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>formula (str): The chemical formula to be checked.</p>
+</dd>
+<dt>Returns:</dt><dd><p>bool: True if the formula passes all checks, False otherwise.
+np.NAN: If the formula is invalid due to non-alphanumeric characters at the end.</p>
+</dd>
+<dt>The function performs the following checks:</dt><dd><ul class="simple">
+<li><p>Checks the number of hydrogen and carbon atoms based on the accurate mass.</p></li>
+<li><p>Checks the number of nitrogen and oxygen atoms.</p></li>
+<li><p>Ensures the it is not a pure carbon/nitrogen loss (except N2)</p></li>
+<li><p>Checks the hydrogen to carbon ratio.</p></li>
+<li><p>Checks the fluorine to carbon ratio.</p></li>
+<li><p>Checks the chlorine to carbon ratio.</p></li>
+<li><p>Checks the bromine to carbon ratio.</p></li>
+<li><p>Checks the nitrogen to carbon ratio.</p></li>
+<li><p>Checks the oxygen to carbon ratio.</p></li>
+<li><p>Checks the phosphorus to carbon ratio.</p></li>
+<li><p>Checks the sulfur to carbon ratio.</p></li>
+<li><p>Checks the silicon to carbon ratio.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">spectral_denoising.spectral_operations.</span></span><span class="sig-name descname"><span class="pre">slice_spectrum</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msms</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">break_mz</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral_denoising/spectral_operations.html#slice_spectrum"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Slices a mass spectrum into two parts based on a given m/z value.</p>
+<dl class="simple">
+<dt>Parameters:</dt><dd><p>msms (numpy.ndarray): The mass spectrum data, where each row represents a peak with m/z and intensity values. If a empty spectrum is provided, the function returns NaN.
+break_mz (float): The break point where to slice the spectrum.</p>
+</dd>
+<dt>Returns:</dt><dd><dl class="simple">
+<dt>tuple: A tuple containing two numpy.ndarrays:</dt><dd><ul class="simple">
+<li><p>The first array contains all peaks with m/z values less than the break_mz.</p></li>
+<li><p>The second array contains all peaks with m/z values greater than or equal to the break_mz.</p></li>
+</ul>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">spectral_denoising.spectral_operations.</span></span><span class="sig-name descname"><span class="pre">add_spectra</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msms1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msms2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral_denoising/spectral_operations.html#add_spectra"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Add two spectra together.
+This function takes two spectra (msms1 and msms2) and combines them. If one of the inputs is a float and the other 
+is not, it returns the non-float input. If both inputs are floats, it returns NaN.</p>
+<dl class="simple">
+<dt>Parameters:</dt><dd><p>msms1 (numpy.ndarray): The first spectrum.
+msms2 (numpy.ndarray): The second spectrum.</p>
+</dd>
+<dt>Returns:</dt><dd><p>numpy.ndarray: The combined spectrum if both inputs are not floats, one of the inputs if the other is a float, or NaN if both inputs are floats.</p>
+</dd>
+<dt>Notes:</dt><dd><ul class="simple">
+<li><p>This function is very naive mixing of 2 spectrum. If you wished to formulate the intensity, please do it before using this function.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 </section>
 </section>

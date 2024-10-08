@@ -54,16 +54,20 @@
 <li class="toctree-l1"><a class="reference internal" href="sd_electronic_denoising.html">Spectral denoising: electronic denoising</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sd_formula_denoising.html">Spectral denoising: formula denoising</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sd_single_spectrum_denoising.html">Spectral denoising: for single spectrum</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Spectral denoising: in bacth mode</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Spectral denoising: in bacth mode</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#references">References</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="sd_useful_functions.html">Spectral denoising: useful functions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="sd_api.html">Spectral denoising: API references</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Denoising search</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="ds_single_spectrum_search.html">Denoising search: for single spectrum</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ds_batch_spectra_search.html">Denoising search: bacth mode</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ds_useful_functions.html">Denoising search: useful functions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ds_api.html">Denoising search: API reference</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">All API References</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="spectral_denoising.html">spectral_denoising package</a></li>
 </ul>
 
         </div>
@@ -92,6 +96,52 @@
              
   <section id="spectral-denoising-in-bacth-mode">
 <h1>Spectral denoising: in bacth mode<a class="headerlink" href="#spectral-denoising-in-bacth-mode" title="Link to this heading"></a></h1>
+<p>The <code class="docutils literal notranslate"><span class="pre">spectral_denoising_batch</span></code> is just a simple wrapper function that performs <code class="docutils literal notranslate"><span class="pre">spectral_denoising</span></code> in batch mode, with parallelization implementaion.</p>
+<p>The sample data can be found <a class="reference external" href="https://github.com/FanzhouKong/spectral_denoising/tree/main/sample_data">here</a>.</p>
+<p>Example usage:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">spectral_denoising</span> <span class="k">as</span> <span class="nn">sd</span>
+<span class="kn">from</span> <span class="nn">spectral_denoising.file_io</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="n">query_data</span> <span class="o">=</span> <span class="n">sd</span><span class="o">.</span><span class="n">read_msp</span><span class="p">(</span><span class="s1">&#39;sample_data/noisy_spectra.msp&#39;</span><span class="p">)</span>
+<span class="n">query_spectra</span><span class="p">,</span><span class="n">query_smiles</span><span class="p">,</span><span class="n">query_adducts</span> <span class="o">=</span> <span class="n">query_data</span><span class="p">[</span><span class="s1">&#39;peaks&#39;</span><span class="p">],</span><span class="n">query_data</span><span class="p">[</span><span class="s1">&#39;smiles&#39;</span><span class="p">],</span><span class="n">query_data</span><span class="p">[</span><span class="s1">&#39;adduct&#39;</span><span class="p">]</span>
+<span class="n">denoised_spectra</span> <span class="o">=</span> <span class="n">sd</span><span class="o">.</span><span class="n">spectral_denoising_batch</span><span class="p">(</span><span class="n">query_spectra</span><span class="p">,</span><span class="n">query_smiles</span><span class="p">,</span><span class="n">query_adducts</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The output ‘denoised_spectra’ will be a list of denoised spectra, with the same order as the input spectra.</p>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">spectral_denoising.</span></span><span class="sig-name descname"><span class="pre">spectral_denoising_batch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msms_quene</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">smiles_quene</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">adduct_quene</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mass_tolerance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.005</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral_denoising/spectral_denoising.html#spectral_denoising_batch"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Perform batch spectral denoising on multiple sets of MS/MS spectra, SMILES strings, and adducts. Uses multiprocessing to parallelize the denoising process.</p>
+<dl class="simple">
+<dt>Parameters:</dt><dd><p>msms_quene (list): A list of MS/MS spectra data.
+smiles_quene (list): A list of SMILES strings corresponding to the MS/MS spectra.
+adduct_quene (list): A list of adducts corresponding to the MS/MS spectra.
+mass_tolerance (float, optional): The allowed deviation for the denoising process. Default is 0.005.</p>
+</dd>
+<dt>Returns:</dt><dd><p>list: A list of denoised MS/MS from the spectral denoising process.</p>
+</dd>
+<dt>Notes:</dt><dd><ul class="simple">
+<li><p>The lengths of msms_quene, smiles_quene, and adduct_quene must be the same. If not, the function will print an error message and return an empty tuple.</p></li>
+<li><p>The function uses multiprocessing to parallelize the denoising process, utilizing 6 processes.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">spectral_denoising.file_io.</span></span><span class="sig-name descname"><span class="pre">read_msp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral_denoising/file_io.html#read_msp"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Reads the MSP files into the pandas dataframe, and sort/remove zero intensity ions in MS/MS spectra.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>file_path (str): target path path for the MSP file.</p>
+</dd>
+<dt>Returns:</dt><dd><p>pd.DataFrame: DataFrame containing the MS/MS spectra information</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
 </section>
 
 

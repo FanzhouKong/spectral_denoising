@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: spectral_denoising
-Version: 0.1.1
+Version: 0.1.3
 Summary: Spectral denoising and denoising search
 Author: Fanzhou Kong
 Author-email: <fzkong@ucdavis.edu>
@@ -54,7 +54,7 @@ pip install spectral-denoising
 ```
 
 ### Usage of Classic spectral denoising (electronic denoising and chemical denoising)
-
+The demo data used here can be found under sample_data directory.
 #### Simple usage on single spectra
 ```python
 import numpy as np
@@ -68,18 +68,18 @@ pmz = calculate_precursormz(adduct,smiles)
 peak = np.array([[48.992496490478516 ,154.0],
                   [63.006099700927734, 265.0],
                   [79.02062225341797, 521.0]], dtype = np.float32)
-print(f'the spectrum entropy is {spctrum_entropy(peak):.2f}, the normalized entropy is {normalized_entropy(peak):.2f}')
+print(f'the spectrum entropy of raw spectrum is {spctrum_entropy(peak):.2f}, the normalized entropy of raw spectrum is {normalized_entropy(peak):.2f}')
 # alternatively, you can store mass and intensity in separate arrays, and use pack_spectrum(mass, intensity) to get the peaks array
 # e.g.mass,intensity = [48.992496490478516, 63.006099700927734, 79.02062225341797], [154.0, 265.0, 521.0]
 # peak = pack_spectrum(mass, intensity)
 
-# generate some electronic noise and add it to the peaks
+# generate some noise ions and add it to the peaks
 from spectral_denoising.noise import *
 noise = generate_noise(pmz, lamda=10, n = 50)
 peak_with_noise = add_noise(peak, noise)
 # use head_to_tail_plot to visualize the spectra, only in jupyter notebook
 # sd.head_to_tail_plot(peaks_with_noise,peaks ,pmz)
-print(f'the spectrum entropy is {spctrum_entropy(peak_with_noise):.2f}, the normalized entropy is {normalized_entropy(peak_with_noise):.2f}')
+print(f'the spectrum entropy of contaminated spectrum is {spctrum_entropy(peak_with_noise):.2f}, the normalized entropy of contaminated spectrum is {normalized_entropy(peak_with_noise):.2f}')
 print(f'the entropy similarity of contaminated spectrum and the raw spectrum is {entropy_similairty(peak_with_noise,peak,  pmz = pmz):.2f}')
 
 # perform spectral denosing and compare against the raw spectrum
@@ -93,7 +93,7 @@ print(f'the entropy similarity of denoised spectrum and the raw spectrum is {ent
 import spectral_denoising as sd
 query_data = sd.read_msp('sample_data/noisy_spectra.msp')
 query_peaks,query_smiles,query_adduct, query_pmz = query_data['peaks'],query_data['smiles'],query_data['adduct'], query_data['precursor_mz'] 
-desnoied_peaks = sd.spectra_denoising_batch(quene_peaks,quene_smiles,quene_adduct) # this will return all denoised spectra in a list
+desnoied_peaks = sd.spectra_denoising_batch(query_peaks,query_smiles,query_adduct) # this will return all denoised spectra in a list
 ```
 
 ### Usage of Denoising search
@@ -102,10 +102,10 @@ desnoied_peaks = sd.spectra_denoising_batch(quene_peaks,quene_smiles,quene_adduc
 import spectral_denoising as sd
 query_spectra= sd.read_msp('sample_data/query_spectra.msp')
 reference_library =sd.read_msp('sample_data/reference_library.msp')
-quene_spectrum, quene_pmz = quene_spectra.iloc[0]['peaks'], quene_spectra.iloc[0]['precursor_mz'] # just the first spectrum
-result = sd.denoising_search(quene_spectrum, quene_pmz, reference_library)
-# result will return all precursor candidates of the quene spectrum, each with entropy similarities of both raw and denoised spectra
-display(result)
+query_spectrum, query_pmz = query_spectra.iloc[0]['peaks'], query_spectra.iloc[0]['precursor_mz'] # just the first spectrum
+result = sd.denoising_search(query_spectrum, query_pmz, reference_library)
+# result will return all precursor candidates of the query spectrum, each with entropy similarities of both raw and denoised spectra
+print(result)
 ```
 
 #### Denoising search on all spectra against reference library
@@ -116,5 +116,7 @@ reference_library =sd.read_msp('sample_data/reference_library.msp')
 
 results = sd.denoising_search_batch(query_spectra['peaks'], query_spectra['precursor_mz'], reference_library) 
 # results will be a list of all correspoinding precursor mz candidates, each one with entropy similarities of both raw and denoised spectra (using reference spectra melecular information)
-display(results[0])# this will show denoising search result for the first spectra in msp file
+print(results[0])# this will show denoising search result for the first spectra in msp file
 ```
+## Working examples
+More working examples can be found under notebooks directory.

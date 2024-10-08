@@ -101,7 +101,7 @@ def electronic_denoising(msms):
     and then iteratively selects and confirms peaks based on a specified intensity threshold.
     The confirmed peaks are then packed and sorted before being returned.
 
-    Args:
+    Parameters:
         msms (np.ndarray): The first item is always m/z and the second item is intensity.
 
     Returns:
