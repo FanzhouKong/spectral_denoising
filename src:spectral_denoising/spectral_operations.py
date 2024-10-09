@@ -43,8 +43,9 @@ def entropy_similairty(msms1, msms2,pmz=None, ms2_error = 0.02):
 
     if isinstance(msms1, float) or isinstance(msms2, float):
         return np.nan
-    msms1 = truncate_spectrum(msms1, pmz-1.6)
-    msms2 = truncate_spectrum(msms2, pmz-1.6)
+    if pmz is not None:
+        msms1 = truncate_spectrum(msms1, pmz-1.6)
+        msms2 = truncate_spectrum(msms2, pmz-1.6)
     if isinstance(msms1, float) or isinstance(msms2, float):
         return np.nan
     if pmz is not None:
