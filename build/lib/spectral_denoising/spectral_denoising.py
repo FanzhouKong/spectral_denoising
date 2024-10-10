@@ -15,29 +15,32 @@ from .chem_utils import replace_adduct_string, calculate_precursormz
 from .constant import proton_mass
 # key functions: electronic denoising and formula denoising
 _numpy_formula_format = np.int16
-def spectral_denoising_batch(msms_quene, smiles_quene, adduct_quene, mass_tolerance = 0.005):
+def spectral_denoising_batch(msms_query, smiles_query, adduct_query, mass_tolerance = 0.005):
     """
     Perform batch spectral denoising on multiple sets of MS/MS spectra, SMILES strings, and adducts. Uses multiprocessing to parallelize the denoising process.
 
     Parameters:
-        msms_quene (list): A list of MS/MS spectra data.
-        smiles_quene (list): A list of SMILES strings corresponding to the MS/MS spectra.
-        adduct_quene (list): A list of adducts corresponding to the MS/MS spectra.
+        msms_query (list): A list of MS/MS spectra data.
+
+        smiles_query (list): A list of SMILES strings corresponding to the MS/MS spectra.
+
+        adduct_query (list): A list of adducts corresponding to the MS/MS spectra.
+
         mass_tolerance (float, optional): The allowed deviation for the denoising process. Default is 0.005.
     Returns:
         list: A list of denoised MS/MS from the spectral denoising process.
     Notes:
-        - The lengths of msms_quene, smiles_quene, and adduct_quene must be the same. If not, the function will print an error message and return an empty tuple.
+        - The lengths of msms_query, smiles_query, and adduct_query must be the same. If not, the function will print an error message and return an empty tuple.
         - The function uses multiprocessing to parallelize the denoising process, utilizing 6 processes.
     """
 
-    if len(msms_quene) != len(smiles_quene) or len(msms_quene) != len(adduct_quene):
+    if len(msms_query) != len(smiles_query) or len(msms_query) != len(adduct_query):
         print('The length of msms, smiles and adduct should be the same')
         return ()
     with mp.Pool(processes=6) as pool:
             # Use starmap to handle multiple parameters
         results = pool.starmap(spectral_denoising, tqdm([(msms, smiles, adduct, mass_tolerance) for msms, smiles, adduct 
-                                                        in zip(msms_quene, smiles_quene,adduct_quene)], total=len(msms_quene)))
+                                                        in zip(msms_query, smiles_query,adduct_query)], total=len(adduct_query)))
 
     return results
 def spectral_denoising(msms, smiles, adduct, mass_tolerance = 0.005):

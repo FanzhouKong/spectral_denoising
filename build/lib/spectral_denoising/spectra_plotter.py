@@ -15,7 +15,7 @@ import plotly.express as px
 
 
 import ast
-def head_to_tail_plot(msms1, msms2,pmz=None,mz_start = None, mz_end = None, pmz2= None,ms2_error = 0.02,
+def head_to_tail_plot(msms1, msms2,pmz=None,mz_start = None, mz_end = None, pmz2= None,ms2_error = 0.02,title = None,
                       color1 = None, color2 = None,
                       savepath = None, show= True, publication = False,fontsize = 12):
     """
@@ -107,6 +107,8 @@ def head_to_tail_plot(msms1, msms2,pmz=None,mz_start = None, mz_end = None, pmz2
     ax.set_facecolor("none")
     ax.grid(False)
     plt.grid(True, axis="y", color='black', linestyle=':', linewidth=0.1)
+    if title != None:
+        plt.title(title)
     plt.tight_layout()
     if savepath != None:
         plt.savefig(savepath, dpi = 300,facecolor = 'white', edgecolor = 'none')

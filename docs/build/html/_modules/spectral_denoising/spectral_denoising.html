@@ -108,29 +108,32 @@
 <span class="n">_numpy_formula_format</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">int16</span>
 <div class="viewcode-block" id="spectral_denoising_batch">
 <a class="viewcode-back" href="../../spectral_denoising.html#spectral_denoising.spectral_denoising_batch">[docs]</a>
-<span class="k">def</span> <span class="nf">spectral_denoising_batch</span><span class="p">(</span><span class="n">msms_quene</span><span class="p">,</span> <span class="n">smiles_quene</span><span class="p">,</span> <span class="n">adduct_quene</span><span class="p">,</span> <span class="n">mass_tolerance</span> <span class="o">=</span> <span class="mf">0.005</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">spectral_denoising_batch</span><span class="p">(</span><span class="n">msms_query</span><span class="p">,</span> <span class="n">smiles_query</span><span class="p">,</span> <span class="n">adduct_query</span><span class="p">,</span> <span class="n">mass_tolerance</span> <span class="o">=</span> <span class="mf">0.005</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Perform batch spectral denoising on multiple sets of MS/MS spectra, SMILES strings, and adducts. Uses multiprocessing to parallelize the denoising process.</span>
 
 <span class="sd">    Parameters:</span>
-<span class="sd">        msms_quene (list): A list of MS/MS spectra data.</span>
-<span class="sd">        smiles_quene (list): A list of SMILES strings corresponding to the MS/MS spectra.</span>
-<span class="sd">        adduct_quene (list): A list of adducts corresponding to the MS/MS spectra.</span>
+<span class="sd">        msms_query (list): A list of MS/MS spectra data.</span>
+
+<span class="sd">        smiles_query (list): A list of SMILES strings corresponding to the MS/MS spectra.</span>
+
+<span class="sd">        adduct_query (list): A list of adducts corresponding to the MS/MS spectra.</span>
+
 <span class="sd">        mass_tolerance (float, optional): The allowed deviation for the denoising process. Default is 0.005.</span>
 <span class="sd">    Returns:</span>
 <span class="sd">        list: A list of denoised MS/MS from the spectral denoising process.</span>
 <span class="sd">    Notes:</span>
-<span class="sd">        - The lengths of msms_quene, smiles_quene, and adduct_quene must be the same. If not, the function will print an error message and return an empty tuple.</span>
+<span class="sd">        - The lengths of msms_query, smiles_query, and adduct_query must be the same. If not, the function will print an error message and return an empty tuple.</span>
 <span class="sd">        - The function uses multiprocessing to parallelize the denoising process, utilizing 6 processes.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">msms_quene</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">smiles_quene</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">msms_quene</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">adduct_quene</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">msms_query</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">smiles_query</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">msms_query</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">adduct_query</span><span class="p">):</span>
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The length of msms, smiles and adduct should be the same&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="p">()</span>
     <span class="k">with</span> <span class="n">mp</span><span class="o">.</span><span class="n">Pool</span><span class="p">(</span><span class="n">processes</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span> <span class="k">as</span> <span class="n">pool</span><span class="p">:</span>
             <span class="c1"># Use starmap to handle multiple parameters</span>
         <span class="n">results</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">starmap</span><span class="p">(</span><span class="n">spectral_denoising</span><span class="p">,</span> <span class="n">tqdm</span><span class="p">([(</span><span class="n">msms</span><span class="p">,</span> <span class="n">smiles</span><span class="p">,</span> <span class="n">adduct</span><span class="p">,</span> <span class="n">mass_tolerance</span><span class="p">)</span> <span class="k">for</span> <span class="n">msms</span><span class="p">,</span> <span class="n">smiles</span><span class="p">,</span> <span class="n">adduct</span> 
-                                                        <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">msms_quene</span><span class="p">,</span> <span class="n">smiles_quene</span><span class="p">,</span><span class="n">adduct_quene</span><span class="p">)],</span> <span class="n">total</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">msms_quene</span><span class="p">)))</span>
+                                                        <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">msms_query</span><span class="p">,</span> <span class="n">smiles_query</span><span class="p">,</span><span class="n">adduct_query</span><span class="p">)],</span> <span class="n">total</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">adduct_query</span><span class="p">)))</span>
 
     <span class="k">return</span> <span class="n">results</span></div>
 

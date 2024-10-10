@@ -19,6 +19,23 @@ valence_dict = {
     'F':1,
     'Fe':8
 }
+standard_mapping = {
+    'adducts': 'adduct',
+    'precursortype': 'adduct',
+    'precursor_type': 'adduct',
+    'adduct_type': 'adduct',
+    'smile': 'smiles',
+    'precursormz':'precursor_mz',
+    'pmz':'precursor_mz',
+    'query_pmz':'precursor_mz',
+    'rt':'rt',
+    'rt_apex':'rt',
+    'retentiontime':'rt',
+    'msms':'peaks',
+    'msmsspectrum':'peaks',
+    'spectrum':'peaks',
+
+}
 atom_mass = {'H': 1.00782503223,
              'D': 2.01410177811,
              'T': 3.01604928199,

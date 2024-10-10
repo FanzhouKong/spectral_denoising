@@ -115,18 +115,18 @@ The demo data can be found <a class="reference external" href="https://github.co
 <dt class="sig sig-object py">
 <span class="sig-prename descclassname"><span class="pre">spectral_denoising.</span></span><span class="sig-name descname"><span class="pre">denoising_search</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msms</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pmz</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reference_lib</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">identitiy_search_mass_error</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.01</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mass_tolernace</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.005</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pmz_col</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'precursor_mz'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">smiles_col</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'smiles'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">adduct_col</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'adduct'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msms_col</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'peaks'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral_denoising/denoising_search.html#denoising_search"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Perform a denoising search on mass spectrometry data.
-In addition to traditional identity search, the quene msms will be denoised using molecular information of all candidates within predefined identitiy_search_mass_error range.
+In addition to traditional identity search, the query msms will be denoised using molecular information of all candidates within predefined identitiy_search_mass_error range.
 Then, entropy similarity scores are calculated for both the original and denoised spectra.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>msms (np.array): The mass spectrometry data (peaks) to be denoised.
-pmz (float): The precursor m/z value associated with the quene MS/MS spectra.
-reference_lib (pandas.DataFrame): The reference library containing known spectra and associated metadata.
-identitiy_search_mass_error (float, optional): The mass error tolerance for the identity search. Default is 0.01.
-mass_tolernace (float, optional): The mass tolerance for spectral denoising. Default is 0.005.
-pmz_col (str, optional): The column name for precursor m/z values in the reference library. Default is ‘precursor_mz’.
-smiles_col (str, optional): The column name for SMILES strings in the reference library. Default is ‘smiles’.
-adduct_col (str, optional): The column name for adduct information in the reference library. Default is ‘adduct’.
-msms_col (str, optional): The column name for MS/MS peaks in the reference library. Default is ‘peaks’.</p>
+<dl>
+<dt>Parameters:</dt><dd><p>msms (np.array): The mass spectrometry data (peaks) to be denoised.</p>
+<p>pmz (float): The precursor m/z value associated with the query MS/MS spectra.</p>
+<p>reference_lib (pandas.DataFrame): The reference library containing known spectra and associated metadata.</p>
+<p>identitiy_search_mass_error (float, optional): The mass error tolerance for the identity search. Default is 0.01.</p>
+<p>mass_tolernace (float, optional): The mass tolerance for spectral denoising. Default is 0.005.</p>
+<p>pmz_col (str, optional): The column name for precursor m/z values in the reference library. Default is ‘precursor_mz’.</p>
+<p>smiles_col (str, optional): The column name for SMILES strings in the reference library. Default is ‘smiles’.</p>
+<p>adduct_col (str, optional): The column name for adduct information in the reference library. Default is ‘adduct’.</p>
+<p>msms_col (str, optional): The column name for MS/MS peaks in the reference library. Default is ‘peaks’.</p>
 </dd>
 <dt>Returns:</dt><dd><p>pd.DataFrame: A DataFrame containing all the candidate spectra, with entropy similarity scores calculated based on both denoised and raw spectra.</p>
 </dd>

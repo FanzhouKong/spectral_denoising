@@ -174,7 +174,8 @@ def sort_spectrum(msms):
     Returns:
         numpy.ndarray: A 2D numpy array with the same shape as the input, but sorted by the m/z values in ascending order.
     """
-
+    if isinstance(msms, float) or len(msms) == 0:
+        return np.nan
     msms_T = msms.T
     order = np.argsort(msms_T[0])
     msms_T[0] = msms_T[0][order]
@@ -282,7 +283,7 @@ def remove_zero_ions(msms):
         numpy.ndarray: A filtered 2D numpy array with rows where the second column (ion intensities) is greater than zero, or np.nan if the input is an empty spectrum.
     """
 
-    if isinstance(msms, float):
+    if isinstance(msms, float) or len(msms) == 0:
         return np.nan
     to_keep = msms.T[1] > 0
     return msms[to_keep]

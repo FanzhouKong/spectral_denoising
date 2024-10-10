@@ -150,8 +150,7 @@
     <span class="k">for</span> <span class="n">column</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">column</span> <span class="o">!=</span> <span class="s1">&#39;peaks&#39;</span><span class="p">:</span>  <span class="c1"># Skip &#39;peaks&#39; column</span>
             <span class="n">df</span><span class="p">[</span><span class="n">column</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">column</span><span class="p">],</span> <span class="n">errors</span><span class="o">=</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
-        <span class="c1"># elif column == &#39;peaks&#39;:</span>
-        <span class="c1">#     peak = </span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">standardize_col</span><span class="p">(</span><span class="n">df</span><span class="p">)</span> 
     <span class="k">return</span> <span class="n">df</span></div>
 
 <div class="viewcode-block" id="write_to_msp">
@@ -249,31 +248,44 @@
     
     <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;done read in df&#39;</span><span class="p">)</span>
-    <span class="n">cols</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">check_pattern</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">c</span><span class="p">]):</span>
-            <span class="n">cols</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">cols</span><span class="p">:</span>
-        <span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">so</span><span class="o">.</span><span class="n">str_to_arr</span><span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="n">col</span><span class="p">])</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span><span class="n">y</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">iterrows</span><span class="p">()]</span>
+    
+    <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">check_pattern</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+            <span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">so</span><span class="o">.</span><span class="n">str_to_arr</span><span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="n">col</span><span class="p">])</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span><span class="n">y</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">iterrows</span><span class="p">()]</span>
     <span class="k">return</span><span class="p">(</span><span class="n">df</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="sanitize_df_cols">
-<a class="viewcode-back" href="../../spectral_denoising.html#spectral_denoising.file_io.sanitize_df_cols">[docs]</a>
-<span class="k">def</span> <span class="nf">sanitize_df_cols</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
-
-<span class="w">    </span><span class="sd">&#39;&#39;&#39; </span>
-<span class="sd">    Sanitize the column names of a DataFrame by removing the &#39;reference&#39; prefix and replacing &#39;msms&#39; with &#39;peaks&#39;. Mainly used for compatibility with the data files from previous versions.</span>
+<span class="kn">from</span> <span class="nn">.constant</span> <span class="kn">import</span> <span class="n">standard_mapping</span>
+<div class="viewcode-block" id="standardize_col">
+<a class="viewcode-back" href="../../spectral_denoising.html#spectral_denoising.file_io.standardize_col">[docs]</a>
+<span class="k">def</span> <span class="nf">standardize_col</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Standardizes column names in the given DataFrame based on a provided mapping. Help to read in and processing files with MS Dial generated msp files.</span>
 <span class="sd">    </span>
 <span class="sd">    Args:</span>
-<span class="sd">        df (pandas.DataFrame): the dataframe to sanitize</span>
+<span class="sd">    df (pd.DataFrame): The DataFrame whose column names need to be standardized.</span>
+<span class="sd">    </span>
+<span class="sd">    standard_mapping (dict): A dictionary where keys are common variations of the name, </span>
+<span class="sd">                              and values are the standard name.</span>
+<span class="sd">    </span>
 <span class="sd">    Returns:</span>
-<span class="sd">        df (pandas.DataFrame): the dataframe with columns are sanitized for spectral denoising/denoising search</span>
-<span class="sd">    &#39;&#39;&#39;</span>
+<span class="sd">    pd.DataFrame: DataFrame with standardized column names.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     
-    <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;reference_&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">regex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;msms&#39;</span><span class="p">,</span> <span class="s1">&#39;peaks&#39;</span><span class="p">)</span>
+    <span class="c1"># Create a mapping for case-insensitive column names</span>
+    <span class="n">new_columns</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+        <span class="c1"># Convert the column name to lowercase</span>
+        <span class="n">col_lower</span> <span class="o">=</span> <span class="n">col</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+        <span class="n">col_lower</span> <span class="o">=</span> <span class="n">col_lower</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;reference_&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+        <span class="c1"># Map the column name to the standard one if found in the standard mapping</span>
+        <span class="n">standardized_col</span> <span class="o">=</span> <span class="n">standard_mapping</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">col_lower</span><span class="p">,</span> <span class="n">col</span><span class="p">)</span>
+        <span class="n">new_columns</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">standardized_col</span><span class="p">)</span>
+    
+    <span class="c1"># Assign the new standardized columns back to the DataFrame</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">new_columns</span>
     <span class="k">return</span> <span class="n">df</span></div>
+
 
 <div class="viewcode-block" id="check_pattern">
 <a class="viewcode-back" href="../../spectral_denoising.html#spectral_denoising.file_io.check_pattern">[docs]</a>

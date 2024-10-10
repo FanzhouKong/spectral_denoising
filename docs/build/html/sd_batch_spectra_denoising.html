@@ -111,18 +111,18 @@
 <h2>References<a class="headerlink" href="#references" title="Link to this heading"></a></h2>
 <dl class="py function">
 <dt class="sig sig-object py">
-<span class="sig-prename descclassname"><span class="pre">spectral_denoising.</span></span><span class="sig-name descname"><span class="pre">spectral_denoising_batch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msms_quene</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">smiles_quene</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">adduct_quene</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mass_tolerance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.005</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral_denoising/spectral_denoising.html#spectral_denoising_batch"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<span class="sig-prename descclassname"><span class="pre">spectral_denoising.</span></span><span class="sig-name descname"><span class="pre">spectral_denoising_batch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msms_query</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">smiles_query</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">adduct_query</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mass_tolerance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.005</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral_denoising/spectral_denoising.html#spectral_denoising_batch"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Perform batch spectral denoising on multiple sets of MS/MS spectra, SMILES strings, and adducts. Uses multiprocessing to parallelize the denoising process.</p>
-<dl class="simple">
-<dt>Parameters:</dt><dd><p>msms_quene (list): A list of MS/MS spectra data.
-smiles_quene (list): A list of SMILES strings corresponding to the MS/MS spectra.
-adduct_quene (list): A list of adducts corresponding to the MS/MS spectra.
-mass_tolerance (float, optional): The allowed deviation for the denoising process. Default is 0.005.</p>
+<dl>
+<dt>Parameters:</dt><dd><p>msms_query (list): A list of MS/MS spectra data.</p>
+<p>smiles_query (list): A list of SMILES strings corresponding to the MS/MS spectra.</p>
+<p>adduct_query (list): A list of adducts corresponding to the MS/MS spectra.</p>
+<p>mass_tolerance (float, optional): The allowed deviation for the denoising process. Default is 0.005.</p>
 </dd>
 <dt>Returns:</dt><dd><p>list: A list of denoised MS/MS from the spectral denoising process.</p>
 </dd>
 <dt>Notes:</dt><dd><ul class="simple">
-<li><p>The lengths of msms_quene, smiles_quene, and adduct_quene must be the same. If not, the function will print an error message and return an empty tuple.</p></li>
+<li><p>The lengths of msms_query, smiles_query, and adduct_query must be the same. If not, the function will print an error message and return an empty tuple.</p></li>
 <li><p>The function uses multiprocessing to parallelize the denoising process, utilizing 6 processes.</p></li>
 </ul>
 </dd>

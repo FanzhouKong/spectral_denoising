@@ -53,17 +53,14 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="sd_electronic_denoising.html">Spectral denoising: electronic denoising</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Spectral denoising: formula denoising</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#basic-usage">Basic usage</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#references">References</a></li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="#basic-usage">Basic usage</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#want-to-know-details-about-implementation">Want to know details about implementation?</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#step-0-modify-the-master-formula-based-on-smiles-and-adduct-information">Step 0: Modify the master formula based on SMILES and adduct information</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#step-1-get-precursor-ion-infrmation">Step 1: Get precursor ion infrmation</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#step2-populate-all-possible-subformulas-from-master-formula">Step2: Populate all possible subformulas from master formula</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#step-3-evaluate-if-a-given-ion-could-be-formed-from-a-plausible-subformula-loss">Step 3: Evaluate if a given ion could be formed from a plausible subformula loss</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#step-4-retaining-true-fragment-ions-and-add-back-the-precursor-ions">Step 4: Retaining True fragment ions and add back the precursor ions</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id1">References</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#references">References</a></li>
 </ul>
 </li>
 </ul>
@@ -134,45 +131,6 @@
 <span class="n">Entropy</span> <span class="n">similarity</span> <span class="n">of</span> <span class="n">denoised</span> <span class="n">spectrum</span><span class="p">:</span> <span class="mf">1.00</span><span class="o">.</span>
 </pre></div>
 </div>
-<section id="references">
-<h3>References<a class="headerlink" href="#references" title="Link to this heading"></a></h3>
-<dl class="py function">
-<dt class="sig sig-object py">
-<span class="sig-prename descclassname"><span class="pre">spectral_denoising.</span></span><span class="sig-name descname"><span class="pre">formula_denoising</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msms</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">smiles</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">adduct</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mass_tolerance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.005</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral_denoising/spectral_denoising.html#formula_denoising"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>Perform formula denoising on the given mass spectrometry data. The function first re-generate formula based on chemical rules, get the statistic of the precursor m/z, and then perform formula denoising.
-The precursor region is not affected by the denoising process, only the frgamnet region is denoised.</p>
-<dl class="simple">
-<dt>Parameters:</dt><dd><p>msms (numpy.array): The mass spectrometry data to be denoised. 
-smiles (str): The SMILES string representing the molecular structure.
-adduct (str): The adduct type used in the mass spectrometry.
-mass_tolerance (float, optional): The mass tolerance for precursor m/z calculation. Default is 0.005.</p>
-</dd>
-<dt>Returns:</dt><dd><p>numpy.ndarray: The denoised mass spectrometry data, or np.nan If the SMILES string or adduct is invalid, or all ions removed.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py">
-<span class="sig-prename descclassname"><span class="pre">spectral_denoising.noise.</span></span><span class="sig-name descname"><span class="pre">generate_chemical_noise</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pmz</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lamda</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">polarity</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">formula_db</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral_denoising/noise.html#generate_chemical_noise"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>Generate chemical noise for a given mass-to-charge ratio (m/z) and other parameters.
-The m/z of the chemical noise is taken from a database of all true possible mass values. 
-The detailes about this database can be found paper: LibGen: Generating High Quality Spectral Libraries of Natural Products for EAD-, UVPD-, and HCD-High Resolution Mass Spectrometers</p>
-<dl>
-<dt>Args:</dt><dd><p>pmz (float): The target mass-to-charge ratio (m/z) value.</p>
-<p>lamda (float): The lambda parameter for the Poisson distribution used to generate intensities, which serves as both mean and standard deviation of the distribution.</p>
-<p>polarity (str): The polarity of the adduct, either ‘+’ or ‘-‘.</p>
-<p>formula_db (pandas.DataFrame): A DataFrame containing a column ‘mass’ with possible mass values.</p>
-<p>n (int, optional): The number of noise peaks to generate. Default is 100.</p>
-</dd>
-<dt>Returns:</dt><dd><p>np.array: A synthetic spectrum with chemical noise.</p>
-</dd>
-<dt>Raises:</dt><dd><p>ValueError: If the polarity is not ‘+’ or ‘-‘.</p>
-</dd>
-</dl>
-</dd></dl>
-
-</section>
 </section>
 <section id="want-to-know-details-about-implementation">
 <h2>Want to know details about implementation?<a class="headerlink" href="#want-to-know-details-about-implementation" title="Link to this heading"></a></h2>
@@ -234,8 +192,44 @@ The detailes about this database can be found paper: LibGen: Generating High Qua
 <h3>Step 4: Retaining True fragment ions and add back the precursor ions<a class="headerlink" href="#step-4-retaining-true-fragment-ions-and-add-back-the-precursor-ions" title="Link to this heading"></a></h3>
 <p>Once the denoised tag was created, only ions with ‘True’ tag will be kept. The return spectra will be denoised fragment ions and precursor ions (function <code class="docutils literal notranslate"><span class="pre">add_spectra</span></code>).</p>
 </section>
-<section id="id1">
-<h3>References<a class="headerlink" href="#id1" title="Link to this heading"></a></h3>
+<section id="references">
+<h3>References<a class="headerlink" href="#references" title="Link to this heading"></a></h3>
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">spectral_denoising.</span></span><span class="sig-name descname"><span class="pre">formula_denoising</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msms</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">smiles</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">adduct</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mass_tolerance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.005</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral_denoising/spectral_denoising.html#formula_denoising"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Perform formula denoising on the given mass spectrometry data. The function first re-generate formula based on chemical rules, get the statistic of the precursor m/z, and then perform formula denoising.
+The precursor region is not affected by the denoising process, only the frgamnet region is denoised.</p>
+<dl class="simple">
+<dt>Parameters:</dt><dd><p>msms (numpy.array): The mass spectrometry data to be denoised. 
+smiles (str): The SMILES string representing the molecular structure.
+adduct (str): The adduct type used in the mass spectrometry.
+mass_tolerance (float, optional): The mass tolerance for precursor m/z calculation. Default is 0.005.</p>
+</dd>
+<dt>Returns:</dt><dd><p>numpy.ndarray: The denoised mass spectrometry data, or np.nan If the SMILES string or adduct is invalid, or all ions removed.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">spectral_denoising.noise.</span></span><span class="sig-name descname"><span class="pre">generate_chemical_noise</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pmz</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lamda</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">polarity</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">formula_db</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral_denoising/noise.html#generate_chemical_noise"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Generate chemical noise for a given mass-to-charge ratio (m/z) and other parameters.
+The m/z of the chemical noise is taken from a database of all true possible mass values. 
+The detailes about this database can be found paper: LibGen: Generating High Quality Spectral Libraries of Natural Products for EAD-, UVPD-, and HCD-High Resolution Mass Spectrometers</p>
+<dl>
+<dt>Args:</dt><dd><p>pmz (float): The target mass-to-charge ratio (m/z) value.</p>
+<p>lamda (float): The lambda parameter for the Poisson distribution used to generate intensities, which serves as both mean and standard deviation of the distribution.</p>
+<p>polarity (str): The polarity of the adduct, either ‘+’ or ‘-‘.</p>
+<p>formula_db (pandas.DataFrame): A DataFrame containing a column ‘mass’ with possible mass values.</p>
+<p>n (int, optional): The number of noise peaks to generate. Default is 100.</p>
+</dd>
+<dt>Returns:</dt><dd><p>np.array: A synthetic spectrum with chemical noise.</p>
+</dd>
+<dt>Raises:</dt><dd><p>ValueError: If the polarity is not ‘+’ or ‘-‘.</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py function">
 <dt class="sig sig-object py">
 <span class="sig-prename descclassname"><span class="pre">spectral_denoising.spectral_denoising.</span></span><span class="sig-name descname"><span class="pre">formula_denoising</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msms</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">smiles</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">adduct</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mass_tolerance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.005</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral_denoising/spectral_denoising.html#formula_denoising"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>

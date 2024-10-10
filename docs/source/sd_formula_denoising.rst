@@ -36,16 +36,6 @@ The output will be:
     Entropy similarity of spectrum with noise: 0.33.
     Entropy similarity of denoised spectrum: 1.00.
 
-
-References
-----------
-
-
-.. autofunction:: spectral_denoising.formula_denoising
-    :noindex:
-
-.. autofunction:: spectral_denoising.noise.generate_chemical_noise
-    :noindex:
     
 
 Want to know details about implementation?
@@ -131,6 +121,12 @@ Once the denoised tag was created, only ions with 'True' tag will be kept. The r
 References
 ----------
 
+
+.. autofunction:: spectral_denoising.formula_denoising
+    :noindex:
+
+.. autofunction:: spectral_denoising.noise.generate_chemical_noise
+    :noindex:
 
 .. autofunction:: spectral_denoising.spectral_denoising.formula_denoising
     :noindex:

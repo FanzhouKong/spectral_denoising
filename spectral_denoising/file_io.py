@@ -21,7 +21,9 @@ def read_msp(file_path):
     
     spectra = []
     spectrum = {}
-
+    if os.path.exists(file_path)== False:
+        raise FileNotFoundError(f"File not found: {file_path}")
+        return ()
     with open(file_path, 'r') as f:
         for line in f:
             line = line.strip()
@@ -57,10 +59,9 @@ def read_msp(file_path):
     for column in df.columns:
         if column != 'peaks':  # Skip 'peaks' column
             df[column] = pd.to_numeric(df[column], errors='ignore')
-        # elif column == 'peaks':
-        #     peak = 
+    df = standardize_col(df) 
     return df
-def write_to_msp(df, file_path, msms_col = 'peaks'):
+def write_to_msp(df, file_path, msms_col = 'peaks', normalize = False):
     
     """
     Pair function of read_msp.
@@ -72,7 +73,8 @@ def write_to_msp(df, file_path, msms_col = 'peaks'):
     Returns:
         None
     """
-    
+    if normalize == True:
+        df[msms_col] = [so.normalize_spectrum(peak) for peak in df[msms_col]]
     with open(file_path, 'w') as f:
         for _, row in df.iterrows():
             # Write the name of the spectrum
@@ -144,31 +146,43 @@ def read_df(path):
         - The `check_pattern` function is used to determine which columns to process.
         - The `so.str_to_arr` function is used to convert the values in the selected columns.
     """
-    
     df = pd.read_csv(path)
     print('done read in df')
-    cols = []
-    for c in df.columns:
-        if check_pattern(df.iloc[0][c]):
-            cols.append(c)
-    for col in cols:
-        df[col] = [so.str_to_arr(y[col]) for x,y in df.iterrows()]
+    
+    for col in df.columns:
+        if check_pattern(df[col].iloc[0]):
+            df[col] = [so.str_to_arr(y[col]) for x,y in df.iterrows()]
     return(df)
 
-def sanitize_df_cols(df):
-
-    ''' 
-    Sanitize the column names of a DataFrame by removing the 'reference' prefix and replacing 'msms' with 'peaks'. Mainly used for compatibility with the data files from previous versions.
+from .constant import standard_mapping
+def standardize_col(df):
+    """
+    Standardizes column names in the given DataFrame based on a provided mapping. Help to read in and processing files with MS Dial generated msp files.
     
     Args:
-        df (pandas.DataFrame): the dataframe to sanitize
-    Returns:
-        df (pandas.DataFrame): the dataframe with columns are sanitized for spectral denoising/denoising search
-    '''
+    df (pd.DataFrame): The DataFrame whose column names need to be standardized.
     
-    df.columns = df.columns.str.replace('reference_', '', regex=True)
-    df.columns = df.columns.str.replace('msms', 'peaks')
+    standard_mapping (dict): A dictionary where keys are common variations of the name, 
+                              and values are the standard name.
+    
+    Returns:
+    pd.DataFrame: DataFrame with standardized column names.
+    """
+    
+    # Create a mapping for case-insensitive column names
+    new_columns = []
+    for col in df.columns:
+        # Convert the column name to lowercase
+        col_lower = col.lower()
+        col_lower = col_lower.replace('reference_', '')
+        # Map the column name to the standard one if found in the standard mapping
+        standardized_col = standard_mapping.get(col_lower, col)
+        new_columns.append(standardized_col)
+    
+    # Assign the new standardized columns back to the DataFrame
+    df.columns = new_columns
     return df
+
 def check_pattern(input_string):
     """
     Helper function for read_df.
@@ -184,3 +198,24 @@ def check_pattern(input_string):
         if '\t' in input_string:
             return True
     return False
+def export_denoising_searches(results, save_dir, top_n = 10):
+    """
+    Pair function of import_denoising_searches.
+    Exports the results of a denoising search to a JSON file.
+
+    Args:
+        results (list): The list of results from a denoising search.
+        save_path (str): The file path where the results should be saved. If the path does not end with '.json', it will be appended automatically.
+    Returns:
+        None
+    """
+    if not os.path.exists(save_dir):
+        os.makedirs(save_dir)
+
+    for i in range(len(results)):
+        if results[i].empty or len(results[i])==0:
+            continue
+        else:
+            temp = results[i].head(top_n)
+            pmz_temp = temp.iloc[0]['precursor_mz']
+            write_to_msp(temp, os.path.join(save_dir, f"denoising_search_{i}_{pmz_temp:0.4f}.msp"), msms_col='query_peaks_denoised')

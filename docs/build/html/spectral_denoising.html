@@ -87,8 +87,8 @@
 <li class="toctree-l3"><a class="reference internal" href="#spectral_denoising.file_io.check_pattern"><code class="docutils literal notranslate"><span class="pre">check_pattern()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#spectral_denoising.file_io.read_df"><code class="docutils literal notranslate"><span class="pre">read_df()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#spectral_denoising.file_io.read_msp"><code class="docutils literal notranslate"><span class="pre">read_msp()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#spectral_denoising.file_io.sanitize_df_cols"><code class="docutils literal notranslate"><span class="pre">sanitize_df_cols()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#spectral_denoising.file_io.save_df"><code class="docutils literal notranslate"><span class="pre">save_df()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#spectral_denoising.file_io.standardize_col"><code class="docutils literal notranslate"><span class="pre">standardize_col()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#spectral_denoising.file_io.write_to_msp"><code class="docutils literal notranslate"><span class="pre">write_to_msp()</span></code></a></li>
 </ul>
 </li>
@@ -378,18 +378,18 @@ corresponding chemical formula.</p>
 <dt class="sig sig-object py" id="spectral_denoising.denoising_search.denoising_search">
 <span class="sig-prename descclassname"><span class="pre">spectral_denoising.denoising_search.</span></span><span class="sig-name descname"><span class="pre">denoising_search</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msms</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pmz</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reference_lib</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">identitiy_search_mass_error</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.01</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mass_tolernace</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.005</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pmz_col</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'precursor_mz'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">smiles_col</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'smiles'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">adduct_col</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'adduct'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msms_col</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'peaks'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral_denoising/denoising_search.html#denoising_search"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spectral_denoising.denoising_search.denoising_search" title="Link to this definition"></a></dt>
 <dd><p>Perform a denoising search on mass spectrometry data.
-In addition to traditional identity search, the quene msms will be denoised using molecular information of all candidates within predefined identitiy_search_mass_error range.
+In addition to traditional identity search, the query msms will be denoised using molecular information of all candidates within predefined identitiy_search_mass_error range.
 Then, entropy similarity scores are calculated for both the original and denoised spectra.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>msms (np.array): The mass spectrometry data (peaks) to be denoised.
-pmz (float): The precursor m/z value associated with the quene MS/MS spectra.
-reference_lib (pandas.DataFrame): The reference library containing known spectra and associated metadata.
-identitiy_search_mass_error (float, optional): The mass error tolerance for the identity search. Default is 0.01.
-mass_tolernace (float, optional): The mass tolerance for spectral denoising. Default is 0.005.
-pmz_col (str, optional): The column name for precursor m/z values in the reference library. Default is ‘precursor_mz’.
-smiles_col (str, optional): The column name for SMILES strings in the reference library. Default is ‘smiles’.
-adduct_col (str, optional): The column name for adduct information in the reference library. Default is ‘adduct’.
-msms_col (str, optional): The column name for MS/MS peaks in the reference library. Default is ‘peaks’.</p>
+<dl>
+<dt>Parameters:</dt><dd><p>msms (np.array): The mass spectrometry data (peaks) to be denoised.</p>
+<p>pmz (float): The precursor m/z value associated with the query MS/MS spectra.</p>
+<p>reference_lib (pandas.DataFrame): The reference library containing known spectra and associated metadata.</p>
+<p>identitiy_search_mass_error (float, optional): The mass error tolerance for the identity search. Default is 0.01.</p>
+<p>mass_tolernace (float, optional): The mass tolerance for spectral denoising. Default is 0.005.</p>
+<p>pmz_col (str, optional): The column name for precursor m/z values in the reference library. Default is ‘precursor_mz’.</p>
+<p>smiles_col (str, optional): The column name for SMILES strings in the reference library. Default is ‘smiles’.</p>
+<p>adduct_col (str, optional): The column name for adduct information in the reference library. Default is ‘adduct’.</p>
+<p>msms_col (str, optional): The column name for MS/MS peaks in the reference library. Default is ‘peaks’.</p>
 </dd>
 <dt>Returns:</dt><dd><p>pd.DataFrame: A DataFrame containing all the candidate spectra, with entropy similarity scores calculated based on both denoised and raw spectra.</p>
 </dd>
@@ -398,18 +398,18 @@ msms_col (str, optional): The column name for MS/MS peaks in the reference libra
 
 <dl class="py function">
 <dt class="sig sig-object py" id="spectral_denoising.denoising_search.denoising_search_batch">
-<span class="sig-prename descclassname"><span class="pre">spectral_denoising.denoising_search.</span></span><span class="sig-name descname"><span class="pre">denoising_search_batch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">quene_msms</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quene_pmz</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reference_lib</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">identitiy_search_mass_error</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.01</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mass_tolernace</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.005</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pmz_col</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'precursor_mz'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">smiles_col</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'smiles'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">adduct_col</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'adduct'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msms_col</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'peaks'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral_denoising/denoising_search.html#denoising_search_batch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spectral_denoising.denoising_search.denoising_search_batch" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">spectral_denoising.denoising_search.</span></span><span class="sig-name descname"><span class="pre">denoising_search_batch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msms_query</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pmz_query</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reference_lib</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">identitiy_search_mass_error</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.01</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mass_tolernace</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.005</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pmz_col</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'precursor_mz'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">smiles_col</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'smiles'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">adduct_col</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'adduct'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msms_col</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'peaks'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral_denoising/denoising_search.html#denoising_search_batch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spectral_denoising.denoising_search.denoising_search_batch" title="Link to this definition"></a></dt>
 <dd><p>Perform batch denoising search on given MS/MS data and precursor m/z values with parallel processing.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>quene_msms (list): List of MS/MS spectra to be denoised.
-quene_pmz (list): List of precursor m/z values corresponding to the MS/MS spectra.
-reference_lib (pandas.DataFrame): Reference library containing known spectra for comparison.
-identitiy_search_mass_error (float, optional): Mass error tolerance for identity search. Default is 0.01.
-mass_tolerance (float, optional): Maximum allowed tolerance for denoising. Default is 0.005.
-pmz_col (str, optional): Column name for precursor m/z in the reference library. Default is ‘precursor_mz’.
-smiles_col (str, optional): Column name for SMILES in the reference library. Default is ‘smiles’.
-adduct_col (str, optional): Column name for adducts in the reference library. Default is ‘adduct’.
-msms_col (str, optional): Column name for MS/MS peaks in the reference library. Default is ‘peaks’.</p>
+<dl>
+<dt>Parameters:</dt><dd><p>msms_query (list): List of MS/MS spectra to be denoised.</p>
+<p>pmz_query (list): List of precursor m/z values corresponding to the MS/MS spectra.</p>
+<p>reference_lib (pandas.DataFrame): Reference library containing known spectra for comparison.</p>
+<p>identitiy_search_mass_error (float, optional): Mass error tolerance for identity search. Default is 0.01.</p>
+<p>mass_tolerance (float, optional): Maximum allowed tolerance for denoising. Default is 0.005.</p>
+<p>pmz_col (str, optional): Column name for precursor m/z in the reference library. Default is ‘precursor_mz’.</p>
+<p>smiles_col (str, optional): Column name for SMILES in the reference library. Default is ‘smiles’.</p>
+<p>adduct_col (str, optional): Column name for adducts in the reference library. Default is ‘adduct’.</p>
+<p>msms_col (str, optional): Column name for MS/MS peaks in the reference library. Default is ‘peaks’.</p>
 </dd>
 <dt>Returns:</dt><dd><p>pandas.DataFrame: DataFrame containing the results of the denoising search. Each index in the result DataFrame corresponds to the denoising search result of the corresponding input MS/MS spectrum.</p>
 </dd>
@@ -469,18 +469,6 @@ pd.errors.ParserError: If the CSV file contains parsing errors.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="spectral_denoising.file_io.sanitize_df_cols">
-<span class="sig-prename descclassname"><span class="pre">spectral_denoising.file_io.</span></span><span class="sig-name descname"><span class="pre">sanitize_df_cols</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral_denoising/file_io.html#sanitize_df_cols"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spectral_denoising.file_io.sanitize_df_cols" title="Link to this definition"></a></dt>
-<dd><p>Sanitize the column names of a DataFrame by removing the ‘reference’ prefix and replacing ‘msms’ with ‘peaks’. Mainly used for compatibility with the data files from previous versions.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>df (pandas.DataFrame): the dataframe to sanitize</p>
-</dd>
-<dt>Returns:</dt><dd><p>df (pandas.DataFrame): the dataframe with columns are sanitized for spectral denoising/denoising search</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
 <dt class="sig sig-object py" id="spectral_denoising.file_io.save_df">
 <span class="sig-prename descclassname"><span class="pre">spectral_denoising.file_io.</span></span><span class="sig-name descname"><span class="pre">save_df</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral_denoising/file_io.html#save_df"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spectral_denoising.file_io.save_df" title="Link to this definition"></a></dt>
 <dd><p>Pair function of save_df.</p>
@@ -498,6 +486,20 @@ save_path (str): The file path where the DataFrame should be saved. If the path 
 </ul>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="spectral_denoising.file_io.standardize_col">
+<span class="sig-prename descclassname"><span class="pre">spectral_denoising.file_io.</span></span><span class="sig-name descname"><span class="pre">standardize_col</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral_denoising/file_io.html#standardize_col"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spectral_denoising.file_io.standardize_col" title="Link to this definition"></a></dt>
+<dd><p>Standardizes column names in the given DataFrame based on a provided mapping. Help to read in and processing files with MS Dial generated msp files.</p>
+<p>Args:
+df (pd.DataFrame): The DataFrame whose column names need to be standardized.</p>
+<dl class="simple">
+<dt>standard_mapping (dict): A dictionary where keys are common variations of the name, </dt><dd><p>and values are the standard name.</p>
+</dd>
+</dl>
+<p>Returns:
+pd.DataFrame: DataFrame with standardized column names.</p>
 </dd></dl>
 
 <dl class="py function">
@@ -1165,18 +1167,18 @@ mass_tolerance (float, optional): The mass tolerance for the denoising process. 
 
 <dl class="py function">
 <dt class="sig sig-object py" id="spectral_denoising.spectral_denoising.spectral_denoising_batch">
-<span class="sig-prename descclassname"><span class="pre">spectral_denoising.spectral_denoising.</span></span><span class="sig-name descname"><span class="pre">spectral_denoising_batch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msms_quene</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">smiles_quene</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">adduct_quene</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mass_tolerance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.005</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral_denoising/spectral_denoising.html#spectral_denoising_batch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spectral_denoising.spectral_denoising.spectral_denoising_batch" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">spectral_denoising.spectral_denoising.</span></span><span class="sig-name descname"><span class="pre">spectral_denoising_batch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msms_query</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">smiles_query</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">adduct_query</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mass_tolerance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.005</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spectral_denoising/spectral_denoising.html#spectral_denoising_batch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spectral_denoising.spectral_denoising.spectral_denoising_batch" title="Link to this definition"></a></dt>
 <dd><p>Perform batch spectral denoising on multiple sets of MS/MS spectra, SMILES strings, and adducts. Uses multiprocessing to parallelize the denoising process.</p>
-<dl class="simple">
-<dt>Parameters:</dt><dd><p>msms_quene (list): A list of MS/MS spectra data.
-smiles_quene (list): A list of SMILES strings corresponding to the MS/MS spectra.
-adduct_quene (list): A list of adducts corresponding to the MS/MS spectra.
-mass_tolerance (float, optional): The allowed deviation for the denoising process. Default is 0.005.</p>
+<dl>
+<dt>Parameters:</dt><dd><p>msms_query (list): A list of MS/MS spectra data.</p>
+<p>smiles_query (list): A list of SMILES strings corresponding to the MS/MS spectra.</p>
+<p>adduct_query (list): A list of adducts corresponding to the MS/MS spectra.</p>
+<p>mass_tolerance (float, optional): The allowed deviation for the denoising process. Default is 0.005.</p>
 </dd>
 <dt>Returns:</dt><dd><p>list: A list of denoised MS/MS from the spectral denoising process.</p>
 </dd>
 <dt>Notes:</dt><dd><ul class="simple">
-<li><p>The lengths of msms_quene, smiles_quene, and adduct_quene must be the same. If not, the function will print an error message and return an empty tuple.</p></li>
+<li><p>The lengths of msms_query, smiles_query, and adduct_query must be the same. If not, the function will print an error message and return an empty tuple.</p></li>
 <li><p>The function uses multiprocessing to parallelize the denoising process, utilizing 6 processes.</p></li>
 </ul>
 </dd>
