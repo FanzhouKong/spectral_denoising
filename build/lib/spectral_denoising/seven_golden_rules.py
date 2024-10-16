@@ -81,10 +81,10 @@ def check_ratio(formula):
 
     if 'O' in parsed_formula.keys() and parsed_formula['O']>27:
         return False
-    if len(parsed_formula.keys())==1 and next(iter(parsed_formula.keys()))!=2:
+    if len(parsed_formula.keys())==1 and next(iter(parsed_formula.keys()))=='C':
         #check for pure carbon loss
         return(False)
-    if len(parsed_formula.keys())==1 and next(iter(parsed_formula.keys()))=='N' and next(iter(parsed_formula.values()))=='N':
+    if len(parsed_formula.keys())==1 and next(iter(parsed_formula.keys()))=='N' and next(iter(parsed_formula.values()))%2!=0:
         #check for pure nitrogen loss (while not N2)
         return (False)
     if 'C' in parsed_formula.keys() and 'H' in parsed_formula.keys():

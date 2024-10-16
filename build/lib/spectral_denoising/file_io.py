@@ -58,7 +58,10 @@ def read_msp(file_path):
     df['peaks'] = [so.sort_spectrum(so.remove_zero_ions(np.array(peak))) for peak in df['peaks']]
     for column in df.columns:
         if column != 'peaks':  # Skip 'peaks' column
-            df[column] = pd.to_numeric(df[column], errors='ignore')
+            try:
+                df[column] = pd.to_numeric(df[column], errors='raise')
+            except:
+                pass
     df = standardize_col(df) 
     return df
 def write_to_msp(df, file_path, msms_col = 'peaks', normalize = False):
@@ -127,7 +130,7 @@ def save_df(df, save_path):
             specs.append(so.arr_to_str(row[col]))
         data[col]=specs
     data.to_csv(save_path, index = False)
-def read_df(path):
+def read_df(path, keep_ms1_only = False):
     """
     Pair function of write_df.
     Reads a CSV file into a DataFrame, processes specific columns based on a pattern check, 
@@ -147,11 +150,18 @@ def read_df(path):
         - The `so.str_to_arr` function is used to convert the values in the selected columns.
     """
     df = pd.read_csv(path)
-    print('done read in df')
-    
+    print('done read in df...')
     for col in df.columns:
         if check_pattern(df[col].iloc[0]):
             df[col] = [so.str_to_arr(y[col]) for x,y in df.iterrows()]
+    df =  standardize_col(df)
+
+    if ':' in df.iloc[0]['peaks']:
+        df['peaks']=[so.msdial_to_array(row['peaks']) for index, row in df.iterrows()]
+
+    if keep_ms1_only == False:
+        df.dropna(subset=['peaks'], inplace=True)
+    df.reset_index(drop=True, inplace=True)
     return(df)
 
 from .constant import standard_mapping
@@ -174,10 +184,13 @@ def standardize_col(df):
     for col in df.columns:
         # Convert the column name to lowercase
         col_lower = col.lower()
-        col_lower = col_lower.replace('reference_', '')
+        col_lower = col_lower.replace('reference', '')
         # Map the column name to the standard one if found in the standard mapping
-        standardized_col = standard_mapping.get(col_lower, col)
-        new_columns.append(standardized_col)
+        standardized_col = standard_mapping.get(col_lower)
+        if standardized_col is not None:
+            new_columns.append(standardized_col)
+        else:
+            new_columns.append(col_lower)
     
     # Assign the new standardized columns back to the DataFrame
     df.columns = new_columns

@@ -48,10 +48,8 @@ def entropy_similairty(msms1, msms2,pmz=None, ms2_error = 0.02):
         msms2 = truncate_spectrum(msms2, pmz-1.6)
     if isinstance(msms1, float) or isinstance(msms2, float):
         return np.nan
-    if pmz is not None:
-        similarity = me.calculate_entropy_similarity(msms1, msms2, ms2_tolerance_in_da = ms2_error, noise_threshold=0.00, clean_spectra=True,max_mz = pmz-1.6)
-    else:
-        similarity = me.calculate_entropy_similarity(msms1, msms2, ms2_tolerance_in_da = ms2_error, noise_threshold=0.00, clean_spectra=True)
+   
+    similarity = me.calculate_entropy_similarity(msms1, msms2, ms2_tolerance_in_da = ms2_error, noise_threshold=0.00, clean_spectra=True)
     return similarity
 def compare_spectra(msms1, msms2):
     """
@@ -322,7 +320,11 @@ def str_to_arr(msms):
 
 
 
-
+def msdial_to_array(msms):
+    if isinstance(msms, float):
+        return np.nan
+    spec_raw = np.array([x.split(':') for x in msms.split(' ')], dtype=np.float32)
+    return spec_raw
 
 
 

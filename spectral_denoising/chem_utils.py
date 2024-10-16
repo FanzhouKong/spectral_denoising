@@ -263,16 +263,21 @@ def calculate_precursormz(adduct_string,mol = None, testing = False):
         - The `replace_adduct_string`, `determine_parent_coefs`, `determine_adduct_charge`, and `parse_adduct` functions are assumed to be defined elsewhere in the codebase.
         - The electron mass is considered in the calculation to adjust for the loss/gain of electrons.
     """
-
+    
     if testing == True:
         molecule_mass = 853.33089
     else:
         molecule_mass = Formula(everything_to_formula(mol)).isotope.mass
-    
+
+    adduct_string = adduct_string.strip()
     adduct_string = replace_adduct_string(adduct_string)
+    if 'i' in adduct_string or 'M' not in adduct_string:
+        return np.nan
     electron_mass = 0.00054858026
     m_coef = determine_parent_coefs(adduct_string)
     charge = determine_adduct_charge(adduct_string)
+    if m_coef != m_coef or charge != charge:
+        return np.nan
     # Check for charge in the adduct string
     
         
@@ -316,8 +321,8 @@ def determine_parent_coefs(adduct_string):
         coefficient = int(coefficient) if coefficient else 1
         return coefficient
     else:
-        print(f'the correct adduct form cannot be determined from {adduct_string}')
-        return np.NAN
+        # print(f'the correct adduct form cannot be determined from {adduct_string}')
+        return np.nan
 def determine_adduct_charge(adduct_string):
     """
     Determine the charge of an adduct based on its string representation.
@@ -351,8 +356,8 @@ def determine_adduct_charge(adduct_string):
         else:
             charge = -1
     else:
-        charge = np.NAN
-        print(f'the correct adduct form cannot be determined from {adduct_string}')
+        charge = np.nan
+        # print(f'the correct adduct form cannot be determined from {adduct_string}')
     return charge
 def parse_adduct(adduct_string):
     """
@@ -393,10 +398,11 @@ def replace_adduct_string(adduct_string):
     Returns:
         adduct_string (str): The replaced adduct string.
     """
-
+    adduct_string=adduct_string.replace('Cat', 'M')
+    adduct_string=adduct_string.replace('CAT', 'M')
     if adduct_string in ['Cat', 'CAT','[M+]', 'M+','[Cat]+']:
         adduct_string = '[M]+'
-    if adduct_string in ['Cat-', 'CAT-','[M]-', 'M-','[Cat]-']:
+    if adduct_string in ['[M]-', 'M-']:
         adduct_string = '[M]-'
     if 'Hac' in adduct_string:
         adduct_string = adduct_string.replace("Hac", "C2H4O2")

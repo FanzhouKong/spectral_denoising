@@ -25,15 +25,21 @@ standard_mapping = {
     'precursor_type': 'adduct',
     'adduct_type': 'adduct',
     'smile': 'smiles',
+    'average mz':'precursor_mz',
     'precursormz':'precursor_mz',
+    'precursor m/z':'precursor_mz',
     'pmz':'precursor_mz',
     'query_pmz':'precursor_mz',
     'rt':'rt',
     'rt_apex':'rt',
     'retentiontime':'rt',
     'msms':'peaks',
-    'msmsspectrum':'peaks',
+    'ms/ms spectrum':'peaks',
+    'msms spectrum': 'peaks',
     'spectrum':'peaks',
+    'mix label':'mix',
+    'mix_label':'mix',
+    
 
 }
 atom_mass = {'H': 1.00782503223,
