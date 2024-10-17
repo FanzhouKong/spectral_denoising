@@ -184,7 +184,7 @@ def standardize_col(df):
     for col in df.columns:
         # Convert the column name to lowercase
         col_lower = col.lower()
-        col_lower = col_lower.replace('reference', '')
+        col_lower = col_lower.replace('reference_', '')
         # Map the column name to the standard one if found in the standard mapping
         standardized_col = standard_mapping.get(col_lower)
         if standardized_col is not None:
