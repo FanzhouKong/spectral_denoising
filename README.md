@@ -74,9 +74,12 @@ print(f'the entropy similarity of denoised spectrum and the raw spectrum is {ent
 #### Spectral denoising on the all spectra from .msp file
 ```python
 import spectral_denoising as sd
-query_data = sd.read_msp('sample_data/noisy_spectra.msp')
-query_peaks,query_smiles,query_adduct, query_pmz = query_data['peaks'],query_data['smiles'],query_data['adduct'], query_data['precursor_mz'] 
-desnoied_peaks = sd.spectral_denoising_batch(query_peaks,query_smiles,query_adduct) # this will return all denoised spectra in a list
+def main():
+  query_data = sd.read_msp('sample_data/noisy_spectra.msp')
+  query_peaks,query_smiles,query_adduct, query_pmz = query_data['peaks'],query_data['smiles'],query_data['adduct'], query_data['precursor_mz'] 
+  desnoied_peaks = sd.spectral_denoising_batch(query_peaks,query_smiles,query_adduct) # this will return all denoised spectra in a list
+if __name__ == "__main__":
+    main()
 ```
 
 ### Usage of Denoising search
@@ -94,12 +97,15 @@ print(result)
 #### Denoising search on all spectra against reference library
 ```python
 import spectral_denoising as sd
-query_spectra= sd.read_msp('sample_data/query_spectra.msp')
-reference_library =sd.read_msp('sample_data/reference_library.msp')
-
-results = sd.denoising_search_batch(query_spectra['peaks'], query_spectra['precursor_mz'], reference_library) 
-# results will be a list of all correspoinding precursor mz candidates, each one with entropy similarities of both raw and denoised spectra (using reference spectra melecular information)
-print(results[0])# this will show denoising search result for the first spectra in msp file
+def main():
+  query_spectra= sd.read_msp('sample_data/query_spectra.msp')
+  reference_library =sd.read_msp('sample_data/reference_library.msp')
+  
+  results = sd.denoising_search_batch(query_spectra['peaks'], query_spectra['precursor_mz'], reference_library) 
+  # results will be a list of all correspoinding precursor mz candidates, each one with entropy similarities of both raw and denoised spectra (using reference spectra melecular information)
+  print(results[0])# this will show denoising search result for the first spectra in msp file
+if __name__ == "__main__":
+    main()
 ```
 ## Working examples
 More working examples can be found under notebooks directory.
