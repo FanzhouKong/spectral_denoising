@@ -20,7 +20,7 @@ This project also provides useful tools to read, write, visualize and compare sp
 
 # How to use this package
 
-This repository in Python. A python version >= 3.8 is preferred. 
+This repository in Python. A python version >= 3.8 is preferred, and must be < 3.13.
 
 Detailed documentation can be found at: https://spectral-denoising.readthedocs.io/en/latest/index.html
 
@@ -33,7 +33,7 @@ pip install spectral-denoising
 ### Usage of Classic spectral denoising (electronic denoising and chemical denoising)
 The demo data used here can be found under sample_data directory.
 #### Simple usage on single spectra
-**Note: if you try to use the batch mode in script and compile it in terminal, please wrap the code in main() function since they are implemented in parallal with multiprocessing and directly calling it will cause issues.
+**Note: if you try to use the batch mode in script and compile it in terminal, please wrap the code in main() function since they are implemented in parallal with multiprocessing and directly calling it will cause issues.**
 ```python
 import numpy as np
 import spectral_denoising as sd
