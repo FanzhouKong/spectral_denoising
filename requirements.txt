@@ -9,7 +9,7 @@ numpy>=2.1.1
 pandas>=2.2.3
 plotly>=5.24.1
 PubChemPy>=1.0.4
-rdkit>=2024.3.5
+rdkit==2024.3.5
 Requests>=2.32.3
 scikit_learn>=1.5.2
 scipy>=1.14.1

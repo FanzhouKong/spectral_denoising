@@ -1,5 +1,7 @@
 import numpy as np
 import argparse
+import warnings
+warnings.filterwarnings("ignore")
 import spectral_denoising as sd
 
 def main():
