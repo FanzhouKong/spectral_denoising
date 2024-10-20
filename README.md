@@ -33,6 +33,7 @@ pip install spectral-denoising
 ### Usage of Classic spectral denoising (electronic denoising and chemical denoising)
 The demo data used here can be found under sample_data directory.
 #### Simple usage on single spectra
+**Note: if you try to use the batch mode in script and compile it in terminal, please wrap the code in main() function since they are implemented in parallal with multiprocessing and directly calling it will cause issues.
 ```python
 import numpy as np
 import spectral_denoising as sd
@@ -75,7 +76,7 @@ print(f'the entropy similarity of denoised spectrum and the raw spectrum is {ent
 import spectral_denoising as sd
 query_data = sd.read_msp('sample_data/noisy_spectra.msp')
 query_peaks,query_smiles,query_adduct, query_pmz = query_data['peaks'],query_data['smiles'],query_data['adduct'], query_data['precursor_mz'] 
-desnoied_peaks = sd.spectra_denoising_batch(query_peaks,query_smiles,query_adduct) # this will return all denoised spectra in a list
+desnoied_peaks = sd.spectral_denoising_batch(query_peaks,query_smiles,query_adduct) # this will return all denoised spectra in a list
 ```
 
 ### Usage of Denoising search
