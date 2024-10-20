@@ -7,6 +7,9 @@ If you have any questions, feel free to send me E-mails: fzkong@ucdavis.edu. If 
 
 > . **Denoising Search doubles the number of metabolite and exposome annotations in human plasma using an Orbitrap Astral mass spectrometer**, Res Sq, 2024). [https://doi.org/10.1038/s41592-023-02012-9]
 
+# Note on 2024-10-19
+
+**Please use Python version between 3.8 to 3.12 for this package to work. RDkit currently does not have a distribution compitable to python 3.13!!!!!**
 
 # Project information
 
