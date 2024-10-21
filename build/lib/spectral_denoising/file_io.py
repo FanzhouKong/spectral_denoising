@@ -156,11 +156,12 @@ def read_df(path, keep_ms1_only = False):
             df[col] = [so.str_to_arr(y[col]) for x,y in df.iterrows()]
     df =  standardize_col(df)
 
-    if ':' in df.iloc[0]['peaks']:
-        df['peaks']=[so.msdial_to_array(row['peaks']) for index, row in df.iterrows()]
+
 
     if keep_ms1_only == False:
         df.dropna(subset=['peaks'], inplace=True)
+    if ':' in df.iloc[0]['peaks']:
+        df['peaks']=[so.msdial_to_array(row['peaks']) for index, row in df.iterrows() if row['peaks'] == row['peaks']]
     df.reset_index(drop=True, inplace=True)
     return(df)
 
