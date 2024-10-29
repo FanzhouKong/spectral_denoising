@@ -107,5 +107,10 @@ def main():
 if __name__ == "__main__":
     main()
 ```
-## Working examples
+## Working examples and reproducing results for the publication
 More working examples can be found under notebooks directory.
+For reproducing results shown in the manuscript, please also refer to the notebooks directory: astral_exp_results.ipynb, dilution_series_results.ipynb, 
+and synthesize_noise.ipynb.
+Please also change the path of the data.
+All necessory data can be found here: https://drive.google.com/drive/folders/1xSKtLqNXukj6V8qP9c_e5MAbmbDLg2Ml?dmr=1&ec=wgc-drive-hero-goto
+
