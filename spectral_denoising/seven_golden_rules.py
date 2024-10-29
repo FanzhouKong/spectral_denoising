@@ -3,19 +3,7 @@ import numpy as np
 from molmass import Formula
 from .constant import valence_dict
 def check_senior(formula):
-    """
-    Check if a given chemical formula satisfies SENIOR rules. not used in spectral_denoising and denoising search since SENIOR rules presumes an intact molecule, while losses can
-    be formed in the fragmentation process.
-    This function evaluates a chemical formula to determine if it meets the following criteria:
-    1. The sum of the valences of all elements must be at least twice the maximum valence of any single element.
-    2. The sum of the valences of all elements must be at least twice the number of elements minus one.
-
-    Args:
-        formula (str): A string representing the chemical formula to be evaluated.
-    Returns:
-        bool: True if the formula satisfies the valence rules, False otherwise.
-    """
-
+    from .constant import valence_dict
     max_valence = 0
     sum_valence = 0
     element_count = 0
@@ -84,7 +72,7 @@ def check_ratio(formula):
     if len(parsed_formula.keys())==1 and next(iter(parsed_formula.keys()))=='C':
         #check for pure carbon loss
         return(False)
-    if len(parsed_formula.keys())==1 and next(iter(parsed_formula.keys()))=='N' and next(iter(parsed_formula.values()))%2!=0:
+    if len(parsed_formula.keys())==1 and next(iter(parsed_formula.keys()))=='N' and next(iter(parsed_formula.values()))!=2:
         #check for pure nitrogen loss (while not N2)
         return (False)
     if 'C' in parsed_formula.keys() and 'H' in parsed_formula.keys():

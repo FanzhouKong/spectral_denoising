@@ -15,6 +15,8 @@ from .chem_utils import replace_adduct_string, calculate_precursormz
 from .constant import proton_mass
 # key functions: electronic denoising and formula denoising
 _numpy_formula_format = np.int16
+import warnings
+warnings.filterwarnings("ignore")
 def spectral_denoising_batch(msms_query, smiles_query, adduct_query, mass_tolerance = 0.005):
     """
     Perform batch spectral denoising on multiple sets of MS/MS spectra, SMILES strings, and adducts. Uses multiprocessing to parallelize the denoising process.
@@ -33,7 +35,6 @@ def spectral_denoising_batch(msms_query, smiles_query, adduct_query, mass_tolera
         - The lengths of msms_query, smiles_query, and adduct_query must be the same. If not, the function will print an error message and return an empty tuple.
         - The function uses multiprocessing to parallelize the denoising process, utilizing 6 processes.
     """
-
     if len(msms_query) != len(smiles_query) or len(msms_query) != len(adduct_query):
         print('The length of msms, smiles and adduct should be the same')
         return ()
@@ -53,10 +54,11 @@ def spectral_denoising_with_master_formulas(msms, master_formula, benzene_tag, q
         # print(f'Error: invalid smiles {smiles} or invalid adduct {adduct}')
         return msms
     pmz, real_mass_threshold = get_pmz_statistics(msms, query_pmz, mass_tolerance)
-    if real_mass_threshold>mass_tolerance:
-        mass_threshold=real_mass_threshold*1.5
-    else:
-        mass_threshold = mass_tolerance
+    mass_threshold=mass_tolerance
+    # if real_mass_threshold>mass_tolerance:
+    #     mass_threshold=real_mass_threshold*1.5
+    # else:
+    #     mass_threshold = mass_tolerance
     frag_msms, pmz_msms = so.slice_spectrum(msms, pmz-1.6)
     all_possible_candidate_formula,all_possible_mass = get_all_subformulas(master_formula)
     denoise_tag = get_denoise_tag(frag_msms, all_possible_candidate_formula, all_possible_mass, pmz, benzene_tag, mass_threshold)
@@ -109,6 +111,7 @@ def formula_denoising(msms, smiles, adduct, mass_tolerance=0.005):
         # print(f'Error: invalid smiles {smiles} or invalid adduct {adduct}')
         return msms
     computed_pmz = calculate_precursormz(adduct, smiles)
+    
     if computed_pmz != computed_pmz:
         return msms
     pmz, real_mass_threshold = get_pmz_statistics(msms, computed_pmz, mass_tolerance)
@@ -159,7 +162,7 @@ def electronic_denoising(msms):
 
 
 from .chem_utils import determine_adduct_charge, determine_parent_coefs, parse_adduct
-from .seven_golden_rules import check_ratio
+from .seven_golden_rules import check_ratio, check_senior
 def get_denoise_tag(frag_msms, all_possible_candidate_formula, all_possible_mass, pmz,has_benzene, mass_threshold):
     
     """
@@ -183,8 +186,8 @@ def get_denoise_tag(frag_msms, all_possible_candidate_formula, all_possible_mass
 
 
     tag = []
-    # if has_benzene:
-    #     pmz = pmz+Formula('N2O').isotope.mass
+    if has_benzene:
+        pmz = pmz+Formula('N2O').isotope.mass
 
     for f in frag_msms:
         loss = pmz - f[0] # get loss
@@ -223,7 +226,7 @@ def get_pmz_statistics(msms, c_pmz, mass_tolerance):
     idx_left, idx_right = msms_T[0].searchsorted([c_pmz - 0.01, c_pmz + 0.01])
 
     if idx_left == idx_right:
-        return c_pmz, 2*mass_tolerance
+        return c_pmz, mass_tolerance
     pmz_idx = np.argmax(msms_T[1][idx_left:idx_right])
     r_pmz = msms_T[0][idx_left:idx_right][pmz_idx]
     r_deviation = np.abs(c_pmz - r_pmz)
@@ -246,6 +249,7 @@ def get_all_subformulas(raw_formula):
 
     if is_smiles(raw_formula) == True:
         raw_formula = CalcMolFormula(Chem.MolFromSmiles(raw_formula))
+    
     master_formula = chemparse.parse_formula(raw_formula)
     formula_range = [range(int(x) + 1) for (x) in master_formula.values()]
     mass_arr = [Formula(x).isotope.mass for (x) in master_formula.keys()]
@@ -291,8 +295,8 @@ def prep_formula(smiles, adduct):
     mol = Chem.MolFromSmiles(smiles)
     formula = CalcMolFormula(mol)
     extra_atoms = has_benzene(mol)
-    if adduct in ['[M]+', '[M]-'] and formula[-1] in ['+','-']:
-        if formula[-1]==adduct[-1]:
+    if adduct in ['[M]+', '[M]-'] and Chem.GetFormalCharge(mol)!= 0:
+        if str(Chem.GetFormalCharge(mol))[0]==adduct[-1]:
             formula = formula[0:-1]
             master_formula = Formula(formula)
             if extra_atoms ==True:
@@ -301,9 +305,9 @@ def prep_formula(smiles, adduct):
         else:
             # print(f'the correct master formula cannot be determined for {smiles} and {adduct}')
             return(np.nan)
-    elif adduct in ['[M]+', '[M]-'] and formula[-1] not in ['+','-']:
+    elif adduct in ['[M]+', '[M]-'] and Chem.GetFormalCharge(mol)== 0:
         return np.nan
-    elif formula[-1] in ['+','-'] and  adduct not in ['[M]+', '[M]-']:
+    elif Chem.GetFormalCharge(mol)!= 0 and  adduct not in ['[M]+', '[M]-']:
         return np.nan
     
 
