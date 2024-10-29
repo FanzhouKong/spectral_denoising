@@ -131,6 +131,7 @@ def save_df(df, save_path):
         data[col]=specs
     data.to_csv(save_path, index = False)
 def read_df(path, keep_ms1_only = False):
+    # print('ttt')
     """
     Pair function of write_df.
     Reads a CSV file into a DataFrame, processes specific columns based on a pattern check, 
@@ -150,6 +151,7 @@ def read_df(path, keep_ms1_only = False):
         - The `so.str_to_arr` function is used to convert the values in the selected columns.
     """
     df = pd.read_csv(path)
+    
     print('done read in df...')
     for col in df.columns:
         if check_pattern(df[col].iloc[0]):
@@ -185,14 +187,14 @@ def standardize_col(df):
     for col in df.columns:
         # Convert the column name to lowercase
         col_lower = col.lower()
-        col_lower = col_lower.replace('reference_', '')
+        if col_lower != 'reference_precursor_mz':
+            col_lower = col_lower.replace('reference_', '')
         # Map the column name to the standard one if found in the standard mapping
         standardized_col = standard_mapping.get(col_lower)
         if standardized_col is not None:
             new_columns.append(standardized_col)
         else:
             new_columns.append(col_lower)
-    
     # Assign the new standardized columns back to the DataFrame
     df.columns = new_columns
     return df

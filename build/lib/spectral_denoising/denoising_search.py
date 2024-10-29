@@ -39,6 +39,7 @@ def denoising_search_batch(msms_query, pmz_query, reference_lib, identitiy_searc
     # print('im newnew')
     # reference_lib.reset_index(drop=True, inplace=True)
     reference_lib.sort_values(by=pmz_col, inplace=True, ascending=True)
+    reference_lib.dropna(subset=[smiles_col], inplace=True)
     if len(msms_query)!= len(pmz_query):
         print('The length of msms and pmz should be the same')
         return pd.DataFrame()
