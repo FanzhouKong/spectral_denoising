@@ -131,7 +131,6 @@ def save_df(df, save_path):
         data[col]=specs
     data.to_csv(save_path, index = False)
 def read_df(path, keep_ms1_only = False):
-    # print('ttt')
     """
     Pair function of write_df.
     Reads a CSV file into a DataFrame, processes specific columns based on a pattern check, 
