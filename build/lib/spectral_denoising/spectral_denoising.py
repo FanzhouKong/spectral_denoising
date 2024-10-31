@@ -35,6 +35,7 @@ def spectral_denoising_batch(msms_query, smiles_query, adduct_query, mass_tolera
         - The lengths of msms_query, smiles_query, and adduct_query must be the same. If not, the function will print an error message and return an empty tuple.
         - The function uses multiprocessing to parallelize the denoising process, utilizing 6 processes.
     """
+    # print('i am in new')
     if len(msms_query) != len(smiles_query) or len(msms_query) != len(adduct_query):
         print('The length of msms, smiles and adduct should be the same')
         return ()
@@ -205,6 +206,7 @@ def check_candidates(candidates):
     """
     for c in candidates:
         if check_ratio(c):
+        # if check_ratio(c) and check_senior(c):
             return True
     return False
 def get_pmz_statistics(msms, c_pmz, mass_tolerance):

@@ -27,5 +27,6 @@ def main():
     print(f'the frist denoised spectra has similarity of {entropy_similairty(denoised_spectra[0], reference_spectrum, pmz = pmz):.2f}')
 if __name__ == "__main__":
     main()
+    print('passed tester!')
 
 

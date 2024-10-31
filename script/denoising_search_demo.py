@@ -10,9 +10,13 @@ def main():
     query_spectra= sd.read_msp('../sample_data/query_spectra.msp')
     reference_library =sd.read_msp('../sample_data/reference_library.msp')
     query_peak, query_pmz = query_spectra.iloc[0]['peaks'], query_spectra.iloc[0]['precursor_mz']
-    print(sd.denoising_search(query_peak, query_pmz, reference_library))
+    result = sd.denoising_search(query_peak, query_pmz, reference_library)
+    print(f'the entropy similarity is {result.iloc[0]['entropy_similarity']}, the denoised similarity is {result.iloc[0]['denoised_similarity']}')
     print('start denoising search in batch mode')
     results = sd.denoising_search_batch(query_spectra['peaks'], query_spectra['precursor_mz'],reference_library)
-    print(results[6])
+
+    result = results[6]
+    print(f'the denoising search annotation is {result.iloc[0]['name']}, with the denoised similarity is {result.iloc[0]['denoised_similarity']}')
 if __name__ == "__main__":
     main()
+    print('passed tester!')
