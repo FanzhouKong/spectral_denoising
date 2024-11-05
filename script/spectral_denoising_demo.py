@@ -20,6 +20,7 @@ def main():
     print('start spectral denoising in batch mode')
     query_data = sd.read_msp('../sample_data/noisy_spectra.msp')
     reference_data= sd.read_msp('../sample_data/clean_spectra.msp').iloc[0]
+
     pmz, reference_spectra = reference_data['precursor_mz'],reference_data['peaks']
     query_spectra,query_smiles,query_adducts = query_data['peaks'],query_data['smiles'],query_data['adduct']
 
