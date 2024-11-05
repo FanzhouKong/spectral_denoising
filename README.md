@@ -107,6 +107,7 @@ def main():
 if __name__ == "__main__":
     main()
 ```
+Code for quick starts can be found in script director, with 2 demo files: spectral_denoising_demo.py and denoising_search_demo.py. Directly compiling these 2 files will produce similar results
 ## Working examples and reproducing results for the publication
 More working examples can be found under notebooks directory.
 For reproducing results shown in the manuscript, please also refer to the notebooks directory: astral_exp_results.ipynb, dilution_series_results.ipynb, 
