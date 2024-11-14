@@ -6,6 +6,7 @@ import requests
 from rdkit.Chem.rdMolDescriptors import CalcMolFormula
 from rdkit.Chem.Descriptors import ExactMolWt
 from pubchempy import Compound, get_compounds
+from molmass import Formula
 def get_classyfire(smiles, if_np=False):
     """
     Retrieves the ClassyFire classification for a given SMILES string.
@@ -339,10 +340,16 @@ def is_formula(s):
     # Starts with an uppercase letter, optionally followed by a lowercase letter (for two-letter elements)
     # Optionally followed by a number (for the count of atoms)
     # This pattern repeats throughout the string
-    pattern = r'^([A-Z][a-z]?\d*)+$'
+    try:
+        Formula(s).formula
+        return True
+    except:
+        return False
+    # pattern = r'^([A-Z][a-z]?\d*)+$'
+    # if s.endswith('+') or s.endswith('-'):
+    #     s = s[:-1]
+    # # Match the entire string against the pattern
+    # match = re.fullmatch(pattern, s)
 
-    # Match the entire string against the pattern
-    match = re.fullmatch(pattern, s)
-
-    # If there's a match, the string is a valid chemical formula
-    return bool(match)
+    # # If there's a match, the string is a valid chemical formula
+    # return bool(match)

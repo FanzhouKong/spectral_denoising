@@ -8,7 +8,7 @@ import multiprocessing as mp
 import re
 from rdkit import RDLogger                                                                                                                                                               
 RDLogger.DisableLog('rdApp.*')                                                                                                                                                           
-
+from .identifier_utils import is_mol, is_smiles, is_formula
 from molmass import Formula
 from . import spectral_operations as so
 from .chem_utils import replace_adduct_string, calculate_precursormz
@@ -99,19 +99,19 @@ def formula_denoising(msms, smiles, adduct, mass_tolerance=0.005):
 
     Parameters:
         msms (numpy.array): The mass spectrometry data to be denoised. 
-        smiles (str): The SMILES string representing the molecular structure.
+        smiles (str): The SMILES string representing the molecular structure. This will also recognize the molecular formula as input, but risking leading to false positives due to not incorporting possibilities of forming extra N2/H2O adducts.
         adduct (str): The adduct type used in the mass spectrometry.
         mass_tolerance (float, optional): The mass tolerance for precursor m/z calculation. Default is 0.005.
     Returns:
         numpy.ndarray: The denoised mass spectrometry data, or np.nan If the SMILES string or adduct is invalid, or all ions removed.
     """
-
-    master_formula = prep_formula(smiles, adduct)
+    
+    master_formula = prep_formula(smiles, adduct)#check
     msms = so.sort_spectrum(msms)
     if master_formula != master_formula:
         # print(f'Error: invalid smiles {smiles} or invalid adduct {adduct}')
         return msms
-    computed_pmz = calculate_precursormz(adduct, smiles)
+    computed_pmz = calculate_precursormz(adduct, smiles)#check
     
     if computed_pmz != computed_pmz:
         return msms
@@ -122,10 +122,90 @@ def formula_denoising(msms, smiles, adduct, mass_tolerance=0.005):
         mass_threshold = mass_tolerance
     frag_msms, pmz_msms = so.slice_spectrum(msms, pmz-1.6)
     all_possible_candidate_formula,all_possible_mass = get_all_subformulas(master_formula)
-    denoise_tag = get_denoise_tag(frag_msms, all_possible_candidate_formula, all_possible_mass, pmz, has_benzene(smiles), mass_threshold)
+    if is_smiles(smiles) == True:
+        benzene_tag = has_benzene(smiles)
+    else:
+        benzene_tag = True
+    denoise_tag = get_denoise_tag(frag_msms, all_possible_candidate_formula, all_possible_mass, pmz,benzene_tag, mass_threshold)
     frag_msms_denoised = frag_msms[denoise_tag]
     return so.add_spectra(frag_msms_denoised, pmz_msms)
+def prep_formula(smiles, adduct):
+    """
+    Prepares the molecular formula based on the given SMILES string and adduct.
 
+    Args:
+        smiles (str): The SMILES representation of the molecule.
+        adduct (str): The adduct string representing the ionization state.
+    Returns:
+        str: The calculated molecular formula, or NaN if the formula cannot be determined.
+    """
+
+    if smiles != smiles or adduct != adduct or 'i' in adduct:
+        return np.nan
+    adduct = replace_adduct_string(adduct)
+    if is_smiles(smiles) == True:
+        mol = Chem.MolFromSmiles(smiles)
+        formula = CalcMolFormula(mol)
+        extra_atoms = has_benzene(mol)
+        if adduct in ['[M]+', '[M]-'] and Chem.GetFormalCharge(mol)!= 0:
+            # print('i am in loop')
+            if ((Chem.GetFormalCharge(mol))>0 and adduct[-1]=='+') or ((Chem.GetFormalCharge(mol))<0 and adduct[-1]=='-'):
+                # print('i am in loop')
+                formula = formula[0:-1]
+                master_formula = Formula(formula)
+                if extra_atoms ==True:
+                    master_formula = master_formula.__add__(Formula('N2O'))
+                    master_formula = master_formula.formula
+                    return(master_formula)
+                else:
+                    # print(f'the correct master formula cannot be determined for {smiles} and {adduct}')
+                    return(np.nan)
+            elif adduct in ['[M]+', '[M]-'] and Chem.GetFormalCharge(mol)== 0:
+                return np.nan
+            elif Chem.GetFormalCharge(mol)!= 0 and  adduct not in ['[M]+', '[M]-']:
+                return np.nan
+            else:
+                return np.nan
+    else:#if smiles is not a smiles, then it is a formula
+        formula = smiles
+        extra_atoms = True #default to true, but could lead to false negatives
+        # print(formula)
+        if is_formula(formula) == False:
+            return np.nan
+        elif abs(Formula(formula).charge) >1:
+            return np.nan
+        
+        elif (Formula(formula).charge == 1 and adduct == '[M]+') or (Formula(formula).charge == -1 and adduct == '[M]-'):
+            formula = formula[0:-1]
+        elif adduct in ['[M]+', '[M]-'] and Formula(formula).charge == 0:
+            return np.nan
+        elif Formula(formula).charge != 0 and adduct not in ['[M]+', '[M]-']:
+            return np.nan
+        # else:
+        #     formula = formula
+    charge = determine_adduct_charge(adduct)
+    if abs(charge) > 1:
+        # print(f'the correct master formula cannot be determined for adduct charge > 1')
+        return(np.nan)
+    m_coef = determine_parent_coefs(adduct)
+    master_formula = Formula(formula*m_coef)
+    
+    parsed_adduct = parse_adduct(adduct)
+    
+    for p in parsed_adduct:
+        sign, count, ion_type = p
+        if ion_type == 'H':
+            continue # skip proton
+        if sign == '+':
+            master_formula = master_formula.__add__(Formula(ion_type*count))
+        elif sign == '-':
+            master_formula = master_formula.__sub__(Formula(ion_type*count))
+        else:
+            continue
+    if extra_atoms == True:
+        master_formula = master_formula.__add__(Formula('N2O'))
+    
+    return(master_formula.formula)
 def electronic_denoising(msms):
     """
     Perform electronic denoising on a given mass spectrometry (MS/MS) spectrum.
@@ -280,63 +360,8 @@ def dict_to_formula(candidate, element_dict):
         elif candidate[i]==1:
             string += element_dict[i]
     return string
-def prep_formula(smiles, adduct):
-    """
-    Prepares the molecular formula based on the given SMILES string and adduct.
 
-    Args:
-        smiles (str): The SMILES representation of the molecule.
-        adduct (str): The adduct string representing the ionization state.
-    Returns:
-        str: The calculated molecular formula, or NaN if the formula cannot be determined.
-    """
 
-    if smiles != smiles or adduct != adduct or 'i' in adduct:
-        return np.nan
-    adduct = replace_adduct_string(adduct)
-    mol = Chem.MolFromSmiles(smiles)
-    formula = CalcMolFormula(mol)
-    extra_atoms = has_benzene(mol)
-    if adduct in ['[M]+', '[M]-'] and Chem.GetFormalCharge(mol)!= 0:
-        if str(Chem.GetFormalCharge(mol))[0]==adduct[-1]:
-            formula = formula[0:-1]
-            master_formula = Formula(formula)
-            if extra_atoms ==True:
-                master_formula = master_formula.__add__(Formula('N2O'))
-            return(master_formula.formula)
-        else:
-            # print(f'the correct master formula cannot be determined for {smiles} and {adduct}')
-            return(np.nan)
-    elif adduct in ['[M]+', '[M]-'] and Chem.GetFormalCharge(mol)== 0:
-        return np.nan
-    elif Chem.GetFormalCharge(mol)!= 0 and  adduct not in ['[M]+', '[M]-']:
-        return np.nan
-    
-
-    charge = determine_adduct_charge(adduct)
-    if abs(charge) > 1:
-        # print(f'the correct master formula cannot be determined for adduct charge > 1')
-        return(np.nan)
-    m_coef = determine_parent_coefs(adduct)
-    master_formula = Formula(formula*m_coef)
-    
-    parsed_adduct = parse_adduct(adduct)
-    
-    for p in parsed_adduct:
-        sign, count, ion_type = p
-        if ion_type == 'H':
-            continue # skip proton
-        if sign == '+':
-            master_formula = master_formula.__add__(Formula(ion_type*count))
-        elif sign == '-':
-            master_formula = master_formula.__sub__(Formula(ion_type*count))
-        else:
-            continue
-    if extra_atoms == True:
-        master_formula = master_formula.__add__(Formula('N2O'))
-    
-    return(master_formula.formula)
-from .identifier_utils import is_mol, is_smiles
 def has_benzene(molecule):
     """
     Check if the given molecule contains a benzene ring.
@@ -350,6 +375,8 @@ def has_benzene(molecule):
 
     if is_mol(molecule) == False and is_smiles(molecule) == True:
         molecule = Chem.MolFromSmiles(molecule)
+    elif is_formula(molecule) == True:
+        return True
     benzene = Chem.MolFromSmiles('c1ccccc1')  # Aromatic benzene SMILES notation
 
     # Check if benzene is a substructure of the given molecule

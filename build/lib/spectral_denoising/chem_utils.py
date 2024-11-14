@@ -267,6 +267,7 @@ def calculate_precursormz(adduct_string,mol = None, testing = False):
     if testing == True:
         molecule_mass = 853.33089
     else:
+        
         molecule_mass = Formula(everything_to_formula(mol)).isotope.mass
 
     adduct_string = adduct_string.strip()
