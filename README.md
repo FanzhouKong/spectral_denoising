@@ -43,6 +43,7 @@ from spectral_denoising.spectral_operations import *
 from spectral_denoising.chem_utils import *
 
 smiles = 'O=c1nc[nH]c2nc[nH]c12'
+formula = 'C5H4N4O
 adduct = '[M+Na]+'
 pmz = calculate_precursormz(adduct,smiles)
 peak = np.array([
@@ -69,6 +70,7 @@ print(f'the entropy similarity of contaminated spectrum and the raw spectrum is 
 
 # perform spectral denosing and compare against the raw spectrum
 peak_denoised = sd.spectral_denoising(peak_with_noise, smiles, adduct)
+# or peak_denoised = sd.spectral_denoising(peak_with_noise, formula, adduct)
 print(f'the entropy similarity of denoised spectrum and the raw spectrum is {entropy_similairty(peak_denoised, peak, pmz = pmz):.2f}')
 # use head_to_tail_plot to visualize the spectra, only in jupyter notebook
 # sd.head_to_tail_plot(peaks_denoised,peaks ,pmz)
