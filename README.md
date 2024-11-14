@@ -64,6 +64,7 @@ print(f'the spectrum entropy of raw spectrum is {spectral_entropy(peak):.2f}, th
 from spectral_denoising.noise import *
 peak_with_noise= sd.read_msp('sample_data/noisy_spectra.msp').iloc[0]['peaks']
 peak_denoised = sd.spectral_denoising(peak_with_noise, smiles, adduct)
+# peak_denoised = sd.spectral_denoising(peak_with_noise, formula, adduct) # all function would also work if you choose to use formula information instead of smiles information
 # use head_to_tail_plot to visualize the spectra, only in jupyter notebook
 # sd.head_to_tail_plot(peaks_with_noise,peaks ,pmz)
 print(f'the spectrum entropy of contaminated spectrum is {spectral_entropy(peak_with_noise):.2f}, the normalized entropy of contaminated spectrum is {normalized_entropy(peak_with_noise):.2f}')
