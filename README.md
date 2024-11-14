@@ -71,8 +71,7 @@ print(f'the entropy similarity of contaminated spectrum and the raw spectrum is 
 
 # perform spectral denosing and compare against the raw spectrum
 peak_denoised = sd.spectral_denoising(peak_with_noise, smiles, adduct)
-# alternatively, you can use:
-# peak_denoised = sd.spectral_denoising(peak_with_noise, formula, adduct)
+# peak_denoised = sd.spectral_denoising(peak_with_noise, formula, adduct) # this two would both work, if you wish to use formula information instead of SMILES information
 print(f'the entropy similarity of denoised spectrum and the raw spectrum is {entropy_similairty(peak_denoised, peak, pmz = pmz):.2f}')
 # use head_to_tail_plot to visualize the spectra, only in jupyter notebook
 # sd.head_to_tail_plot(peaks_denoised,peaks ,pmz)
@@ -82,8 +81,9 @@ print(f'the entropy similarity of denoised spectrum and the raw spectrum is {ent
 import spectral_denoising as sd
 def main():
   query_data = sd.read_msp('sample_data/noisy_spectra.msp')
-  query_peaks,query_smiles,query_adduct, query_pmz = query_data['peaks'],query_data['smiles'],query_data['adduct'], query_data['precursor_mz'] 
+  query_peaks,query_smiles,query_formula,query_adduct, query_pmz = query_data['peaks'],query_data['smiles'],query_data['formula'],query_data['adduct'], query_data['precursor_mz']
   desnoied_peaks = sd.spectral_denoising_batch(query_peaks,query_smiles,query_adduct) # this will return all denoised spectra in a list
+  # desnoied_peaks = sd.spectral_denoising_batch(query_peaks,query_formula,query_adduct) # this two would both work, if you wish to use formula information instead of SMILES information
 if __name__ == "__main__":
     main()
 ```
@@ -95,7 +95,8 @@ import spectral_denoising as sd
 query_spectra= sd.read_msp('sample_data/query_spectra.msp')
 reference_library =sd.read_msp('sample_data/reference_library.msp')
 query_spectrum, query_pmz = query_spectra.iloc[0]['peaks'], query_spectra.iloc[0]['precursor_mz'] # just the first spectrum
-result = sd.denoising_search(query_spectrum, query_pmz, reference_library)
+result = sd.denoising_search(query_spectrum, query_pmz, reference_library) # default it will use SMILES information from 'smiles' column
+# result = sd.denoising_search(query_spectrum, query_pmz, reference_library, smiles_col = 'formula') # use this if you wish to provide formula information instead of smiles information
 # result will return all precursor candidates of the query spectrum, each with entropy similarities of both raw and denoised spectra
 print(result)
 ```
@@ -107,7 +108,8 @@ def main():
   query_spectra= sd.read_msp('sample_data/query_spectra.msp')
   reference_library =sd.read_msp('sample_data/reference_library.msp')
   
-  results = sd.denoising_search_batch(query_spectra['peaks'], query_spectra['precursor_mz'], reference_library) 
+  results = sd.denoising_search_batch(query_spectra['peaks'], query_spectra['precursor_mz'], reference_library, )
+  # results = sd.denoising_search_batch(query_spectra['peaks'], query_spectra['precursor_mz'], reference_library, smiles_col = 'formula') # use this if you wish to provide formula information instead of smiles information
   # results will be a list of all correspoinding precursor mz candidates, each one with entropy similarities of both raw and denoised spectra (using reference spectra melecular information)
   print(results[0])# this will show denoising search result for the first spectra in msp file
 if __name__ == "__main__":
@@ -115,9 +117,5 @@ if __name__ == "__main__":
 ```
 Code for quick starts can be found in script director, with 2 demo files: spectral_denoising_demo.py and denoising_search_demo.py. Directly compiling these 2 files will produce similar results
 ## Working examples and reproducing results for the publication
-More working examples can be found under notebooks directory.
-For reproducing results shown in the manuscript, please also refer to the notebooks directory: astral_exp_results.ipynb, dilution_series_results.ipynb, 
-and synthesize_noise.ipynb.
-Please also change the path of the data.
 All necessory data can be found here: https://drive.google.com/drive/folders/1xSKtLqNXukj6V8qP9c_e5MAbmbDLg2Ml?dmr=1&ec=wgc-drive-hero-goto
 
