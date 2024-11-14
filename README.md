@@ -33,8 +33,8 @@ pip install spectral-denoising
 ### Usage of Classic spectral denoising (electronic denoising and chemical denoising)
 The demo data used here can be found under sample_data directory.
 
-**Note: Even all functions have a default 'smiles' information column, the function would also accept formula as input. if needed, just replace the the smiles with formula information (for single run) ro replace 
-column name of 'smiles' to your column name that contains formula formulas (batch mode).**
+**Note: Even all functions have a default 'smiles' information column, the function would also accept formula as input. If wanted, just replace the the smiles with formula information (for single run) or replace 
+column name of 'smiles' to your column name that contains formula information (batch mode).**
 
 #### Simple usage on single spectra
 **Note: if you try to use the batch mode in script and compile it in terminal, please wrap the code in main() function since they are implemented in parallal with multiprocessing and directly calling it will cause issues.**
