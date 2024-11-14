@@ -6,6 +6,7 @@ Spectrum_type: MS2
 Precursor_mz: 291.06943510065264
 Exactmass: 268.08076948400003
 Comment: Major_ms1intensity+18878.0_ei_0.89
+Formula: C10H12N4O5
 Num Peaks: 2
 159.02952945655997 1058.0
 291.0574836244849 62.0
@@ -18,6 +19,7 @@ Spectrum_type: MS2
 Precursor_mz: 113.03348973990056
 Exactmass: 112.027277368
 Comment: Major_ms1intensity+38906.0_ei_0.8
+Formula: C4H4N2O2
 Num Peaks: 11
 40.01855110611829 937.0
 42.03631474017808 154.0
@@ -39,6 +41,7 @@ Spectrum_type: MS2
 Precursor_mz: 244.0926226749428
 Exactmass: 243.085520516
 Comment: Major_ms1intensity+209224.0_ei_0.98
+Formula: C9H13N3O5
 Num Peaks: 22
 40.01855110611829 382.0
 41.04145484601922 92.0
@@ -71,6 +74,7 @@ Spectrum_type: MS2
 Precursor_mz: 137.04617719541662
 Exactmass: 136.038510748
 Comment: Major_ms1intensity+222341.0_ei_0.91
+Formula: C5H4N4O
 Num Peaks: 16
 40.019438839796244 373.0
 53.01245679902182 93.0
@@ -97,6 +101,7 @@ Spectrum_type: MS2
 Precursor_mz: 159.02644771708788
 Exactmass: 136.038510748
 Comment: Major_ms1intensity+22945.0_ei_0.71
+Formula: C5H4N4O
 Num Peaks: 10
 43.01823420370624 31.0
 48.99249615462674 154.0
@@ -117,6 +122,7 @@ Spectrum_type: MS2
 Precursor_mz: 159.05005628232288
 Exactmass: 158.043990052
 Comment: Major_ms1intensity+14920.0_ei_0.69
+Formula: C4H6N4O3
 Num Peaks: 10
 41.03606100723979 31.0
 43.017313810140344 31.0
@@ -137,6 +143,7 @@ Spectrum_type: MS2
 Precursor_mz: 161.10727520716165
 Exactmass: 160.100048384
 Comment: Major_ms1intensity+58097.0_ei_0.97
+Formula: C10H12N2
 Num Peaks: 32
 41.03969154223268 92.0
 51.023798466915444 1001.0
@@ -179,6 +186,7 @@ Spectrum_type: MS2
 Precursor_mz: 153.04025192632872
 Exactmass: 152.033425368
 Comment: Major_ms1intensity+56819.0_ei_0.84
+Formula: C5H4N4O2
 Num Peaks: 13
 44.99160540987124 123.0
 46.99576034984248 154.0
@@ -202,6 +210,7 @@ Spectrum_type: MS2
 Precursor_mz: 284.0986023904371
 Exactmass: 283.091668516
 Comment: Major_ms1intensity+100259.0_ei_0.96
+Formula: C10H13N5O5
 Num Peaks: 28
 41.03786438373463 186.0
 43.054142971176674 391.0
@@ -240,6 +249,7 @@ Spectrum_type: MS2
 Precursor_mz: 306.0802352477634
 Exactmass: 283.091668516
 Comment: Major_ms1intensity+17677.0_ei_0.7
+Formula: C10H13N5O5
 Num Peaks: 3
 43.05502569684563 31.0
 190.03483016209663 194.0
@@ -253,6 +263,7 @@ Spectrum_type: MS2
 Precursor_mz: 268.1051160880601
 Exactmass: 267.096753896
 Comment: Major_ms1intensity+745325.0_ei_0.99
+Formula: C10H13N5O4
 Num Peaks: 27
 40.01766013274815 123.0
 41.03875454986763 250.0
@@ -290,6 +301,7 @@ Spectrum_type: MS2
 Precursor_mz: 170.08081767339584
 Exactmass: 169.073893212
 Comment: Major_ms1intensity+1512.0_ei_0.83
+Formula: C8H11NO3
 Num Peaks: 13
 51.024757740505876 245.0
 67.03737653772943 93.0
@@ -313,6 +325,7 @@ Spectrum_type: MS2
 Precursor_mz: 243.09677202313864
 Exactmass: 242.090271548
 Comment: Major_ms1intensity+55143.0_ei_0.96
+Formula: C10H14N2O5
 Num Peaks: 21
 41.0379655389904 874.0
 43.054249362748614 902.0
@@ -344,6 +357,7 @@ Spectrum_type: MS2
 Precursor_mz: 265.0792320469876
 Exactmass: 242.090271548
 Comment: Major_ms1intensity+116174.0_ei_0.87
+Formula: C10H14N2O5
 Num Peaks: 3
 149.03079111983146 123.0
 208.0389586874117 31.0
@@ -357,6 +371,7 @@ Spectrum_type: MS2
 Precursor_mz: 385.12788938263486
 Exactmass: 384.1215887399999
 Comment: Major_ms1intensity+283833.0_ei_0.97
+Formula: C14H20N6O5S
 Num Peaks: 12
 61.01166256056346 123.0
 88.02039317896988 12729.0
@@ -379,6 +394,7 @@ Spectrum_type: MS2
 Precursor_mz: 385.12788938263486
 Exactmass: 384.1215887399999
 Comment: isomer_ms1intensity+101825.0_ei_0.96
+Formula: C14H20N6O5S
 Num Peaks: 7
 88.0217097468053 10435.0
 97.02503850962945 361.0
@@ -396,6 +412,7 @@ Spectrum_type: MS2
 Precursor_mz: 407.1090700837216
 Exactmass: 384.1215887399999
 Comment: Major_ms1intensity+1348.0_ei_0.68
+Formula: C14H20N6O5S
 Num Peaks: 4
 158.0296315894671 31.0
 272.0627503675838 31.0
@@ -410,6 +427,7 @@ Spectrum_type: MS2
 Precursor_mz: 152.05554834055127
 Exactmass: 151.04940978
 Comment: Major_ms1intensity+26371.0_ei_0.81
+Formula: C5H5N5O
 Num Peaks: 16
 40.01949415045952 93.0
 42.035463278263464 31.0
@@ -436,6 +454,7 @@ Spectrum_type: MS2
 Precursor_mz: 337.1895983537322
 Exactmass: 336.18377800799993
 Comment: Major_ms1intensity+1162247.0_ei_0.98
+Formula: C21H24N2O2
 Num Peaks: 106
 41.03794027067326 114.0
 42.03366874529116 2546.0
@@ -552,6 +571,7 @@ Spectrum_type: MS2
 Precursor_mz: 633.2895264265561
 Exactmass: 610.3042870639999
 Comment: Major_ms1intensity+6617.0_ei_0.87
+Formula: C37H42N2O6
 Num Peaks: 9
 199.05597714134205 93.0
 206.12441228459775 93.0
@@ -571,6 +591,7 @@ Spectrum_type: MS2
 Precursor_mz: 633.2895264265561
 Exactmass: 610.3042870639999
 Comment: Major_ms1intensity+6617.0_ei_0.87
+Formula: C37H42N2O6
 Num Peaks: 9
 199.05597714134205 93.0
 206.12441228459775 93.0
@@ -590,6 +611,7 @@ Spectrum_type: MS2
 Precursor_mz: 177.10201101727125
 Exactmass: 176.094963004
 Comment: Major_ms1intensity+1782937.0_ei_0.97
+Formula: C10H12N2O
 Num Peaks: 25
 41.03877732794562 1576.0
 42.03542482946946 6494.0
@@ -625,6 +647,7 @@ Spectrum_type: MS2
 Precursor_mz: 336.1226295631357
 Exactmass: 336.1230344760899
 Comment: Major_ms1intensity+7517553.0_ei_0.99
+Formula: C20H18NO4+
 Num Peaks: 82
 139.05192098129348 181.0
 144.0824517395048 176.0
@@ -717,6 +740,7 @@ Spectrum_type: MS2
 Precursor_mz: 381.0309543915951
 Exactmass: 380.02499614
 Comment: Major_ms1intensity+6225639.0_ei_0.98
+Formula: C18H15Cl3N2O
 Num Peaks: 49
 42.03555118537126 548.0
 63.02414628206955 1050.0
@@ -776,6 +800,7 @@ Spectrum_type: MS2
 Precursor_mz: 295.1806834425871
 Exactmass: 294.17321332399996
 Comment: Major_ms1intensity+1125548.0_ei_0.96
+Formula: C19H22N2O
 Num Peaks: 120
 41.03989972547917 1655.0
 42.034744911588 908.0
@@ -906,6 +931,7 @@ Spectrum_type: MS2
 Precursor_mz: 295.18009301995755
 Exactmass: 294.17321332399996
 Comment: isomer_ms1intensity+6591.0_ei_0.83
+Formula: C19H22N2O
 Num Peaks: 8
 79.05350787656957 147.0
 81.06875579608636 175.0
@@ -924,6 +950,7 @@ Spectrum_type: MS2
 Precursor_mz: 118.08570163164885
 Exactmass: 117.078978592
 Comment: Major_ms1intensity+674587.0_ei_0.99
+Formula: C5H11NO2
 Num Peaks: 14
 42.034700623852764 12999.0
 43.04145876265202 3695.0
@@ -948,6 +975,7 @@ Spectrum_type: MS2
 Precursor_mz: 276.1718192926169
 Exactmass: 275.163376912
 Comment: Major_ms1intensity+2555382.0_ei_0.99
+Formula: C15H21N3O2
 Num Peaks: 64
 42.03382879269078 1335.0
 43.04241831222752 187.0
@@ -1022,6 +1050,7 @@ Spectrum_type: MS2
 Precursor_mz: 298.150826935852
 Exactmass: 275.163376912
 Comment: Major_ms1intensity+9858.0_ei_0.74
+Formula: C15H21N3O2
 Num Peaks: 3
 87.03748185990197 31.0
 146.0569939352937 31.0
@@ -1035,6 +1064,7 @@ Spectrum_type: MS2
 Precursor_mz: 808.3558906535643
 Exactmass: 807.3466053760001
 Comment: Major_ms1intensity+419961.0_ei_0.96
+Formula: C43H53NO14
 Num Peaks: 138
 43.01668560010354 233.0
 62.023504658277226 3231.0
@@ -1183,6 +1213,7 @@ Spectrum_type: MS2
 Precursor_mz: 830.3373934344779
 Exactmass: 807.3466053760001
 Comment: Major_ms1intensity+392942.0_ei_0.97
+Formula: C43H53NO14
 Num Peaks: 25
 91.05364881113537 370.0
 105.03434355040677 692.0
@@ -1218,6 +1249,7 @@ Spectrum_type: MS2
 Precursor_mz: 825.3827132013846
 Exactmass: 807.3466053760001
 Comment: Major_ms1intensity+7710.0_ei_0.94
+Formula: C43H53NO14
 Num Peaks: 49
 62.02231604711597 282.0
 77.03900961599965 287.0
@@ -1277,6 +1309,7 @@ Spectrum_type: MS2
 Precursor_mz: 325.1910261958169
 Exactmass: 324.183778008
 Comment: Major_ms1intensity+843639.0_ei_0.96
+Formula: C20H24N2O2
 Num Peaks: 156
 41.03901326331697 2475.0
 42.03384792205683 954.0
@@ -1443,6 +1476,7 @@ Spectrum_type: MS2
 Precursor_mz: 338.21268970262594
 Exactmass: 337.20417910400005
 Comment: Major_ms1intensity+5270859.0_ei_0.99
+Formula: C22H27NO2
 Num Peaks: 62
 41.04170457485904 229.0
 42.033842113134774 2063.0
@@ -1515,6 +1549,7 @@ Spectrum_type: MS2
 Precursor_mz: 400.17684014278507
 Exactmass: 399.16818752
 Comment: Major_ms1intensity+6313256.0_ei_0.98
+Formula: C22H25NO6
 Num Peaks: 253
 42.03295362039201 188.0
 43.01944031485798 1482.0
@@ -1778,6 +1813,7 @@ Spectrum_type: MS2
 Precursor_mz: 422.1566046685459
 Exactmass: 399.16818752
 Comment: Major_ms1intensity+155824.0_ei_0.96
+Formula: C22H25NO6
 Num Peaks: 3
 378.14478303902064 92.0
 379.14966864303346 196.0
@@ -1791,6 +1827,7 @@ Spectrum_type: MS2
 Precursor_mz: 414.9943508547972
 Exactmass: 413.9860237879999
 Comment: Major_ms1intensity+3988306.0_ei_0.98
+Formula: C18H14Cl4N2O
 Num Peaks: 36
 42.03297662563397 324.0
 69.04734918864608 21783.0
@@ -1837,6 +1874,7 @@ Spectrum_type: MS2
 Precursor_mz: 166.1232624548169
 Exactmass: 165.1153641
 Comment: Major_ms1intensity+677033.0_ei_0.98
+Formula: C10H15NO
 Num Peaks: 27
 41.03809038991553 465.0
 43.01847898489942 77.0
@@ -1874,6 +1912,7 @@ Spectrum_type: MS2
 Precursor_mz: 355.2016101390902
 Exactmass: 354.194342692
 Comment: Major_ms1intensity+3350926.0_ei_0.97
+Formula: C21H26N2O3
 Num Peaks: 81
 44.05093123721272 795.0
 56.05094913541739 701.0
@@ -1965,6 +2004,7 @@ Spectrum_type: MS2
 Precursor_mz: 355.2016896312747
 Exactmass: 354.194342692
 Comment: Minor_ms1intensity+54840.0_ei_0.93
+Formula: C21H26N2O3
 Num Peaks: 19
 44.050001586774336 77.0
 91.05775897860582 137.0
@@ -1994,6 +2034,7 @@ Spectrum_type: MS2
 Precursor_mz: 587.2867455003488
 Exactmass: 586.279134936
 Comment: Major_ms1intensity+3203708.0_ei_0.86
+Formula: C33H38N4O6
 Num Peaks: 17
 84.0807843073379 41.0
 86.09751841688485 41.0
@@ -2021,6 +2062,7 @@ Spectrum_type: MS2
 Precursor_mz: 609.2695977197056
 Exactmass: 586.279134936
 Comment: Major_ms1intensity+3255.0_ei_0.74
+Formula: C33H38N4O6
 Num Peaks: 2
 565.2880291683808 154.0
 609.2793341019121 93.0
@@ -2033,6 +2075,7 @@ Spectrum_type: MS2
 Precursor_mz: 306.2063704275449
 Exactmass: 305.199093724
 Comment: Major_ms1intensity+3002834.0_ei_0.99
+Formula: C18H27NO3
 Num Peaks: 50
 40.032144693951714 346.0
 41.03994191426363 3599.0
@@ -2093,6 +2136,7 @@ Spectrum_type: MS2
 Precursor_mz: 328.1883937690208
 Exactmass: 305.199093724
 Comment: Major_ms1intensity+367410.0_ei_0.89
+Formula: C18H27NO3
 Num Peaks: 7
 77.04031373293793 62.0
 79.05734798773764 62.0
@@ -2110,6 +2154,7 @@ Spectrum_type: MS2
 Precursor_mz: 172.07200134165694
 Exactmass: 171.064391148
 Comment: Major_ms1intensity+918098.0_ei_0.98
+Formula: C6H9N3O3
 Num Peaks: 17
 40.02152104135818 154.0
 41.02738801703727 5061.0
@@ -2137,6 +2182,7 @@ Spectrum_type: MS2
 Precursor_mz: 181.07183325528243
 Exactmass: 180.064725496
 Comment: Major_ms1intensity+1418608.0_ei_0.98
+Formula: C7H8N4O2
 Num Peaks: 33
 40.017970158059676 651.0
 41.02469160747084 227.0
@@ -2180,6 +2226,7 @@ Spectrum_type: MS2
 Precursor_mz: 266.0965519084805
 Exactmass: 265.08849772
 Comment: Major_ms1intensity+4655032.0_ei_0.99
+Formula: C12H15N3O2S
 Num Peaks: 66
 41.03999564991272 1298.0
 43.053574929439065 1961.0
@@ -2256,6 +2303,7 @@ Spectrum_type: MS2
 Precursor_mz: 296.10344427774
 Exactmass: 295.0956912760001
 Comment: Major_ms1intensity+3980132.0_ei_0.98
+Formula: C16H13N3O3
 Num Peaks: 55
 50.01574951265377 1014.0
 51.023138247306335 8947.0
@@ -2321,6 +2369,7 @@ Spectrum_type: MS2
 Precursor_mz: 297.19602906290805
 Exactmass: 296.18886338799996
 Comment: Major_ms1intensity+1752975.0_ei_0.88
+Formula: C19H24N2O
 Num Peaks: 8
 56.05090299624776 92.0
 81.07142444948444 511.0
@@ -2339,6 +2388,7 @@ Spectrum_type: MS2
 Precursor_mz: 295.18101165395086
 Exactmass: 294.17321332399996
 Comment: Major_ms1intensity+1356263.0_ei_0.95
+Formula: C19H22N2O
 Num Peaks: 110
 41.03907234723571 1997.0
 42.03481869319914 724.0
@@ -2459,6 +2509,7 @@ Spectrum_type: MS2
 Precursor_mz: 327.2066017579358
 Exactmass: 326.199428072
 Comment: Major_ms1intensity+1231860.0_ei_0.94
+Formula: C20H26N2O2
 Num Peaks: 127
 41.03922365819996 1067.0
 42.03315360064185 616.0
@@ -2596,6 +2647,7 @@ Spectrum_type: MS2
 Precursor_mz: 167.06363561423615
 Exactmass: 166.05646932
 Comment: Major_ms1intensity+898787.0_ei_0.97
+Formula: C8H10N2S
 Num Peaks: 34
 51.02423592313979 668.0
 52.03054514224982 274.0
@@ -2640,6 +2692,7 @@ Spectrum_type: MS2
 Precursor_mz: 444.150366780766
 Exactmass: 421.163770836
 Comment: Major_ms1intensity+5738.0_ei_0.68
+Formula: C23H23N3O5
 Num Peaks: 2
 355.1159757224892 62.0
 399.0912903791668 62.0
@@ -2652,6 +2705,7 @@ Spectrum_type: MS2
 Precursor_mz: 447.16041383679897
 Exactmass: 446.152096528
 Comment: Major_ms1intensity+844289.0_ei_0.99
+Formula: C22H24ClFN4O3
 Num Peaks: 20
 56.048954225478944 380.0
 58.06392917826323 154.0
@@ -2682,6 +2736,7 @@ Spectrum_type: MS2
 Precursor_mz: 825.4099996868404
 Exactmass: 824.3996439919999
 Comment: Major_ms1intensity+667875.0_ei_0.92
+Formula: C46H56N4O10
 Num Peaks: 45
 122.09946378689449 662.0
 124.11266389142943 187.0
@@ -2737,6 +2792,7 @@ Spectrum_type: MS2
 Precursor_mz: 847.3838951671991
 Exactmass: 824.3996439919999
 Comment: Major_ms1intensity+76283.0_ei_0.92
+Formula: C46H56N4O10
 Num Peaks: 9
 705.3840501820854 92.0
 733.3858220350912 93.0
@@ -2756,6 +2812,7 @@ Spectrum_type: MS2
 Precursor_mz: 457.2340794726907
 Exactmass: 456.2260367439998
 Comment: Major_ms1intensity+17801667.0_ei_0.99
+Formula: C25H32N2O6
 Num Peaks: 273
 41.037319927710314 135.0
 42.03304525235588 1583.0
@@ -3039,6 +3096,7 @@ Spectrum_type: MS2
 Precursor_mz: 479.2132316519402
 Exactmass: 456.2260367439998
 Comment: Major_ms1intensity+29151.0_ei_0.93
+Formula: C25H32N2O6
 Num Peaks: 13
 119.03912912841155 77.0
 173.0822722781683 169.0
@@ -3062,6 +3120,7 @@ Spectrum_type: MS2
 Precursor_mz: 585.3186766390276
 Exactmass: 584.3097663679999
 Comment: Major_ms1intensity+10036083.0_ei_0.97
+Formula: C32H44N2O8
 Num Peaks: 291
 41.04009443865711 215.0
 43.01685419996523 346.0
@@ -3363,6 +3422,7 @@ Spectrum_type: MS2
 Precursor_mz: 607.2975804655289
 Exactmass: 584.3097663679999
 Comment: Major_ms1intensity+26559.0_ei_0.95
+Formula: C32H44N2O8
 Num Peaks: 6
 356.23039842129674 77.0
 374.2405151599097 301.0
@@ -3379,6 +3439,7 @@ Spectrum_type: MS2
 Precursor_mz: 263.17487131763284
 Exactmass: 262.168127944
 Comment: Major_ms1intensity+1183511.0_ei_0.97
+Formula: C15H22N2O2
 Num Peaks: 97
 41.040929064266386 462.0
 42.033058780348824 278.0
@@ -3486,6 +3547,7 @@ Spectrum_type: MS2
 Precursor_mz: 330.17033302467144
 Exactmass: 329.162708216
 Comment: Major_ms1intensity+2564412.0_ei_0.95
+Formula: C19H23NO4
 Num Peaks: 121
 42.0349312286131 677.0
 43.043536214402664 300.0
@@ -3617,6 +3679,7 @@ Spectrum_type: MS2
 Precursor_mz: 352.1495781982956
 Exactmass: 329.162708216
 Comment: Major_ms1intensity+16354.0_ei_0.71
+Formula: C19H23NO4
 Num Peaks: 2
 120.04582330146896 31.0
 352.1525726232795 194.0
@@ -3629,6 +3692,7 @@ Spectrum_type: MS2
 Precursor_mz: 337.1904595515037
 Exactmass: 336.18377800799993
 Comment: Major_ms1intensity+3909414.0_ei_0.99
+Formula: C21H24N2O2
 Num Peaks: 98
 42.033907065589624 4138.0
 43.03053103156366 1063.0
@@ -3737,6 +3801,7 @@ Spectrum_type: MS2
 Precursor_mz: 330.17050306745404
 Exactmass: 329.162708216
 Comment: Major_ms1intensity+2701434.0_ei_0.96
+Formula: C19H23NO4
 Num Peaks: 142
 42.03481580189818 535.0
 43.04341837753074 572.0
@@ -3889,6 +3954,7 @@ Spectrum_type: MS2
 Precursor_mz: 352.15041744725954
 Exactmass: 329.162708216
 Comment: Major_ms1intensity+18573.0_ei_0.68
+Formula: C19H23NO4
 Num Peaks: 2
 311.07471210716886 31.0
 352.15176893419954 607.0
@@ -3901,6 +3967,7 @@ Spectrum_type: MS2
 Precursor_mz: 365.113367643405
 Exactmass: 364.105921612
 Comment: Major_ms1intensity+690924.0_ei_0.96
+Formula: C20H16N2O5
 Num Peaks: 61
 57.034427857489874 1593.0
 182.05927050016362 209.0
@@ -3972,6 +4039,7 @@ Spectrum_type: MS2
 Precursor_mz: 156.0999196444463
 Exactmass: 155.094628656
 Comment: Major_ms1intensity+2655.0_ei_0.68
+Formula: C8H13NO2
 Num Peaks: 1
 44.016525721274 93.0
 
@@ -3983,6 +4051,7 @@ Spectrum_type: MS2
 Precursor_mz: 349.11894292871887
 Exactmass: 348.111006992
 Comment: Major_ms1intensity+1781118.0_ei_0.98
+Formula: C20H16N2O4
 Num Peaks: 106
 57.034405967414834 8076.0
 65.03776401466051 93.0
@@ -4099,6 +4168,7 @@ Spectrum_type: MS2
 Precursor_mz: 371.0955624745055
 Exactmass: 348.111006992
 Comment: Major_ms1intensity+12710.0_ei_0.73
+Formula: C20H16N2O4
 Num Peaks: 2
 101.06163027383609 123.0
 111.0463499438466 93.0
@@ -4111,6 +4181,7 @@ Spectrum_type: MS2
 Precursor_mz: 215.11720969470923
 Exactmass: 214.110613068
 Comment: Major_ms1intensity+4287479.0_ei_0.99
+Formula: C13H14N2O
 Num Peaks: 76
 41.03729051388401 371.0
 42.03392529167495 16722.0
@@ -4197,6 +4268,7 @@ Spectrum_type: MS2
 Precursor_mz: 351.20671753210826
 Exactmass: 350.199428072
 Comment: Major_ms1intensity+8054713.0_ei_0.99
+Formula: C22H26N2O2
 Num Peaks: 206
 41.03822494870145 486.0
 42.0339616201972 582.0
@@ -4413,6 +4485,7 @@ Spectrum_type: MS2
 Precursor_mz: 325.1909263345356
 Exactmass: 324.183778008
 Comment: Major_ms1intensity+1098586.0_ei_0.96
+Formula: C20H24N2O2
 Num Peaks: 171
 41.03906974393585 3218.0
 42.034815941594935 1158.0
@@ -4594,6 +4667,7 @@ Spectrum_type: MS2
 Precursor_mz: 142.08518943985752
 Exactmass: 141.078978592
 Comment: Major_ms1intensity+39204.0_ei_0.81
+Formula: C7H11NO2
 Num Peaks: 14
 41.03907887959218 678.0
 42.03573512606826 93.0
@@ -4618,6 +4692,7 @@ Spectrum_type: MS2
 Precursor_mz: 607.2794699749927
 Exactmass: 606.2729869359999
 Comment: Major_ms1intensity+823439.0_ei_0.91
+Formula: C37H38N2O6
 Num Peaks: 117
 44.049131653481766 876.0
 58.066040512583285 405.0
@@ -4745,6 +4820,7 @@ Spectrum_type: MS2
 Precursor_mz: 629.2579486992162
 Exactmass: 606.2729869359999
 Comment: Major_ms1intensity+6482.0_ei_0.89
+Formula: C37H38N2O6
 Num Peaks: 5
 365.1499664846325 93.0
 366.1616149441692 93.0
@@ -4760,6 +4836,7 @@ Spectrum_type: MS2
 Precursor_mz: 286.1444033718077
 Exactmass: 285.136493468
 Comment: Major_ms1intensity+3027581.0_ei_0.99
+Formula: C17H19NO3
 Num Peaks: 51
 41.03917575902303 13165.0
 51.023293349860225 953.0
@@ -4821,6 +4898,7 @@ Spectrum_type: MS2
 Precursor_mz: 286.1444963265081
 Exactmass: 285.136493468
 Comment: isomer_ms1intensity+1046996.0_ei_0.98
+Formula: C17H19NO3
 Num Peaks: 46
 41.04003745255535 8775.0
 51.023246982085745 545.0
@@ -4877,6 +4955,7 @@ Spectrum_type: MS2
 Precursor_mz: 252.10913549059404
 Exactmass: 251.101839276
 Comment: Major_ms1intensity+398188.0_ei_0.99
+Formula: C10H13N5O3
 Num Peaks: 22
 40.01882702170396 62.0
 41.03994187676695 422.0
@@ -4909,6 +4988,7 @@ Spectrum_type: MS2
 Precursor_mz: 623.3118069911026
 Exactmass: 622.3042870639999
 Comment: Major_ms1intensity+673594.0_ei_0.92
+Formula: C38H42N2O6
 Num Peaks: 90
 58.06381846272858 175.0
 121.06709415390594 309.0
@@ -5009,6 +5089,7 @@ Spectrum_type: MS2
 Precursor_mz: 356.1857195054053
 Exactmass: 355.17835828000005
 Comment: Major_ms1intensity+3641863.0_ei_0.98
+Formula: C21H25NO4
 Num Peaks: 142
 44.04902372608262 207.0
 77.0378922545805 2058.0
@@ -5161,6 +5242,7 @@ Spectrum_type: MS2
 Precursor_mz: 288.12329673628494
 Exactmass: 287.115758024
 Comment: Major_ms1intensity+682198.0_ei_0.96
+Formula: C16H17NO4
 Num Peaks: 88
 55.0542276119236 260.0
 65.03894222772979 949.0
@@ -5259,6 +5341,7 @@ Spectrum_type: MS2
 Precursor_mz: 247.18046468199947
 Exactmass: 246.173213324
 Comment: Major_ms1intensity+2104022.0_ei_0.98
+Formula: C15H22N2O
 Num Peaks: 95
 41.03993268124962 2327.0
 42.033869764904985 1043.0
@@ -5364,6 +5447,7 @@ Spectrum_type: MS2
 Precursor_mz: 269.1621743263317
 Exactmass: 246.173213324
 Comment: Major_ms1intensity+15932.0_ei_0.77
+Formula: C15H22N2O
 Num Peaks: 1
 269.16536491439075 123.0
 
@@ -5375,6 +5459,7 @@ Spectrum_type: MS2
 Precursor_mz: 138.054380996545
 Exactmass: 137.047678464
 Comment: Major_ms1intensity+762874.0_ei_0.97
+Formula: C7H7NO2
 Num Peaks: 26
 40.033863179631645 92.0
 41.03898467691353 2394.0
@@ -5411,6 +5496,7 @@ Spectrum_type: MS2
 Precursor_mz: 288.11303928614626
 Exactmass: 287.105862036
 Comment: Major_ms1intensity+2375056.0_ei_0.97
+Formula: C18H13N3O
 Num Peaks: 112
 41.037377810587884 209.0
 51.022290964329926 225.0
@@ -5533,6 +5619,7 @@ Spectrum_type: MS2
 Precursor_mz: 304.1432950860961
 Exactmass: 303.137162164
 Comment: Major_ms1intensity+1445325.0_ei_0.97
+Formula: C19H17N3O
 Num Peaks: 56
 51.025183923788 685.0
 54.033383030394496 462.0
@@ -5599,6 +5686,7 @@ Spectrum_type: MS2
 Precursor_mz: 265.1905386789746
 Exactmass: 264.183778008
 Comment: Major_ms1intensity+1890823.0_ei_0.92
+Formula: C15H24N2O2
 Num Peaks: 29
 70.06797881300733 89.0
 94.0643880233578 93.0
@@ -5638,6 +5726,7 @@ Spectrum_type: MS2
 Precursor_mz: 352.1548179948617
 Exactmass: 352.15433460409
 Comment: Major_ms1intensity+7929924.0_ei_0.99
+Formula: C21H22NO4+
 Num Peaks: 81
 176.05482289976277 189.0
 177.05052784208328 181.0
@@ -5729,6 +5818,7 @@ Spectrum_type: MS2
 Precursor_mz: 609.2818762223903
 Exactmass: 608.27338086
 Comment: Major_ms1intensity+3839902.0_ei_0.97
+Formula: C33H40N2O9
 Num Peaks: 193
 44.04736947945863 239.0
 56.05011108135023 264.0
@@ -5932,6 +6022,7 @@ Spectrum_type: MS2
 Precursor_mz: 609.278253140434
 Exactmass: 608.27338086
 Comment: Minor_ms1intensity+3103.0_ei_0.9
+Formula: C33H40N2O9
 Num Peaks: 10
 106.06425704215701 46.0
 174.09047368985145 318.0
@@ -5952,6 +6043,7 @@ Spectrum_type: MS2
 Precursor_mz: 631.2613130476553
 Exactmass: 608.27338086
 Comment: Major_ms1intensity+21817.0_ei_0.93
+Formula: C33H40N2O9
 Num Peaks: 4
 333.1607764099781 154.0
 365.1910535378789 297.0
@@ -5966,6 +6058,7 @@ Spectrum_type: MS2
 Precursor_mz: 235.21751528345465
 Exactmass: 234.209598832
 Comment: Major_ms1intensity+1243749.0_ei_0.97
+Formula: C15H26N2
 Num Peaks: 41
 41.03826605532679 216.0
 42.03491397488011 656.0
@@ -6017,6 +6110,7 @@ Spectrum_type: MS2
 Precursor_mz: 209.12891503754176
 Exactmass: 208.121177752
 Comment: Major_ms1intensity+1323403.0_ei_0.8
+Formula: C11H16N2O2
 Num Peaks: 7
 94.06463797538903 93.0
 95.05944107043496 537.0
@@ -6034,6 +6128,7 @@ Spectrum_type: MS2
 Precursor_mz: 290.1754761696329
 Exactmass: 289.167793596
 Comment: Major_ms1intensity+5592517.0_ei_0.99
+Formula: C17H23NO3
 Num Peaks: 69
 41.03924375937473 5353.0
 42.034084788921746 2834.0
@@ -6113,6 +6208,7 @@ Spectrum_type: MS2
 Precursor_mz: 202.0437613343768
 Exactmass: 201.036068224
 Comment: Major_ms1intensity+3908382.0_ei_0.99
+Formula: C10H7N3S
 Num Peaks: 72
 41.04007809538982 153.0
 44.977956528495085 413.0
@@ -6195,6 +6291,7 @@ Spectrum_type: MS2
 Precursor_mz: 156.1016233629933
 Exactmass: 155.094628656
 Comment: Major_ms1intensity+191316.0_ei_0.92
+Formula: C8H13NO2
 Num Peaks: 16
 41.039246503489494 5708.0
 42.034087599557175 214.0
@@ -6221,6 +6318,7 @@ Spectrum_type: MS2
 Precursor_mz: 124.0504685305263
 Exactmass: 123.04326178
 Comment: Major_ms1intensity+42698.0_ei_0.94
+Formula: C5H5N3O
 Num Peaks: 16
 41.026612752006265 39.0
 42.03494729915694 68.0
@@ -6247,6 +6345,7 @@ Spectrum_type: MS2
 Precursor_mz: 208.11833154696777
 Exactmass: 207.110672644
 Comment: Major_ms1intensity+379401.0_ei_0.93
+Formula: C8H17NO5
 Num Peaks: 57
 41.039167345789195 1121.0
 42.03309671315832 697.0
@@ -6314,6 +6413,7 @@ Spectrum_type: MS2
 Precursor_mz: 393.1437081406901
 Exactmass: 392.1372217399999
 Comment: Major_ms1intensity+2620801.0_ei_0.98
+Formula: C22H20N2O5
 Num Peaks: 96
 57.03363118204022 2466.0
 115.054445103129 233.0
@@ -6420,6 +6520,7 @@ Spectrum_type: MS2
 Precursor_mz: 360.21630928476753
 Exactmass: 360.21693486008996
 Comment: Major_ms1intensity+6677421.0_ei_0.99
+Formula: C21H30NO4+
 Num Peaks: 92
 41.04012574201268 9120.0
 42.03497666337481 17241.0
@@ -6522,6 +6623,7 @@ Spectrum_type: MS2
 Precursor_mz: 181.07187312756747
 Exactmass: 180.064725496
 Comment: Major_ms1intensity+780067.0_ei_0.97
+Formula: C7H8N4O2
 Num Peaks: 31
 40.019028019909655 154.0
 41.02666350242634 180.0
@@ -6563,6 +6665,7 @@ Spectrum_type: MS2
 Precursor_mz: 609.2958468654691
 Exactmass: 608.2886369999999
 Comment: Major_ms1intensity+1067479.0_ei_0.94
+Formula: C37H40N2O6
 Num Peaks: 146
 44.051161182201014 533.0
 58.06518962458216 328.0
@@ -6719,6 +6822,7 @@ Spectrum_type: MS2
 Precursor_mz: 609.2958468654691
 Exactmass: 608.2886369999999
 Comment: Major_ms1intensity+1067479.0_ei_0.94
+Formula: C37H40N2O6
 Num Peaks: 146
 44.051161182201014 533.0
 58.06518962458216 328.0
@@ -6875,6 +6979,7 @@ Spectrum_type: MS2
 Precursor_mz: 138.05504444975142
 Exactmass: 137.047678464
 Comment: Major_ms1intensity+560220.0_ei_0.98
+Formula: C7H7NO2
 Num Peaks: 35
 40.03141653484615 166.0
 41.03830750422823 1273.0
@@ -6920,6 +7025,7 @@ Spectrum_type: MS2
 Precursor_mz: 356.1854194082844
 Exactmass: 355.17835828000005
 Comment: Major_ms1intensity+5381886.0_ei_0.99
+Formula: C21H25NO4
 Num Peaks: 167
 42.03507099348262 187.0
 44.04841110557537 597.0
@@ -7097,6 +7203,7 @@ Spectrum_type: MS2
 Precursor_mz: 338.13843367553443
 Exactmass: 338.13868454009
 Comment: Major_ms1intensity+6167959.0_ei_0.99
+Formula: C20H20NO4+
 Num Peaks: 72
 139.05001005673824 295.0
 152.05943234534868 244.0
@@ -7179,6 +7286,7 @@ Spectrum_type: MS2
 Precursor_mz: 368.1130816113528
 Exactmass: 367.1055872639999
 Comment: Major_ms1intensity+1979188.0_ei_0.98
+Formula: C20H17NO6
 Num Peaks: 105
 42.03497151200807 459.0
 44.05016959751774 15331.0
@@ -7294,6 +7402,7 @@ Spectrum_type: MS2
 Precursor_mz: 390.0932542348352
 Exactmass: 367.1055872639999
 Comment: Major_ms1intensity+14149.0_ei_0.76
+Formula: C20H17NO6
 Num Peaks: 4
 160.07740812556057 62.0
 175.06769860117234 62.0
@@ -7308,6 +7417,7 @@ Spectrum_type: MS2
 Precursor_mz: 243.1490286689857
 Exactmass: 242.141913196
 Comment: Major_ms1intensity+1322562.0_ei_0.94
+Formula: C15H18N2O
 Num Peaks: 121
 41.03833734819046 1961.0
 42.03225799517227 528.0
@@ -7439,6 +7549,7 @@ Spectrum_type: MS2
 Precursor_mz: 412.32301521084327
 Exactmass: 411.313729552
 Comment: Major_ms1intensity+5582934.0_ei_0.96
+Formula: C27H41NO2
 Num Peaks: 145
 41.03746426415488 1322.0
 42.03410412436051 240.0
@@ -7594,6 +7705,7 @@ Spectrum_type: MS2
 Precursor_mz: 326.15997162923406
 Exactmass: 325.152537456
 Comment: Major_ms1intensity+795749.0_ei_0.97
+Formula: C16H23NO6
 Num Peaks: 80
 41.03743797814573 363.0
 42.03225758634042 449.0
@@ -7684,6 +7796,7 @@ Spectrum_type: MS2
 Precursor_mz: 348.1390240659852
 Exactmass: 325.152537456
 Comment: Major_ms1intensity+13129.0_ei_0.75
+Formula: C16H23NO6
 Num Peaks: 5
 93.06445324480534 15.0
 120.07849538753909 350.0
@@ -7699,6 +7812,7 @@ Spectrum_type: MS2
 Precursor_mz: 213.1018614534396
 Exactmass: 212.094963004
 Comment: Major_ms1intensity+5162212.0_ei_0.99
+Formula: C13H12N2O
 Num Peaks: 56
 66.04692656282157 421.0
 74.01520523230913 184.0
@@ -7765,6 +7879,7 @@ Spectrum_type: MS2
 Precursor_mz: 587.2870250330577
 Exactmass: 586.279134936
 Comment: Major_ms1intensity+2394936.0_ei_0.9
+Formula: C33H38N4O6
 Num Peaks: 7
 124.11136995130416 92.0
 167.12391256509963 62.0
@@ -7782,6 +7897,7 @@ Spectrum_type: MS2
 Precursor_mz: 295.1812921187286
 Exactmass: 294.17321332399996
 Comment: Major_ms1intensity+3599396.0_ei_0.98
+Formula: C19H22N2O
 Num Peaks: 160
 41.03752142926035 1044.0
 42.03507250121622 3357.0
@@ -7952,6 +8068,7 @@ Spectrum_type: MS2
 Precursor_mz: 168.09999906812632
 Exactmass: 167.094628656
 Comment: Major_ms1intensity+36891.0_ei_0.97
+Formula: C9H13NO2
 Num Peaks: 56
 41.0391520357118 185.0
 42.033991272231574 4260.0
@@ -8018,6 +8135,7 @@ Spectrum_type: MS2
 Precursor_mz: 355.2011472795414
 Exactmass: 354.1943426919999
 Comment: Major_ms1intensity+4304923.0_ei_0.99
+Formula: C21H26N2O3
 Num Peaks: 223
 41.03836729555841 556.0
 42.03592793717447 1215.0
@@ -8251,6 +8369,7 @@ Spectrum_type: MS2
 Precursor_mz: 342.17076451338954
 Exactmass: 341.16270821600006
 Comment: Major_ms1intensity+4465337.0_ei_0.99
+Formula: C20H23NO4
 Num Peaks: 121
 42.03771987258962 154.0
 44.05019126418262 10319.0
@@ -8382,6 +8501,7 @@ Spectrum_type: MS2
 Precursor_mz: 364.147629671191
 Exactmass: 341.16270821600006
 Comment: Major_ms1intensity+21396.0_ei_0.71
+Formula: C20H23NO4
 Num Peaks: 5
 306.0846949622491 31.0
 348.1205131782452 31.0
@@ -8397,6 +8517,7 @@ Spectrum_type: MS2
 Precursor_mz: 332.0920051217092
 Exactmass: 332.0917343480899
 Comment: Major_ms1intensity+2357242.0_ei_0.99
+Formula: C20H14NO4+
 Num Peaks: 86
 150.0504981223027 303.0
 151.05782572795465 361.0
@@ -8493,6 +8614,7 @@ Spectrum_type: MS2
 Precursor_mz: 332.0908592864646
 Exactmass: 332.0917343480899
 Comment: isomer_ms1intensity+3320.0_ei_0.67
+Formula: C20H14NO4+
 Num Peaks: 15
 105.03658515159573 41.0
 149.06184468685422 59.0
@@ -8518,6 +8640,7 @@ Spectrum_type: MS2
 Precursor_mz: 832.3574653507989
 Exactmass: 831.3466053760001
 Comment: Major_ms1intensity+2645614.0_ei_0.98
+Formula: C45H53NO14
 Num Peaks: 214
 43.01627374063681 885.0
 51.02300288492227 250.0
@@ -8742,6 +8865,7 @@ Spectrum_type: MS2
 Precursor_mz: 854.3378031418424
 Exactmass: 831.3466053760001
 Comment: Major_ms1intensity+236140.0_ei_0.96
+Formula: C45H53NO14
 Num Peaks: 33
 105.03249497600197 1132.0
 107.08472301214634 186.0
@@ -8785,6 +8909,7 @@ Spectrum_type: MS2
 Precursor_mz: 849.3797165361913
 Exactmass: 831.3466053760001
 Comment: Major_ms1intensity+6748.0_ei_0.94
+Formula: C45H53NO14
 Num Peaks: 58
 83.04817030066107 1614.0
 100.07581605755875 1233.0
@@ -8853,6 +8978,7 @@ Spectrum_type: MS2
 Precursor_mz: 288.1589622307605
 Exactmass: 287.152143532
 Comment: Major_ms1intensity+2651207.0_ei_0.98
+Formula: C17H21NO3
 Num Peaks: 153
 41.039488360934406 249.0
 42.03437060861369 895.0
@@ -9016,6 +9142,7 @@ Spectrum_type: MS2
 Precursor_mz: 306.17125700882013
 Exactmass: 305.162708216
 Comment: Major_ms1intensity+2054640.0_ei_0.99
+Formula: C17H23NO4
 Num Peaks: 69
 41.03762218394231 701.0
 42.03521065944856 4673.0
@@ -9095,6 +9222,7 @@ Spectrum_type: MS2
 Precursor_mz: 306.17095812584404
 Exactmass: 305.162708216
 Comment: isomer_ms1intensity+1810704.0_ei_0.98
+Formula: C17H23NO4
 Num Peaks: 62
 41.040279168796125 902.0
 42.03425976802214 6531.0
@@ -9167,6 +9295,7 @@ Spectrum_type: MS2
 Precursor_mz: 328.15150131467044
 Exactmass: 305.162708216
 Comment: Major_ms1intensity+3170.0_ei_0.86
+Formula: C17H23NO4
 Num Peaks: 3
 96.08024836807115 93.0
 122.09766088786161 123.0
@@ -9180,6 +9309,7 @@ Spectrum_type: MS2
 Precursor_mz: 358.15662743383774
 Exactmass: 357.14886972
 Comment: Major_ms1intensity+1418539.0_ei_0.98
+Formula: C19H20FN3O3
 Num Peaks: 113
 41.038551248103424 499.0
 42.03433158898786 1935.0
@@ -9303,6 +9433,7 @@ Spectrum_type: MS2
 Precursor_mz: 213.10305024654545
 Exactmass: 212.094963004
 Comment: Major_ms1intensity+4760960.0_ei_0.99
+Formula: C13H12N2O
 Num Peaks: 57
 51.0229770744593 231.0
 66.04590084542578 438.0
@@ -9370,6 +9501,7 @@ Spectrum_type: MS2
 Precursor_mz: 183.0910137796257
 Exactmass: 182.08439832
 Comment: Major_ms1intensity+4780245.0_ei_0.99
+Formula: C12H10N2
 Num Peaks: 52
 42.034332101470376 229.0
 51.02500750305017 263.0
@@ -9432,6 +9564,7 @@ Spectrum_type: MS2
 Precursor_mz: 247.12355330466448
 Exactmass: 246.115698448
 Comment: Major_ms1intensity+1145999.0_ei_0.98
+Formula: C17H14N2
 Num Peaks: 29
 151.05782727698863 655.0
 176.05654790753454 1039.0
@@ -9471,6 +9604,7 @@ Spectrum_type: MS2
 Precursor_mz: 272.1282418865279
 Exactmass: 271.120843404
 Comment: Major_ms1intensity+703553.0_ei_0.97
+Formula: C16H17NO3
 Num Peaks: 69
 51.023903376632816 705.0
 55.01869203662382 728.0
@@ -9550,6 +9684,7 @@ Spectrum_type: MS2
 Precursor_mz: 118.08545849798124
 Exactmass: 117.078978592
 Comment: Major_ms1intensity+462290.0_ei_0.99
+Formula: C5H11NO2
 Num Peaks: 11
 42.034153249299365 5341.0
 43.04186670577275 2082.0
@@ -9571,6 +9706,7 @@ Spectrum_type: MS2
 Precursor_mz: 365.1135816776505
 Exactmass: 364.105921612
 Comment: Major_ms1intensity+742953.0_ei_0.97
+Formula: C20H16N2O5
 Num Peaks: 75
 57.034286780526564 1615.0
 156.04654693820046 92.0
@@ -9656,6 +9792,7 @@ Spectrum_type: MS2
 Precursor_mz: 387.0924699134241
 Exactmass: 364.105921612
 Comment: Major_ms1intensity+7971.0_ei_0.68
+Formula: C20H16N2O5
 Num Peaks: 1
 387.18910506550543 62.0
 
@@ -9667,6 +9804,7 @@ Spectrum_type: MS2
 Precursor_mz: 144.10149842854497
 Exactmass: 143.094628656
 Comment: Major_ms1intensity+1827390.0_ei_0.97
+Formula: C7H13NO2
 Num Peaks: 27
 41.0401744722134 712.0
 42.03506310448197 12581.0
@@ -9704,6 +9842,7 @@ Spectrum_type: MS2
 Precursor_mz: 288.1236794520161
 Exactmass: 287.115758024
 Comment: Major_ms1intensity+834556.0_ei_0.97
+Formula: C16H17NO4
 Num Peaks: 97
 42.03417749547941 217.0
 65.03796955109952 827.0
@@ -9811,6 +9950,7 @@ Spectrum_type: MS2
 Precursor_mz: 316.1558864801335
 Exactmass: 315.147058152
 Comment: Major_ms1intensity+2149948.0_ei_0.97
+Formula: C18H21NO4
 Num Peaks: 200
 42.03324439604382 239.0
 43.01609220801314 304.0
@@ -10021,6 +10161,7 @@ Spectrum_type: MS2
 Precursor_mz: 426.2992582798879
 Exactmass: 425.292994108
 Comment: Major_ms1intensity+11650394.0_ei_0.96
+Formula: C27H39NO3
 Num Peaks: 167
 41.03928583014175 1308.0
 42.03416388228521 478.0
@@ -10198,6 +10339,7 @@ Spectrum_type: MS2
 Precursor_mz: 296.1639717566618
 Exactmass: 295.15722891200005
 Comment: Major_ms1intensity+6018791.0_ei_0.99
+Formula: C19H21NO2
 Num Peaks: 88
 42.03144389284891 174.0
 43.017952667736196 206.0
@@ -10296,6 +10438,7 @@ Spectrum_type: MS2
 Precursor_mz: 410.30521125148346
 Exactmass: 409.298079488
 Comment: Major_ms1intensity+9317922.0_ei_0.98
+Formula: C27H39NO2
 Num Peaks: 170
 41.039265907832686 2240.0
 42.03414347701774 1817.0
@@ -10476,6 +10619,7 @@ Spectrum_type: MS2
 Precursor_mz: 354.1341137162415
 Exactmass: 353.1263227079999
 Comment: Major_ms1intensity+4479716.0_ei_0.99
+Formula: C20H19NO5
 Num Peaks: 175
 42.03417100944556 662.0
 44.04942631246673 22235.0
@@ -10661,6 +10805,7 @@ Spectrum_type: MS2
 Precursor_mz: 376.1167603287501
 Exactmass: 353.1263227079999
 Comment: Major_ms1intensity+7018.0_ei_0.92
+Formula: C20H19NO5
 Num Peaks: 32
 77.0349691225545 242.0
 89.04025787830317 93.0
@@ -10703,6 +10848,7 @@ Spectrum_type: MS2
 Precursor_mz: 199.07010373714667
 Exactmass: 198.0640568
 Comment: Major_ms1intensity+1782.0_ei_0.73
+Formula: C8H10N2O4
 Num Peaks: 4
 42.03413212901284 93.0
 66.03195057738155 93.0
@@ -10717,6 +10863,7 @@ Spectrum_type: MS2
 Precursor_mz: 779.4014892151741
 Exactmass: 778.3941646879999
 Comment: Major_ms1intensity+4777897.0_ei_0.96
+Formula: C45H54N4O8
 Num Peaks: 311
 77.03523622147372 309.0
 80.05112663255122 235.0
@@ -11038,6 +11185,7 @@ Spectrum_type: MS2
 Precursor_mz: 801.378642078538
 Exactmass: 778.3941646879999
 Comment: Major_ms1intensity+50299.0_ei_0.91
+Formula: C45H54N4O8
 Num Peaks: 28
 122.09777444036413 1121.0
 214.0833067574534 209.0
@@ -11076,6 +11224,7 @@ Spectrum_type: MS2
 Precursor_mz: 779.4014892151741
 Exactmass: 778.3941646879999
 Comment: Major_ms1intensity+4777897.0_ei_0.96
+Formula: C45H54N4O8
 Num Peaks: 311
 77.03523622147372 309.0
 80.05112663255122 235.0
@@ -11397,6 +11546,7 @@ Spectrum_type: MS2
 Precursor_mz: 801.378642078538
 Exactmass: 778.3941646879999
 Comment: Major_ms1intensity+50299.0_ei_0.91
+Formula: C45H54N4O8
 Num Peaks: 28
 122.09777444036413 1121.0
 214.0833067574534 209.0
@@ -11435,6 +11585,7 @@ Spectrum_type: MS2
 Precursor_mz: 156.10119709999253
 Exactmass: 155.094628656
 Comment: Major_ms1intensity+1415477.0_ei_0.94
+Formula: C8H13NO2
 Num Peaks: 44
 41.03835592038336 1720.0
 42.03413212901284 8428.0
@@ -11489,6 +11640,7 @@ Spectrum_type: MS2
 Precursor_mz: 414.0217419956414
 Exactmass: 413.014181184
 Comment: Major_ms1intensity+1464641.0_ei_0.98
+Formula: C16H17BrClN3O3
 Num Peaks: 44
 43.018045766291465 289.0
 53.040316225444926 92.0
@@ -11543,6 +11695,7 @@ Spectrum_type: MS2
 Precursor_mz: 175.12107398897314
 Exactmass: 174.115698448
 Comment: Major_ms1intensity+45067.0_ei_0.97
+Formula: C11H14N2
 Num Peaks: 15
 46.06510203193213 1709.0
 50.016293260013775 111.0
@@ -11568,6 +11721,7 @@ Spectrum_type: MS2
 Precursor_mz: 585.3168546642689
 Exactmass: 584.3097663679999
 Comment: Major_ms1intensity+13116475.0_ei_0.97
+Formula: C32H44N2O8
 Num Peaks: 304
 41.03668608831668 280.0
 43.0189651207814 439.0
@@ -11882,6 +12036,7 @@ Spectrum_type: MS2
 Precursor_mz: 607.2968068509667
 Exactmass: 584.3097663679999
 Comment: Major_ms1intensity+42745.0_ei_0.94
+Formula: C32H44N2O8
 Num Peaks: 9
 162.0516878683853 402.0
 324.196796568666 178.0
@@ -11901,6 +12056,7 @@ Spectrum_type: MS2
 Precursor_mz: 342.16968228340954
 Exactmass: 342.16998466809
 Comment: Major_ms1intensity+2886644.0_ei_0.99
+Formula: C20H24NO4+
 Num Peaks: 45
 42.034169488368356 1338.0
 79.05699827585936 187.0
@@ -11956,6 +12112,7 @@ Spectrum_type: MS2
 Precursor_mz: 130.0312025353095
 Exactmass: 129.024834844
 Comment: Major_ms1intensity+26489.0_ei_0.92
+Formula: C5H7NOS
 Num Peaks: 14
 40.01634315582804 10.0
 41.03836501050569 1747.0
@@ -11980,6 +12137,7 @@ Spectrum_type: MS2
 Precursor_mz: 354.1347086418576
 Exactmass: 354.1335991600899
 Comment: Major_ms1intensity+4521462.0_ei_0.99
+Formula: C20H20NO5+
 Num Peaks: 186
 42.03335762030252 584.0
 43.01804883168062 142.0
@@ -12176,6 +12334,7 @@ Spectrum_type: MS2
 Precursor_mz: 366.17115012630615
 Exactmass: 366.16998466809
 Comment: Major_ms1intensity+18142098.0_ei_0.99
+Formula: C22H24NO4+
 Num Peaks: 113
 146.0631724601619 223.0
 147.04343425189597 504.0
@@ -12299,6 +12458,7 @@ Spectrum_type: MS2
 Precursor_mz: 348.123674231582
 Exactmass: 348.1230344760899
 Comment: Major_ms1intensity+2193065.0_ei_0.99
+Formula: C21H18NO4+
 Num Peaks: 84
 151.05406894309854 229.0
 175.05398120348497 312.0
@@ -12393,6 +12553,7 @@ Spectrum_type: MS2
 Precursor_mz: 294.0766000676712
 Exactmass: 293.06880783200006
 Comment: Major_ms1intensity+741042.0_ei_0.98
+Formula: C17H11NO4
 Num Peaks: 41
 137.04135703129467 288.0
 138.04532013568755 926.0
@@ -12444,6 +12605,7 @@ Spectrum_type: MS2
 Precursor_mz: 307.18045925374315
 Exactmass: 306.17321332399996
 Comment: Major_ms1intensity+4734489.0_ei_0.98
+Formula: C20H22N2O
 Num Peaks: 184
 41.039242490185096 1516.0
 42.03411989926212 4474.0
@@ -12638,6 +12800,7 @@ Spectrum_type: MS2
 Precursor_mz: 352.1762667030563
 Exactmass: 351.16818751999995
 Comment: Major_ms1intensity+31882.0_ei_0.91
+Formula: C18H25NO6
 Num Peaks: 12
 67.05432923641213 154.0
 77.03747865723591 205.0
@@ -12660,6 +12823,7 @@ Spectrum_type: MS2
 Precursor_mz: 338.1392001301432
 Exactmass: 338.13868454009
 Comment: Major_ms1intensity+510377.0_ei_0.98
+Formula: C20H20NO4+
 Num Peaks: 39
 196.07648654489685 188.0
 206.0955269948333 190.0
@@ -12709,6 +12873,7 @@ Spectrum_type: MS2
 Precursor_mz: 338.1378158213567
 Exactmass: 338.13868454009
 Comment: isomer_ms1intensity+95194.0_ei_0.94
+Formula: C20H20NO4+
 Num Peaks: 20
 196.07800558557565 93.0
 221.0874370176053 93.0
@@ -12739,6 +12904,7 @@ Spectrum_type: MS2
 Precursor_mz: 452.3092700205175
 Exactmass: 429.324294236
 Comment: Major_ms1intensity+10227.0_ei_0.82
+Formula: C27H43NO3
 Num Peaks: 2
 404.2632835566459 31.0
 452.3279050617646 123.0
@@ -12751,6 +12917,7 @@ Spectrum_type: MS2
 Precursor_mz: 284.0987782646006
 Exactmass: 283.091668516
 Comment: Major_ms1intensity+654113.0_ei_0.95
+Formula: C10H13N5O5
 Num Peaks: 23
 41.03927332691707 154.0
 43.0160897831381 356.0
@@ -12784,6 +12951,7 @@ Spectrum_type: MS2
 Precursor_mz: 306.0797511172058
 Exactmass: 283.091668516
 Comment: Major_ms1intensity+5654.0_ei_0.7
+Formula: C10H13N5O5
 Num Peaks: 2
 174.03798170193133 93.0
 306.0741717066201 93.0
@@ -12796,6 +12964,7 @@ Spectrum_type: MS2
 Precursor_mz: 310.16657640455327
 Exactmass: 310.16489928809
 Comment: Major_ms1intensity+1881898.0_ei_0.98
+Formula: C16H24NO5+
 Num Peaks: 84
 53.00244027258365 308.0
 55.01865301884625 611.0
@@ -12890,6 +13059,7 @@ Spectrum_type: MS2
 Precursor_mz: 410.1607743288913
 Exactmass: 409.15253745599995
 Comment: Major_ms1intensity+9937024.0_ei_0.99
+Formula: C23H23NO6
 Num Peaks: 159
 42.03493417662729 375.0
 43.01780017851937 979.0
@@ -13059,6 +13229,7 @@ Spectrum_type: MS2
 Precursor_mz: 222.03864358529825
 Exactmass: 221.032422324
 Comment: Major_ms1intensity+330997.0_ei_0.96
+Formula: C10H7NO5
 Num Peaks: 31
 51.02269670887797 638.0
 55.01847469367496 377.0
@@ -13100,6 +13271,7 @@ Spectrum_type: MS2
 Precursor_mz: 428.3167036560416
 Exactmass: 427.308644172
 Comment: Major_ms1intensity+9249512.0_ei_0.73
+Formula: C27H41NO3
 Num Peaks: 3
 114.08870717528661 46.0
 126.12425786317895 46.0
@@ -13113,6 +13285,7 @@ Spectrum_type: MS2
 Precursor_mz: 868.506581190023
 Exactmass: 867.4980206360001
 Comment: Major_ms1intensity+4317146.0_ei_0.83
+Formula: C45H73NO15
 Num Peaks: 70
 57.03200647455369 520.0
 70.06228491964055 749.0
@@ -13193,6 +13366,7 @@ Spectrum_type: MS2
 Precursor_mz: 422.2906847138938
 Exactmass: 421.282823348
 Comment: Major_ms1intensity+9292707.0_ei_0.98
+Formula: C24H39NO5
 Num Peaks: 228
 41.03826357670392 789.0
 42.033127887507206 695.0
@@ -13431,6 +13605,7 @@ Spectrum_type: MS2
 Precursor_mz: 336.1227816021248
 Exactmass: 336.1230344760899
 Comment: Major_ms1intensity+5746577.0_ei_0.99
+Formula: C20H18NO4+
 Num Peaks: 76
 150.04817182707737 154.0
 151.0520404495514 333.0
@@ -13517,6 +13692,7 @@ Spectrum_type: MS2
 Precursor_mz: 264.1957628369475
 Exactmass: 263.18852904
 Comment: Major_ms1intensity+5084958.0_ei_0.97
+Formula: C16H25NO2
 Num Peaks: 152
 41.03915684985295 6685.0
 42.03312201053916 8832.0
@@ -13679,6 +13855,7 @@ Spectrum_type: MS2
 Precursor_mz: 286.1753178504101
 Exactmass: 263.18852904
 Comment: Major_ms1intensity+5627.0_ei_0.67
+Formula: C16H25NO2
 Num Peaks: 1
 286.17927943552826 168.0
 
@@ -13690,6 +13867,7 @@ Spectrum_type: MS2
 Precursor_mz: 342.1698916668351
 Exactmass: 342.16998466809
 Comment: Major_ms1intensity+1914359.0_ei_0.98
+Formula: C20H24NO4+
 Num Peaks: 91
 42.03404441645763 2088.0
 43.04083465727963 872.0
@@ -13791,6 +13969,7 @@ Spectrum_type: MS2
 Precursor_mz: 625.3289220613727
 Exactmass: 624.3199371279999
 Comment: Major_ms1intensity+1532779.0_ei_0.96
+Formula: C38H44N2O6
 Num Peaks: 123
 44.0511684957393 551.0
 91.05752884955022 206.0
@@ -13924,6 +14103,7 @@ Spectrum_type: MS2
 Precursor_mz: 432.3482850157413
 Exactmass: 431.3399443
 Comment: Major_ms1intensity+10104123.0_ei_0.97
+Formula: C27H45NO3
 Num Peaks: 85
 44.04828667846132 323.0
 55.05374149763599 271.0
@@ -14019,6 +14199,7 @@ Spectrum_type: MS2
 Precursor_mz: 314.1398888697894
 Exactmass: 313.131408088
 Comment: Major_ms1intensity+913935.0_ei_0.98
+Formula: C18H19NO4
 Num Peaks: 73
 55.016329498409036 205.0
 115.05749925711048 352.0
@@ -14102,6 +14283,7 @@ Spectrum_type: MS2
 Precursor_mz: 312.15551256277786
 Exactmass: 311.148120772
 Comment: Major_ms1intensity+602682.0_ei_0.95
+Formula: C14H21N3O5
 Num Peaks: 29
 41.038255192661836 290.0
 43.028851520419494 610.0
@@ -14141,6 +14323,7 @@ Spectrum_type: MS2
 Precursor_mz: 340.1550212009646
 Exactmass: 339.14705815200006
 Comment: Major_ms1intensity+1109705.0_ei_0.97
+Formula: C20H21NO4
 Num Peaks: 70
 44.05020210952379 525.0
 152.05910302597377 316.0
@@ -14221,6 +14404,7 @@ Spectrum_type: MS2
 Precursor_mz: 324.12397614079885
 Exactmass: 324.12303447608997
 Comment: Major_ms1intensity+2287314.0_ei_0.98
+Formula: C19H18NO4+
 Num Peaks: 61
 150.04613478391434 412.0
 165.07480955764785 190.0
@@ -14292,6 +14476,7 @@ Spectrum_type: MS2
 Precursor_mz: 611.3136794645768
 Exactmass: 610.3042870639999
 Comment: Major_ms1intensity+1623697.0_ei_0.96
+Formula: C37H42N2O6
 Num Peaks: 170
 44.052072879620845 1101.0
 58.06783487614832 466.0
@@ -14472,6 +14657,7 @@ Spectrum_type: MS2
 Precursor_mz: 633.2928578306685
 Exactmass: 610.3042870639999
 Comment: Major_ms1intensity+16935.0_ei_0.95
+Formula: C37H42N2O6
 Num Peaks: 7
 199.05771857497925 171.0
 206.1264804862974 92.0
@@ -14489,6 +14675,7 @@ Spectrum_type: MS2
 Precursor_mz: 632.3083218986529
 Exactmass: 631.2992612599999
 Comment: Major_ms1intensity+13062480.0_ei_0.97
+Formula: C33H45NO11
 Num Peaks: 311
 44.050174988800755 3223.0
 45.03452773454141 557.0
@@ -14810,6 +14997,7 @@ Spectrum_type: MS2
 Precursor_mz: 630.3291606459131
 Exactmass: 629.3199967039998
 Comment: Major_ms1intensity+23774631.0_ei_0.97
+Formula: C34H47NO10
 Num Peaks: 382
 44.05017766187261 273.0
 45.033588710769074 682.0
@@ -15202,6 +15390,7 @@ Spectrum_type: MS2
 Precursor_mz: 348.12273714469154
 Exactmass: 348.1230344760899
 Comment: Major_ms1intensity+2207541.0_ei_0.99
+Formula: C21H18NO4+
 Num Peaks: 74
 151.04998557314835 178.0
 152.06065431240648 154.0
@@ -15286,6 +15475,7 @@ Spectrum_type: MS2
 Precursor_mz: 320.0920698108138
 Exactmass: 320.0917343480899
 Comment: Major_ms1intensity+3398194.0_ei_0.99
+Formula: C19H14NO4+
 Num Peaks: 102
 103.05490109829195 212.0
 115.05589122470042 239.0
@@ -15398,6 +15588,7 @@ Spectrum_type: MS2
 Precursor_mz: 352.15439552317764
 Exactmass: 352.15433460409
 Comment: Major_ms1intensity+7222801.0_ei_0.98
+Formula: C21H22NO4+
 Num Peaks: 84
 151.0533354191839 335.0
 176.06093595040167 216.0
@@ -15492,6 +15683,7 @@ Spectrum_type: MS2
 Precursor_mz: 338.1401070998789
 Exactmass: 338.13868454009
 Comment: Major_ms1intensity+3560064.0_ei_0.99
+Formula: C20H20NO4+
 Num Peaks: 63
 165.0623456681779 202.0
 178.06304607967837 286.0
@@ -15565,6 +15757,7 @@ Spectrum_type: MS2
 Precursor_mz: 467.29130448591
 Exactmass: 466.283157696
 Comment: Major_ms1intensity+1835461.0_ei_0.96
+Formula: C28H38N2O4
 Num Peaks: 133
 55.054707280014995 786.0
 82.06430624359521 197.0
@@ -15708,6 +15901,7 @@ Spectrum_type: MS2
 Precursor_mz: 489.27109199035897
 Exactmass: 466.283157696
 Comment: Major_ms1intensity+10216.0_ei_0.89
+Formula: C28H38N2O4
 Num Peaks: 5
 186.0471173684646 31.0
 200.07639552069526 31.0
@@ -15723,6 +15917,7 @@ Spectrum_type: MS2
 Precursor_mz: 377.065595644679
 Exactmass: 359.03447312399993
 Comment: Major_ms1intensity+1524.0_ei_0.75
+Formula: C10H17NO9S2
 Num Peaks: 5
 60.04444590517891 93.0
 84.04411976185044 123.0
@@ -15738,6 +15933,7 @@ Spectrum_type: MS2
 Precursor_mz: 342.1695106680908
 Exactmass: 342.16998466809
 Comment: Major_ms1intensity+2201280.0_ei_0.98
+Formula: C20H24NO4+
 Num Peaks: 108
 42.03397152045488 4135.0
 43.04168113487021 1474.0
@@ -15856,6 +16052,7 @@ Spectrum_type: MS2
 Precursor_mz: 438.2860419599784
 Exactmass: 437.27773796799994
 Comment: Major_ms1intensity+9200399.0_ei_0.97
+Formula: C24H39NO6
 Num Peaks: 275
 41.03999276009771 498.0
 42.0366972343803 436.0
@@ -16141,6 +16338,7 @@ Spectrum_type: MS2
 Precursor_mz: 460.2647722874142
 Exactmass: 437.27773796799994
 Comment: Major_ms1intensity+6625.0_ei_0.86
+Formula: C24H39NO6
 Num Peaks: 4
 357.22777725947844 92.0
 389.2643711183334 123.0
@@ -16155,6 +16353,7 @@ Spectrum_type: MS2
 Precursor_mz: 354.1331911589668
 Exactmass: 353.126322708
 Comment: Major_ms1intensity+3073040.0_ei_0.99
+Formula: C20H19NO5
 Num Peaks: 125
 44.04831083601828 332.0
 51.0236065257268 359.0
@@ -16290,6 +16489,7 @@ Spectrum_type: MS2
 Precursor_mz: 609.2972826042933
 Exactmass: 608.2886369999999
 Comment: Major_ms1intensity+1043477.0_ei_0.91
+Formula: C37H40N2O6
 Num Peaks: 122
 44.04922237534432 826.0
 58.06455529596041 982.0
@@ -16422,6 +16622,7 @@ Spectrum_type: MS2
 Precursor_mz: 631.2756801384364
 Exactmass: 608.2886369999999
 Comment: Major_ms1intensity+5975.0_ei_0.81
+Formula: C37H40N2O6
 Num Peaks: 2
 599.266705848775 123.0
 631.2856306013105 1609.0
@@ -16434,6 +16635,7 @@ Spectrum_type: MS2
 Precursor_mz: 370.16533494406815
 Exactmass: 369.157622836
 Comment: Major_ms1intensity+4759148.0_ei_0.98
+Formula: C21H23NO5
 Num Peaks: 199
 42.03307359988126 478.0
 44.049230787562806 11000.0
@@ -16643,6 +16845,7 @@ Spectrum_type: MS2
 Precursor_mz: 392.1446674892689
 Exactmass: 369.157622836
 Comment: Major_ms1intensity+2577.0_ei_0.7
+Formula: C21H23NO5
 Num Peaks: 4
 149.0286290358216 62.0
 150.02392993188812 31.0
@@ -16657,6 +16860,7 @@ Spectrum_type: MS2
 Precursor_mz: 205.1336303160462
 Exactmass: 204.126263132
 Comment: Major_ms1intensity+872182.0_ei_0.97
+Formula: C12H16N2O
 Num Peaks: 25
 42.034760095921726 5334.0
 43.043399241914706 1699.0
@@ -16692,6 +16896,7 @@ Spectrum_type: MS2
 Precursor_mz: 323.1755281317889
 Exactmass: 322.168127944
 Comment: Major_ms1intensity+1990540.0_ei_0.97
+Formula: C20H22N2O2
 Num Peaks: 153
 41.039035448007475 1808.0
 42.03390883997847 3061.0
@@ -16855,6 +17060,7 @@ Spectrum_type: MS2
 Precursor_mz: 468.2968655369725
 Exactmass: 467.2883026519999
 Comment: Major_ms1intensity+11677468.0_ei_0.97
+Formula: C25H41NO7
 Num Peaks: 294
 41.03727901142392 556.0
 42.032131747712775 167.0
@@ -17159,6 +17365,7 @@ Spectrum_type: MS2
 Precursor_mz: 468.2941149664291
 Exactmass: 467.2883026519999
 Comment: Minor_ms1intensity+25588.0_ei_0.92
+Formula: C25H41NO7
 Num Peaks: 7
 358.2307527740723 461.0
 386.23809031604833 254.0
@@ -17176,6 +17383,7 @@ Spectrum_type: MS2
 Precursor_mz: 490.2769306332831
 Exactmass: 467.2883026519999
 Comment: Major_ms1intensity+27023.0_ei_0.88
+Formula: C25H41NO7
 Num Peaks: 6
 390.2561448559284 77.0
 418.26213246468353 148.0
@@ -17192,6 +17400,7 @@ Spectrum_type: MS2
 Precursor_mz: 500.2861511045506
 Exactmass: 499.27813189199986
 Comment: Major_ms1intensity+8906551.0_ei_0.97
+Formula: C25H41NO9
 Num Peaks: 354
 41.03908003845349 167.0
 42.035774225532755 78.0
@@ -17556,6 +17765,7 @@ Spectrum_type: MS2
 Precursor_mz: 522.2641224888297
 Exactmass: 499.27813189199986
 Comment: Major_ms1intensity+9428.0_ei_0.78
+Formula: C25H41NO9
 Num Peaks: 8
 207.0402749319582 31.0
 422.183645017152 62.0
@@ -17574,6 +17784,7 @@ Spectrum_type: MS2
 Precursor_mz: 370.2003326420554
 Exactmass: 369.19400834400005
 Comment: Major_ms1intensity+10732278.0_ei_0.98
+Formula: C22H27NO4
 Num Peaks: 195
 41.03904888720531 204.0
 42.03483245642741 314.0
@@ -17779,6 +17990,7 @@ Spectrum_type: MS2
 Precursor_mz: 625.32868395533
 Exactmass: 624.3199371279999
 Comment: Major_ms1intensity+1274253.0_ei_0.93
+Formula: C38H44N2O6
 Num Peaks: 25
 151.0741274920287 271.0
 165.08922513733637 449.0
@@ -17814,6 +18026,7 @@ Spectrum_type: MS2
 Precursor_mz: 647.3056869465928
 Exactmass: 624.3199371279999
 Comment: Major_ms1intensity+10545.0_ei_0.83
+Formula: C38H44N2O6
 Num Peaks: 3
 214.09161015162627 92.0
 441.21005787802375 62.0
@@ -17827,6 +18040,7 @@ Spectrum_type: MS2
 Precursor_mz: 166.0500058864006
 Exactmass: 165.042593084
 Comment: Major_ms1intensity+249126.0_ei_0.95
+Formula: C8H7NO3
 Num Peaks: 30
 41.038178581079244 995.0
 50.01414744533381 676.0
@@ -17867,6 +18081,7 @@ Spectrum_type: MS2
 Precursor_mz: 168.10032188176982
 Exactmass: 167.094628656
 Comment: Major_ms1intensity+45597.0_ei_0.92
+Formula: C9H13NO2
 Num Peaks: 30
 42.034760095921726 1407.0
 51.02243749483461 550.0
@@ -17907,6 +18122,7 @@ Spectrum_type: MS2
 Precursor_mz: 168.09990834131236
 Exactmass: 167.094628656
 Comment: isomer_ms1intensity+8157.0_ei_0.9
+Formula: C9H13NO2
 Num Peaks: 22
 42.03385024603158 209.0
 57.055071922273356 93.0
@@ -17939,6 +18155,7 @@ Spectrum_type: MS2
 Precursor_mz: 320.0910884133791
 Exactmass: 320.0917343480899
 Comment: Major_ms1intensity+3802249.0_ei_0.99
+Formula: C19H14NO4+
 Num Peaks: 105
 91.05302232526408 195.0
 103.05311390504285 195.0
@@ -18054,6 +18271,7 @@ Spectrum_type: MS2
 Precursor_mz: 290.1746883702968
 Exactmass: 289.167793596
 Comment: Major_ms1intensity+7005266.0_ei_0.99
+Formula: C17H23NO3
 Num Peaks: 60
 41.03978598737809 6984.0
 42.034667774631124 3563.0
@@ -18124,6 +18342,7 @@ Spectrum_type: MS2
 Precursor_mz: 312.1540852484157
 Exactmass: 289.167793596
 Comment: Major_ms1intensity+9413.0_ei_0.86
+Formula: C17H23NO3
 Num Peaks: 4
 81.05780025795548 93.0
 93.07273368150904 123.0
@@ -18138,6 +18357,7 @@ Spectrum_type: MS2
 Precursor_mz: 336.1242104146575
 Exactmass: 336.1230344760899
 Comment: Major_ms1intensity+5165202.0_ei_0.99
+Formula: C20H18NO4+
 Num Peaks: 80
 139.05532630723226 192.0
 150.050888007573 192.0
@@ -18228,6 +18448,7 @@ Spectrum_type: MS2
 Precursor_mz: 314.1393122723497
 Exactmass: 313.131408088
 Comment: Major_ms1intensity+677134.0_ei_0.98
+Formula: C18H19NO4
 Num Peaks: 33
 51.02233724617085 383.0
 53.036642812992326 154.0
@@ -18271,6 +18492,7 @@ Spectrum_type: MS2
 Precursor_mz: 314.1377922608485
 Exactmass: 313.131408088
 Comment: isomer_ms1intensity+48759.0_ei_0.91
+Formula: C18H19NO4
 Num Peaks: 13
 77.03793958507684 840.0
 89.03811934260885 1318.0
@@ -18294,6 +18516,7 @@ Spectrum_type: MS2
 Precursor_mz: 336.1242104146575
 Exactmass: 313.131408088
 Comment: Major_ms1intensity+5165202.0_ei_0.99
+Formula: C18H19NO4
 Num Peaks: 80
 139.05532630723226 192.0
 150.050888007573 192.0
@@ -18384,6 +18607,7 @@ Spectrum_type: MS2
 Precursor_mz: 611.3116925653081
 Exactmass: 610.3042870639999
 Comment: Major_ms1intensity+1228132.0_ei_0.95
+Formula: C37H42N2O6
 Num Peaks: 65
 115.05243727286303 204.0
 117.06923512011542 194.0
@@ -18459,6 +18683,7 @@ Spectrum_type: MS2
 Precursor_mz: 633.2965045260431
 Exactmass: 610.3042870639999
 Comment: Major_ms1intensity+6294.0_ei_0.88
+Formula: C37H42N2O6
 Num Peaks: 5
 192.10000481337616 93.0
 305.1006452854976 154.0
@@ -18474,6 +18699,7 @@ Spectrum_type: MS2
 Precursor_mz: 508.2925955382632
 Exactmass: 507.2832172719999
 Comment: Major_ms1intensity+14799824.0_ei_0.99
+Formula: C27H41NO8
 Num Peaks: 384
 41.038934678055426 909.0
 42.03380679010677 454.0
@@ -18868,6 +19094,7 @@ Spectrum_type: MS2
 Precursor_mz: 530.271080345166
 Exactmass: 507.2832172719999
 Comment: Major_ms1intensity+18844.0_ei_0.95
+Formula: C27H41NO8
 Num Peaks: 8
 262.19160561480334 92.0
 342.21667611359004 93.0
@@ -18886,6 +19113,7 @@ Spectrum_type: MS2
 Precursor_mz: 385.2121886502596
 Exactmass: 384.2049073759999
 Comment: Major_ms1intensity+15875766.0_ei_0.99
+Formula: C22H28N2O4
 Num Peaks: 210
 41.03797948438983 578.0
 42.03374924151988 2525.0
@@ -19106,6 +19334,7 @@ Spectrum_type: MS2
 Precursor_mz: 407.192096396367
 Exactmass: 384.2049073759999
 Comment: Major_ms1intensity+25080.0_ei_0.86
+Formula: C22H28N2O4
 Num Peaks: 5
 230.12582364261496 31.0
 240.15982478841056 41.0
@@ -19121,6 +19350,7 @@ Spectrum_type: MS2
 Precursor_mz: 336.1242104146575
 Exactmass: 336.1230344760899
 Comment: Major_ms1intensity+5165202.0_ei_0.99
+Formula: C20H18NO4+
 Num Peaks: 80
 139.05532630723226 192.0
 150.050888007573 192.0
@@ -19211,6 +19441,7 @@ Spectrum_type: MS2
 Precursor_mz: 342.1709028232081
 Exactmass: 342.16998466809
 Comment: Major_ms1intensity+2263104.0_ei_0.99
+Formula: C20H24NO4+
 Num Peaks: 65
 42.03461938772483 1086.0
 44.04894789679066 214.0
@@ -19286,6 +19517,7 @@ Spectrum_type: MS2
 Precursor_mz: 385.2117659993861
 Exactmass: 384.2049073759999
 Comment: Major_ms1intensity+5300436.0_ei_0.98
+Formula: C22H28N2O4
 Num Peaks: 168
 41.03960992493576 397.0
 42.03448966255959 1200.0
@@ -19464,6 +19696,7 @@ Spectrum_type: MS2
 Precursor_mz: 385.2130998326434
 Exactmass: 384.2049073759999
 Comment: isomer_ms1intensity+4526338.0_ei_0.99
+Formula: C22H28N2O4
 Num Peaks: 154
 41.039677271003534 90.0
 42.032738953939685 2036.0
@@ -19628,6 +19861,7 @@ Spectrum_type: MS2
 Precursor_mz: 407.1935137568632
 Exactmass: 384.2049073759999
 Comment: Major_ms1intensity+19511.0_ei_0.82
+Formula: C22H28N2O4
 Num Peaks: 4
 248.12128092563933 31.0
 351.13357126560544 46.0
@@ -19642,6 +19876,7 @@ Spectrum_type: MS2
 Precursor_mz: 314.1386308663459
 Exactmass: 313.13140808800006
 Comment: Major_ms1intensity+861694.0_ei_0.97
+Formula: C18H19NO4
 Num Peaks: 63
 139.0534774145763 225.0
 141.066389983476 583.0
@@ -19715,6 +19950,7 @@ Spectrum_type: MS2
 Precursor_mz: 320.1885014811004
 Exactmass: 319.18152551199995
 Comment: Major_ms1intensity+2095.0_ei_0.8
+Formula: C18H26ClN3
 Num Peaks: 5
 86.0964129088298 246.0
 142.15836908590097 201.0
@@ -19730,6 +19966,7 @@ Spectrum_type: MS2
 Precursor_mz: 350.1391303717173
 Exactmass: 349.131408088
 Comment: Major_ms1intensity+764834.0_ei_0.97
+Formula: C21H19NO4
 Num Peaks: 54
 189.0736981228491 496.0
 190.066849331482 328.0
@@ -19794,6 +20031,7 @@ Spectrum_type: MS2
 Precursor_mz: 616.3151610109644
 Exactmass: 615.30434664
 Comment: Major_ms1intensity+19827622.0_ei_0.97
+Formula: C33H45NO10
 Num Peaks: 344
 42.034685713490425 596.0
 44.04994736357121 4039.0
@@ -20148,6 +20386,7 @@ Spectrum_type: MS2
 Precursor_mz: 266.081979419769
 Exactmass: 266.08116966409
 Comment: Major_ms1intensity+433508.0_ei_0.96
+Formula: C16H12NO3+
 Num Peaks: 39
 127.0519588298823 554.0
 138.04756886645882 176.0
@@ -20197,6 +20436,7 @@ Spectrum_type: MS2
 Precursor_mz: 385.21367484526127
 Exactmass: 384.2049073759999
 Comment: Major_ms1intensity+6207032.0_ei_0.98
+Formula: C22H28N2O4
 Num Peaks: 117
 42.033770067267234 3332.0
 44.05087270149478 352.0
@@ -20324,6 +20564,7 @@ Spectrum_type: MS2
 Precursor_mz: 407.1916237159999
 Exactmass: 384.2049073759999
 Comment: Major_ms1intensity+38688.0_ei_0.89
+Formula: C22H28N2O4
 Num Peaks: 8
 230.12380016828826 93.0
 240.16210651283856 154.0
@@ -20342,6 +20583,7 @@ Spectrum_type: MS2
 Precursor_mz: 644.3428941753734
 Exactmass: 643.335646768
 Comment: Major_ms1intensity+23682411.0_ei_0.97
+Formula: C35H49NO10
 Num Peaks: 412
 44.05086691117686 276.0
 45.03240085500801 447.0
@@ -20764,6 +21006,7 @@ Spectrum_type: MS2
 Precursor_mz: 327.1717954999833
 Exactmass: 326.16304256399997
 Comment: Major_ms1intensity+2643923.0_ei_0.97
+Formula: C19H22N2O3
 Num Peaks: 163
 41.03795341239351 264.0
 42.033721819924004 1244.0
@@ -20937,6 +21180,7 @@ Spectrum_type: MS2
 Precursor_mz: 360.25227157510324
 Exactmass: 359.24604391599996
 Comment: Major_ms1intensity+48460.0_ei_0.89
+Formula: C22H33NO3
 Num Peaks: 48
 58.06412940520963 315.0
 72.08116443527119 215.0
@@ -20995,6 +21239,7 @@ Spectrum_type: MS2
 Precursor_mz: 247.143603463849
 Exactmass: 246.136827816
 Comment: Major_ms1intensity+707597.0_ei_0.99
+Formula: C14H18N2O2
 Num Peaks: 34
 44.050676534444285 2590.0
 45.05763864336226 2077.0
@@ -21039,6 +21284,7 @@ Spectrum_type: MS2
 Precursor_mz: 269.12465659261306
 Exactmass: 246.136827816
 Comment: Major_ms1intensity+19643.0_ei_0.82
+Formula: C14H18N2O2
 Num Peaks: 9
 90.0378116828975 31.0
 91.05402496061535 93.0
@@ -21058,6 +21304,7 @@ Spectrum_type: MS2
 Precursor_mz: 358.23843254841074
 Exactmass: 357.230393852
 Comment: Major_ms1intensity+2228561.0_ei_0.98
+Formula: C22H31NO3
 Num Peaks: 172
 41.03871133603742 405.0
 42.03357936620711 636.0
@@ -21240,6 +21487,7 @@ Spectrum_type: MS2
 Precursor_mz: 380.2193212198505
 Exactmass: 357.230393852
 Comment: Major_ms1intensity+13696.0_ei_0.73
+Formula: C22H31NO3
 Num Peaks: 1
 380.225679681388 77.0
 
@@ -21251,6 +21499,7 @@ Spectrum_type: MS2
 Precursor_mz: 405.1759713690469
 Exactmass: 382.1892573119999
 Comment: Major_ms1intensity+54754.0_ei_0.79
+Formula: C22H26N2O4
 Num Peaks: 11
 96.08036303878362 31.0
 122.10079376961342 31.0
@@ -21272,6 +21521,7 @@ Spectrum_type: MS2
 Precursor_mz: 858.2837209870281
 Exactmass: 857.2742282840002
 Comment: Major_ms1intensity+7090425.0_ei_0.98
+Formula: C41H47NO19
 Num Peaks: 230
 43.020074140708644 455.0
 89.03649708845944 546.0
@@ -21512,6 +21762,7 @@ Spectrum_type: MS2
 Precursor_mz: 880.2646017939628
 Exactmass: 857.2742282840002
 Comment: Major_ms1intensity+294312.0_ei_0.88
+Formula: C41H47NO19
 Num Peaks: 26
 95.01160677737973 362.0
 117.0596764602969 182.0
@@ -21548,6 +21799,7 @@ Spectrum_type: MS2
 Precursor_mz: 318.1349146370305
 Exactmass: 317.126322708
 Comment: Major_ms1intensity+3327120.0_ei_0.99
+Formula: C17H19NO5
 Num Peaks: 86
 43.016434512314376 410.0
 45.03221532725805 790.0
@@ -21644,6 +21896,7 @@ Spectrum_type: MS2
 Precursor_mz: 318.13273902305446
 Exactmass: 317.126322708
 Comment: isomer_ms1intensity+34011.0_ei_0.92
+Formula: C17H19NO5
 Num Peaks: 29
 91.0554384368939 184.0
 102.04666862799662 221.0
@@ -21683,6 +21936,7 @@ Spectrum_type: MS2
 Precursor_mz: 340.1169426941553
 Exactmass: 317.126322708
 Comment: Major_ms1intensity+547217.0_ei_0.84
+Formula: C17H19NO5
 Num Peaks: 5
 103.05133587761796 62.0
 147.0469470234539 62.0
@@ -21698,6 +21952,7 @@ Spectrum_type: MS2
 Precursor_mz: 344.2579369115598
 Exactmass: 343.251129296
 Comment: Major_ms1intensity+2710486.0_ei_0.95
+Formula: C22H33NO2
 Num Peaks: 105
 41.03691333649317 409.0
 42.03357936620711 171.0
@@ -21813,6 +22068,7 @@ Spectrum_type: MS2
 Precursor_mz: 312.15630941825134
 Exactmass: 311.148120772
 Comment: Major_ms1intensity+695842.0_ei_0.97
+Formula: C14H21N3O5
 Num Peaks: 40
 41.03874101967084 626.0
 43.02842549954209 851.0
@@ -21863,6 +22119,7 @@ Spectrum_type: MS2
 Precursor_mz: 633.2923573372144
 Exactmass: 610.3042870639999
 Comment: Major_ms1intensity+8317.0_ei_0.87
+Formula: C37H42N2O6
 Num Peaks: 9
 199.05838161527987 123.0
 206.1190840051069 62.0
@@ -21882,6 +22139,7 @@ Spectrum_type: MS2
 Precursor_mz: 342.1695719817236
 Exactmass: 342.16998466809
 Comment: Major_ms1intensity+2958615.0_ei_0.98
+Formula: C20H24NO4+
 Num Peaks: 114
 65.04049515981518 559.0
 77.03769292605854 643.0
@@ -22006,6 +22264,7 @@ Spectrum_type: MS2
 Precursor_mz: 688.3373576131514
 Exactmass: 687.3254760079999
 Comment: Major_ms1intensity+18452760.0_ei_0.98
+Formula: C36H49NO12
 Num Peaks: 432
 44.04969387018315 151.0
 45.03309830544693 677.0
@@ -22448,6 +22707,7 @@ Spectrum_type: MS2
 Precursor_mz: 249.1966080185132
 Exactmass: 248.188863388
 Comment: Major_ms1intensity+1577575.0_ei_0.96
+Formula: C15H24N2O
 Num Peaks: 100
 41.03957813720296 1133.0
 42.03263734870114 551.0
@@ -22558,6 +22818,7 @@ Spectrum_type: MS2
 Precursor_mz: 271.17705072138165
 Exactmass: 248.188863388
 Comment: Major_ms1intensity+8337.0_ei_0.75
+Formula: C15H24N2O
 Num Peaks: 3
 79.05228860447036 62.0
 95.06775644378546 62.0
@@ -22571,6 +22832,7 @@ Spectrum_type: MS2
 Precursor_mz: 169.0749412576068
 Exactmass: 168.068748256
 Comment: Major_ms1intensity+3256912.0_ei_0.99
+Formula: C11H8N2
 Num Peaks: 39
 51.0221076439631 431.0
 62.01398945580845 270.0
@@ -22620,6 +22882,7 @@ Spectrum_type: MS2
 Precursor_mz: 286.10764568759043
 Exactmass: 285.10010796
 Comment: Major_ms1intensity+822700.0_ei_0.99
+Formula: C16H15NO4
 Num Peaks: 21
 44.01336448456683 6897.0
 50.0126645702832 553.0
@@ -22651,6 +22914,7 @@ Spectrum_type: MS2
 Precursor_mz: 308.08905800703496
 Exactmass: 285.10010796
 Comment: Major_ms1intensity+117033.0_ei_0.84
+Formula: C16H15NO4
 Num Peaks: 2
 144.04677859163527 31.0
 308.09265452909915 154.0
@@ -22663,6 +22927,7 @@ Spectrum_type: MS2
 Precursor_mz: 342.1695719817236
 Exactmass: 341.162708216
 Comment: Major_ms1intensity+2958615.0_ei_0.98
+Formula: C20H23NO4
 Num Peaks: 114
 65.04049515981518 559.0
 77.03769292605854 643.0
@@ -22787,6 +23052,7 @@ Spectrum_type: MS2
 Precursor_mz: 546.27056363911
 Exactmass: 545.262481828
 Comment: Major_ms1intensity+8183158.0_ei_0.96
+Formula: C29H39NO9
 Num Peaks: 55
 107.08601159988164 567.0
 109.0657474873362 577.0
@@ -22852,6 +23118,7 @@ Spectrum_type: MS2
 Precursor_mz: 568.249493688171
 Exactmass: 545.262481828
 Comment: Major_ms1intensity+41269.0_ei_0.96
+Formula: C29H39NO9
 Num Peaks: 15
 120.08229159550234 429.0
 126.09165704173986 540.0
@@ -22877,6 +23144,7 @@ Spectrum_type: MS2
 Precursor_mz: 325.19174928709856
 Exactmass: 324.183778008
 Comment: Major_ms1intensity+1292199.0_ei_0.97
+Formula: C20H24N2O2
 Num Peaks: 167
 41.03777984175024 2151.0
 42.03263706584152 828.0
@@ -23054,6 +23322,7 @@ Spectrum_type: MS2
 Precursor_mz: 355.2037019791126
 Exactmass: 354.194342692
 Comment: Major_ms1intensity+2703530.0_ei_0.98
+Formula: C21H26N2O3
 Num Peaks: 155
 42.03261068382798 435.0
 44.04968553428712 2830.0
@@ -23219,6 +23488,7 @@ Spectrum_type: MS2
 Precursor_mz: 327.2067436476989
 Exactmass: 326.199428072
 Comment: Major_ms1intensity+3328627.0_ei_0.98
+Formula: C20H26N2O2
 Num Peaks: 209
 41.03947707462032 837.0
 42.03344367486149 1519.0
@@ -23438,6 +23708,7 @@ Spectrum_type: MS2
 Precursor_mz: 290.1366328196264
 Exactmass: 289.131408088
 Comment: Major_ms1intensity+6029.0_ei_0.83
+Formula: C16H19NO4
 Num Peaks: 11
 68.04750564148327 106.0
 82.0648715215754 80.0
@@ -23459,6 +23730,7 @@ Spectrum_type: MS2
 Precursor_mz: 257.1661725195105
 Exactmass: 256.15756326
 Comment: Major_ms1intensity+1894965.0_ei_0.96
+Formula: C16H20N2O
 Num Peaks: 117
 41.03954118762937 581.0
 43.05410151003647 203.0
@@ -23586,6 +23858,7 @@ Spectrum_type: MS2
 Precursor_mz: 279.1456055857413
 Exactmass: 256.15756326
 Comment: Major_ms1intensity+18412.0_ei_0.79
+Formula: C16H20N2O
 Num Peaks: 3
 149.02249155502273 216.0
 201.04945695968402 312.0
@@ -23599,6 +23872,7 @@ Spectrum_type: MS2
 Precursor_mz: 310.1803309865864
 Exactmass: 310.18015542808996
 Comment: Major_ms1intensity+5397348.0_ei_0.99
+Formula: C20H24NO2+
 Num Peaks: 91
 42.03351025294763 8963.0
 43.041212482287 3399.0
@@ -23700,6 +23974,7 @@ Spectrum_type: MS2
 Precursor_mz: 251.08101769423683
 Exactmass: 250.07422756
 Comment: Major_ms1intensity+2065032.0_ei_0.99
+Formula: C15H10N2O2
 Num Peaks: 37
 98.00998836482587 251.0
 99.02262630507354 335.0
@@ -23747,6 +24022,7 @@ Spectrum_type: MS2
 Precursor_mz: 189.1020433707984
 Exactmass: 188.094963004
 Comment: Major_ms1intensity+1834243.0_ei_0.99
+Formula: C11H12N2O
 Num Peaks: 54
 41.038587692990006 1707.0
 42.03618256631926 92.0
@@ -23811,6 +24087,7 @@ Spectrum_type: MS2
 Precursor_mz: 112.03833878301631
 Exactmass: 111.0320284
 Comment: Major_ms1intensity+9505.0_ei_0.88
+Formula: C5H5NO2
 Num Peaks: 9
 40.01746938438909 123.0
 41.039501653544676 659.0
@@ -23830,6 +24107,7 @@ Spectrum_type: MS2
 Precursor_mz: 243.08739915362352
 Exactmass: 242.08037556
 Comment: Major_ms1intensity+738330.0_ei_0.97
+Formula: C12H10N4O2
 Num Peaks: 34
 77.03881200339036 4722.0
 89.0363944668849 1340.0
@@ -23874,6 +24152,7 @@ Spectrum_type: MS2
 Precursor_mz: 260.1136782182358
 Exactmass: 242.08037556
 Comment: Major_ms1intensity+3323.0_ei_0.91
+Formula: C12H10N4O2
 Num Peaks: 12
 103.05115861169222 299.0
 116.05055773804376 92.0
@@ -23896,6 +24175,7 @@ Spectrum_type: MS2
 Precursor_mz: 376.2497060838582
 Exactmass: 375.240958536
 Comment: Major_ms1intensity+431766.0_ei_0.91
+Formula: C22H33NO4
 Num Peaks: 22
 81.06885912172936 180.0
 84.07956026915264 275.0
@@ -23928,6 +24208,7 @@ Spectrum_type: MS2
 Precursor_mz: 398.2299059519142
 Exactmass: 375.240958536
 Comment: Major_ms1intensity+27095.0_ei_0.87
+Formula: C22H33NO4
 Num Peaks: 4
 258.23985170533626 62.0
 302.2112420025919 93.0
@@ -23942,6 +24223,7 @@ Spectrum_type: MS2
 Precursor_mz: 1034.5562019298686
 Exactmass: 1033.545758676
 Comment: Major_ms1intensity+503671.0_ei_0.85
+Formula: C50H83NO21
 Num Peaks: 19
 85.02916239110243 286.0
 97.02602845005386 360.0
@@ -23971,6 +24253,7 @@ Spectrum_type: MS2
 Precursor_mz: 123.05432362943122
 Exactmass: 122.048012812
 Comment: Major_ms1intensity+89317.0_ei_0.98
+Formula: C6H6N2O
 Num Peaks: 12
 44.0132454748276 102.0
 49.006336274883125 185.0
@@ -23993,6 +24276,7 @@ Spectrum_type: MS2
 Precursor_mz: 328.1540307073406
 Exactmass: 327.14705815200006
 Comment: Major_ms1intensity+2163120.0_ei_0.99
+Formula: C19H21NO4
 Num Peaks: 97
 44.049624551512686 19324.0
 55.01564613010166 254.0
@@ -24100,6 +24384,7 @@ Spectrum_type: MS2
 Precursor_mz: 328.1546059670001
 Exactmass: 327.14705815200006
 Comment: isomer_ms1intensity+44077.0_ei_0.94
+Formula: C19H21NO4
 Num Peaks: 23
 151.052191373831 92.0
 165.07166265719343 324.0
@@ -24133,6 +24418,7 @@ Spectrum_type: MS2
 Precursor_mz: 200.0701632265243
 Exactmass: 199.063328528
 Comment: Major_ms1intensity+4539353.0_ei_0.99
+Formula: C12H9NO2
 Num Peaks: 70
 43.01919838159879 1224.0
 50.01472712806269 1570.0
@@ -24213,6 +24499,7 @@ Spectrum_type: MS2
 Precursor_mz: 403.2027121302496
 Exactmass: 402.194342692
 Comment: Major_ms1intensity+4224756.0_ei_0.99
+Formula: C25H26N2O3
 Num Peaks: 41
 50.015628065324854 268.0
 51.02305119663336 2512.0
@@ -24264,6 +24551,7 @@ Spectrum_type: MS2
 Precursor_mz: 403.2025832951086
 Exactmass: 402.194342692
 Comment: isomer_ms1intensity+54566.0_ei_0.89
+Formula: C25H26N2O3
 Num Peaks: 10
 77.03758471034212 154.0
 91.0525083720179 1036.0
@@ -24284,6 +24572,7 @@ Spectrum_type: MS2
 Precursor_mz: 425.1830033021205
 Exactmass: 402.194342692
 Comment: Major_ms1intensity+495877.0_ei_0.72
+Formula: C25H26N2O3
 Num Peaks: 6
 91.05522795310146 62.0
 105.03943649063233 62.0
@@ -24300,6 +24589,7 @@ Spectrum_type: MS2
 Precursor_mz: 324.1234618748414
 Exactmass: 323.11575802399994
 Comment: Major_ms1intensity+1808607.0_ei_0.98
+Formula: C19H17NO4
 Num Peaks: 79
 44.049686712932555 276.0
 54.03543491087926 301.0
@@ -24389,6 +24679,7 @@ Spectrum_type: MS2
 Precursor_mz: 154.0495842175718
 Exactmass: 153.042593084
 Comment: Major_ms1intensity+484979.0_ei_0.95
+Formula: C7H7NO3
 Num Peaks: 40
 40.02991924984409 92.0
 41.03053251675692 480.0
@@ -24439,6 +24730,7 @@ Spectrum_type: MS2
 Precursor_mz: 176.02999369384162
 Exactmass: 153.042593084
 Comment: Major_ms1intensity+2543.0_ei_0.8
+Formula: C7H7NO3
 Num Peaks: 4
 72.98682007884955 808.0
 86.01540992901447 62.0
@@ -24453,6 +24745,7 @@ Spectrum_type: MS2
 Precursor_mz: 144.1011287280392
 Exactmass: 143.094628656
 Comment: Major_ms1intensity+1159736.0_ei_0.96
+Formula: C7H13NO2
 Num Peaks: 27
 41.03764384233905 465.0
 42.03431658479754 10718.0
@@ -24490,6 +24783,7 @@ Spectrum_type: MS2
 Precursor_mz: 219.1125535726492
 Exactmass: 218.105527688
 Comment: Major_ms1intensity+2423728.0_ei_0.98
+Formula: C12H14N2O2
 Num Peaks: 50
 41.03855211646239 93.0
 42.033416240269815 49379.0
@@ -24550,6 +24844,7 @@ Spectrum_type: MS2
 Precursor_mz: 241.0927417581105
 Exactmass: 218.105527688
 Comment: Major_ms1intensity+45764.0_ei_0.87
+Formula: C12H14N2O2
 Num Peaks: 3
 91.05509223494536 62.0
 110.02166404328328 192.0
@@ -24563,6 +24858,7 @@ Spectrum_type: MS2
 Precursor_mz: 337.1909643823421
 Exactmass: 336.183778008
 Comment: Major_ms1intensity+5301393.0_ei_0.99
+Formula: C21H24N2O2
 Num Peaks: 188
 41.03771743610965 2543.0
 42.03257228752861 1050.0
@@ -24761,6 +25057,7 @@ Spectrum_type: MS2
 Precursor_mz: 290.17504888487383
 Exactmass: 289.167793596
 Comment: Major_ms1intensity+8819472.0_ei_0.99
+Formula: C17H23NO3
 Num Peaks: 78
 41.03845167376599 125940.0
 42.03240470106965 808.0
@@ -24849,6 +25146,7 @@ Spectrum_type: MS2
 Precursor_mz: 312.1572346393857
 Exactmass: 289.167793596
 Comment: Major_ms1intensity+334154.0_ei_0.83
+Formula: C17H23NO3
 Num Peaks: 5
 311.2082358127637 62.0
 312.1695363781623 6384.0
@@ -24864,6 +25162,7 @@ Spectrum_type: MS2
 Precursor_mz: 218.1166518162593
 Exactmass: 217.11027872
 Comment: Major_ms1intensity+696820.0_ei_0.97
+Formula: C13H15NO2
 Num Peaks: 55
 41.03675190557519 75.0
 42.033415140289726 169.0
@@ -24929,6 +25228,7 @@ Spectrum_type: MS2
 Precursor_mz: 286.1447048359982
 Exactmass: 285.136493468
 Comment: Major_ms1intensity+2312337.0_ei_0.98
+Formula: C17H19NO3
 Num Peaks: 114
 43.01805161184683 375.0
 51.02288566374682 785.0
@@ -25053,6 +25353,7 @@ Spectrum_type: MS2
 Precursor_mz: 566.2246791549805
 Exactmass: 565.21592556
 Comment: Major_ms1intensity+1466317.0_ei_0.98
+Formula: C27H35NO12
 Num Peaks: 139
 43.016184643628485 310.0
 60.04476325364465 228.0
@@ -25202,6 +25503,7 @@ Spectrum_type: MS2
 Precursor_mz: 588.2084848441497
 Exactmass: 565.21592556
 Comment: Major_ms1intensity+104365.0_ei_0.96
+Formula: C27H35NO12
 Num Peaks: 10
 164.07223782382863 1091.0
 206.0862321202387 832.0
@@ -25222,6 +25524,7 @@ Spectrum_type: MS2
 Precursor_mz: 601.3150206719081
 Exactmass: 600.304680988
 Comment: Major_ms1intensity+9788931.0_ei_0.97
+Formula: C32H44N2O9
 Num Peaks: 312
 41.04025936359254 525.0
 44.04948066060823 293.0
@@ -25544,6 +25847,7 @@ Spectrum_type: MS2
 Precursor_mz: 623.2921754513491
 Exactmass: 600.304680988
 Comment: Major_ms1intensity+35648.0_ei_0.96
+Formula: C32H44N2O9
 Num Peaks: 7
 372.21322896074037 2872.0
 386.22656984868684 93.0
@@ -25561,6 +25865,7 @@ Spectrum_type: MS2
 Precursor_mz: 352.1190010425347
 Exactmass: 351.110672644
 Comment: Major_ms1intensity+4176859.0_ei_0.99
+Formula: C20H17NO5
 Num Peaks: 90
 138.04986521739923 178.0
 139.0525394583751 385.0
@@ -25661,6 +25966,7 @@ Spectrum_type: MS2
 Precursor_mz: 374.0993622102806
 Exactmass: 351.110672644
 Comment: Major_ms1intensity+258146.0_ei_0.92
+Formula: C20H17NO5
 Num Peaks: 6
 296.0818636378991 209.0
 316.0591882765143 449.0
@@ -25677,6 +25983,7 @@ Spectrum_type: MS2
 Precursor_mz: 374.09926804422497
 Exactmass: 351.110672644
 Comment: Minor_ms1intensity+177615.0_ei_0.96
+Formula: C20H17NO5
 Num Peaks: 5
 316.06199136114026 297.0
 330.07818740699264 93.0
@@ -25692,6 +25999,7 @@ Spectrum_type: MS2
 Precursor_mz: 328.1543696174316
 Exactmass: 327.147058152
 Comment: Major_ms1intensity+3578229.0_ei_0.98
+Formula: C19H21NO4
 Num Peaks: 130
 42.033431637540005 1629.0
 43.04113282680027 1193.0
@@ -25832,6 +26140,7 @@ Spectrum_type: MS2
 Precursor_mz: 350.1341517951861
 Exactmass: 327.147058152
 Comment: Major_ms1intensity+52397.0_ei_0.7
+Formula: C19H21NO4
 Num Peaks: 4
 304.09734785290505 31.0
 319.10080305210977 93.0
@@ -25846,6 +26155,7 @@ Spectrum_type: MS2
 Precursor_mz: 156.1362431520638
 Exactmass: 155.131014164
 Comment: Major_ms1intensity+2661.0_ei_0.83
+Formula: C9H17NO
 Num Peaks: 9
 41.03857526609631 19.0
 42.0316214622202 19.0
@@ -25865,6 +26175,7 @@ Spectrum_type: MS2
 Precursor_mz: 142.12204510187286
 Exactmass: 141.1153641
 Comment: Major_ms1intensity+2537197.0_ei_0.89
+Formula: C8H15NO
 Num Peaks: 43
 41.03944047589211 10210.0
 42.03340649977865 10867.0
@@ -25918,6 +26229,7 @@ Spectrum_type: MS2
 Precursor_mz: 334.1075419127535
 Exactmass: 333.10010796
 Comment: Major_ms1intensity+260475.0_ei_0.98
+Formula: C20H15NO4
 Num Peaks: 54
 160.0400171596278 165.0
 175.0550761394851 113.0
@@ -25982,6 +26294,7 @@ Spectrum_type: MS2
 Precursor_mz: 242.1243700572476
 Exactmass: 241.11748934
 Comment: Major_ms1intensity+1810.0_ei_0.72
+Formula: C9H15N5O3
 Num Peaks: 6
 84.05477106424037 72.0
 94.04118745720855 52.0
@@ -25998,6 +26311,7 @@ Spectrum_type: MS2
 Precursor_mz: 354.13453703881794
 Exactmass: 353.126322708
 Comment: Major_ms1intensity+3978032.0_ei_0.99
+Formula: C20H19NO5
 Num Peaks: 143
 43.01895922452472 99.0
 44.05044233982268 391.0
@@ -26151,6 +26465,7 @@ Spectrum_type: MS2
 Precursor_mz: 327.2071180064186
 Exactmass: 326.199428072
 Comment: Major_ms1intensity+1767761.0_ei_0.96
+Formula: C20H26N2O2
 Num Peaks: 162
 41.03852441719668 1196.0
 42.033388979070445 867.0
@@ -26323,6 +26638,7 @@ Spectrum_type: MS2
 Precursor_mz: 327.20572160603115
 Exactmass: 326.199428072
 Comment: isomer_ms1intensity+24614.0_ei_0.88
+Formula: C20H26N2O2
 Num Peaks: 16
 55.05508238198396 399.0
 82.06088480776124 264.0
@@ -26349,6 +26665,7 @@ Spectrum_type: MS2
 Precursor_mz: 394.1041377408902
 Exactmass: 393.0960852
 Comment: Major_ms1intensity+877416.0_ei_0.7
+Formula: C20H15N3O6
 Num Peaks: 94
 57.03323079174264 1053.0
 140.0488510251534 307.0
@@ -26453,6 +26770,7 @@ Spectrum_type: MS2
 Precursor_mz: 416.0803414882792
 Exactmass: 393.0960852
 Comment: Major_ms1intensity+2463.0_ei_0.68
+Formula: C20H15N3O6
 Num Peaks: 1
 46.0661903743719 93.0
 
@@ -26464,6 +26782,7 @@ Spectrum_type: MS2
 Precursor_mz: 163.12262175718902
 Exactmass: 162.115698448
 Comment: Major_ms1intensity+1656996.0_ei_0.98
+Formula: C10H14N2
 Num Peaks: 54
 40.03241944264289 93.0
 41.03755769090123 1711.0
@@ -26528,6 +26847,7 @@ Spectrum_type: MS2
 Precursor_mz: 163.12099157563176
 Exactmass: 162.115698448
 Comment: isomer_ms1intensity+4011.0_ei_0.87
+Formula: C10H14N2
 Num Peaks: 16
 53.0421302236771 41.0
 56.04961329887603 51.0
@@ -26554,6 +26874,7 @@ Spectrum_type: MS2
 Precursor_mz: 163.12205773757415
 Exactmass: 162.115698448
 Comment: isomer_ms1intensity+513621.0_ei_0.95
+Formula: C10H14N2
 Num Peaks: 34
 41.03932033365802 80.0
 51.02278493658703 147.0
@@ -26598,6 +26919,7 @@ Spectrum_type: MS2
 Precursor_mz: 249.06535502520973
 Exactmass: 248.058577496
 Comment: Major_ms1intensity+2004541.0_ei_0.85
+Formula: C15H8N2O2
 Num Peaks: 11
 65.03904829613201 77.0
 77.03855392170726 143.0
@@ -26619,6 +26941,7 @@ Spectrum_type: MS2
 Precursor_mz: 128.0699304783584
 Exactmass: 127.063328528
 Comment: Major_ms1intensity+187039.0_ei_0.73
+Formula: C6H9NO2
 Num Peaks: 1
 53.040158646932134 93.0
 
@@ -26630,6 +26953,7 @@ Spectrum_type: MS2
 Precursor_mz: 308.2589809486403
 Exactmass: 307.25112929600004
 Comment: Major_ms1intensity+2100731.0_ei_0.98
+Formula: C19H33NO2
 Num Peaks: 54
 41.03929363523184 12024.0
 43.05476417630374 26117.0
@@ -26694,6 +27018,7 @@ Spectrum_type: MS2
 Precursor_mz: 330.2402306149985
 Exactmass: 307.25112929600004
 Comment: Major_ms1intensity+85421.0_ei_0.71
+Formula: C19H33NO2
 Num Peaks: 3
 91.05612001123862 62.0
 98.98727208761674 93.0
@@ -26707,6 +27032,7 @@ Spectrum_type: MS2
 Precursor_mz: 325.1912273652373
 Exactmass: 324.183778008
 Comment: Major_ms1intensity+1275745.0_ei_0.96
+Formula: C20H24N2O2
 Num Peaks: 156
 41.03841923281444 1191.0
 42.03419106357824 591.0
@@ -26873,6 +27199,7 @@ Spectrum_type: MS2
 Precursor_mz: 604.3110974701596
 Exactmass: 603.3043466399998
 Comment: Major_ms1intensity+12217311.0_ei_0.93
+Formula: C32H45NO10
 Num Peaks: 266
 45.032713324888526 392.0
 51.02364768882565 237.0
@@ -27149,6 +27476,7 @@ Spectrum_type: MS2
 Precursor_mz: 249.19691701669967
 Exactmass: 248.188863388
 Comment: Major_ms1intensity+2299532.0_ei_0.96
+Formula: C15H24N2O
 Num Peaks: 103
 41.03841941577839 1804.0
 42.03237157932066 483.0
@@ -27262,6 +27590,7 @@ Spectrum_type: MS2
 Precursor_mz: 443.233475117656
 Exactmass: 442.22564282
 Comment: Major_ms1intensity+19127701.0_ei_0.98
+Formula: C28H30N2O3
 Num Peaks: 188
 200.0663020331869 47.0
 202.07813588748394 78.0
@@ -27460,6 +27789,7 @@ Spectrum_type: MS2
 Precursor_mz: 574.3010098895718
 Exactmass: 573.2937819559999
 Comment: Major_ms1intensity+10472843.0_ei_0.96
+Formula: C31H43NO9
 Num Peaks: 336
 42.0340598011145 1628.0
 44.05022906525853 17609.0
@@ -27806,6 +28136,7 @@ Spectrum_type: MS2
 Precursor_mz: 265.1921224329405
 Exactmass: 264.183778008
 Comment: Major_ms1intensity+2921123.0_ei_0.97
+Formula: C15H24N2O2
 Num Peaks: 75
 55.01740042912514 1003.0
 56.04853096759518 240.0
@@ -27891,6 +28222,7 @@ Spectrum_type: MS2
 Precursor_mz: 265.1903022846636
 Exactmass: 264.183778008
 Comment: isomer_ms1intensity+42597.0_ei_0.9
+Formula: C15H24N2O2
 Num Peaks: 20
 84.0751781994377 92.0
 98.09569623782008 342.0
@@ -27921,6 +28253,7 @@ Spectrum_type: MS2
 Precursor_mz: 218.1174764736805
 Exactmass: 217.11027872
 Comment: Major_ms1intensity+512703.0_ei_0.96
+Formula: C13H15NO2
 Num Peaks: 27
 41.03840641741415 272.0
 42.03326809675438 589.0
@@ -27958,6 +28291,7 @@ Spectrum_type: MS2
 Precursor_mz: 338.140059766225
 Exactmass: 337.131408088
 Comment: Major_ms1intensity+183512.0_ei_0.96
+Formula: C20H19NO4
 Num Peaks: 79
 89.0384727942247 629.0
 91.05460286800663 426.0
@@ -28047,6 +28381,7 @@ Spectrum_type: MS2
 Precursor_mz: 314.1754197457161
 Exactmass: 314.17507004809
 Comment: Major_ms1intensity+1474681.0_ei_0.98
+Formula: C19H24NO3+
 Num Peaks: 114
 42.03414021565337 3919.0
 43.040926607145444 1348.0
@@ -28171,6 +28506,7 @@ Spectrum_type: MS2
 Precursor_mz: 305.1095537455836
 Exactmass: 304.1018988520001
 Comment: Major_ms1intensity+650106.0_ei_0.96
+Formula: C10H16N4O7
 Num Peaks: 20
 43.017889416470695 120.0
 45.04499844154031 4560.0
@@ -28201,6 +28537,7 @@ Spectrum_type: MS2
 Precursor_mz: 327.09010759374524
 Exactmass: 304.1018988520001
 Comment: Major_ms1intensity+35042.0_ei_0.87
+Formula: C10H16N4O7
 Num Peaks: 5
 98.98011224318279 41.0
 164.0320250359268 2286.0
@@ -28216,6 +28553,7 @@ Spectrum_type: MS2
 Precursor_mz: 358.20243188937377
 Exactmass: 357.194008344
 Comment: Major_ms1intensity+575258.0_ei_0.94
+Formula: C21H27NO4
 Num Peaks: 59
 91.05323400828718 914.0
 105.06889700736784 264.0
@@ -28285,6 +28623,7 @@ Spectrum_type: MS2
 Precursor_mz: 380.1820682517289
 Exactmass: 357.194008344
 Comment: Major_ms1intensity+4608.0_ei_0.9
+Formula: C21H27NO4
 Num Peaks: 6
 151.075487396519 184.0
 158.07149173636355 92.0
@@ -28301,6 +28640,7 @@ Spectrum_type: MS2
 Precursor_mz: 218.1175933366769
 Exactmass: 217.11027872
 Comment: Major_ms1intensity+1158392.0_ei_0.98
+Formula: C13H15NO2
 Num Peaks: 42
 41.03934769328947 362.0
 42.0342211784233 1091.0
@@ -28353,6 +28693,7 @@ Spectrum_type: MS2
 Precursor_mz: 364.1295574249762
 Exactmass: 363.12190602400005
 Comment: Major_ms1intensity+555014.0_ei_0.94
+Formula: C20H17N3O4
 Num Peaks: 36
 57.03409880898009 174.0
 181.08051912199275 180.0
@@ -28399,6 +28740,7 @@ Spectrum_type: MS2
 Precursor_mz: 230.08107490702417
 Exactmass: 229.073893212
 Comment: Major_ms1intensity+10127908.0_ei_0.99
+Formula: C13H11NO3
 Num Peaks: 83
 43.016045152096424 478.0
 52.01686822417311 393.0
@@ -28492,6 +28834,7 @@ Spectrum_type: MS2
 Precursor_mz: 230.08047671288583
 Exactmass: 229.073893212
 Comment: Minor_ms1intensity+38328.0_ei_0.76
+Formula: C13H11NO3
 Num Peaks: 18
 89.03583972308664 191.0
 101.03889922807811 93.0
@@ -28520,6 +28863,7 @@ Spectrum_type: MS2
 Precursor_mz: 122.09540091656444
 Exactmass: 121.089149352
 Comment: Major_ms1intensity+6064.0_ei_0.71
+Formula: C8H11N
 Num Peaks: 9
 41.03929180723224 92.0
 53.04216495656582 93.0
@@ -28539,6 +28883,7 @@ Spectrum_type: MS2
 Precursor_mz: 122.09460769347774
 Exactmass: 121.089149352
 Comment: isomer_ms1intensity+4729.0_ei_0.88
+Formula: C8H11N
 Num Peaks: 12
 41.03923679051266 93.0
 42.034107587147815 123.0
@@ -28561,6 +28906,7 @@ Spectrum_type: MS2
 Precursor_mz: 302.1763724330518
 Exactmass: 301.167793596
 Comment: Major_ms1intensity+2296704.0_ei_0.99
+Formula: C18H23NO3
 Num Peaks: 26
 41.037480769429784 193.0
 50.016307212109744 93.0
@@ -28597,6 +28943,7 @@ Spectrum_type: MS2
 Precursor_mz: 288.15921860125115
 Exactmass: 287.152143532
 Comment: Major_ms1intensity+2307.0_ei_0.78
+Formula: C17H21NO3
 Num Peaks: 3
 175.07132849421086 62.0
 198.0702413431149 93.0
@@ -28610,6 +28957,7 @@ Spectrum_type: MS2
 Precursor_mz: 579.2717685814462
 Exactmass: 578.2628161759999
 Comment: Major_ms1intensity+5933088.0_ei_0.98
+Formula: C32H38N2O8
 Num Peaks: 218
 42.03318157440125 254.0
 44.05026207491409 748.0
@@ -28838,6 +29186,7 @@ Spectrum_type: MS2
 Precursor_mz: 601.2554544045583
 Exactmass: 578.2628161759999
 Comment: Major_ms1intensity+29749.0_ei_0.78
+Formula: C32H38N2O8
 Num Peaks: 8
 303.1566180968855 123.0
 335.1800510150786 215.0
@@ -28856,6 +29205,7 @@ Spectrum_type: MS2
 Precursor_mz: 336.1810175405915
 Exactmass: 335.1732729
 Comment: Major_ms1intensity+1864031.0_ei_0.97
+Formula: C18H25NO5
 Num Peaks: 93
 41.03829727330894 2594.0
 42.034066085935166 1940.0
@@ -28959,6 +29309,7 @@ Spectrum_type: MS2
 Precursor_mz: 358.16241682555994
 Exactmass: 335.1732729
 Comment: Major_ms1intensity+3203.0_ei_0.88
+Formula: C18H25NO5
 Num Peaks: 5
 77.0382305331721 123.0
 93.07154093605557 93.0
@@ -28974,6 +29325,7 @@ Spectrum_type: MS2
 Precursor_mz: 320.18901197952243
 Exactmass: 319.18152551199995
 Comment: Major_ms1intensity+824459.0_ei_0.98
+Formula: C18H26ClN3
 Num Peaks: 45
 41.038338301730725 7287.0
 44.04841677511902 424.0
@@ -29029,6 +29381,7 @@ Spectrum_type: MS2
 Precursor_mz: 320.18595515645575
 Exactmass: 319.18152551199995
 Comment: isomer_ms1intensity+29196.0_ei_0.92
+Formula: C18H26ClN3
 Num Peaks: 15
 41.037400861417325 212.0
 58.06777961923004 93.0
@@ -29054,6 +29407,7 @@ Spectrum_type: MS2
 Precursor_mz: 554.2339833898218
 Exactmass: 531.2468317639999
 Comment: Major_ms1intensity+57388.0_ei_0.95
+Formula: C28H37NO9
 Num Peaks: 13
 120.08125407022403 360.0
 126.0921440218895 521.0
@@ -29077,6 +29431,7 @@ Spectrum_type: MS2
 Precursor_mz: 590.2967440602145
 Exactmass: 589.2886965759998
 Comment: Major_ms1intensity+15998430.0_ei_0.97
+Formula: C31H43NO10
 Num Peaks: 493
 41.0374004636862 103.0
 42.03315848789184 889.0
@@ -29580,6 +29935,7 @@ Spectrum_type: MS2
 Precursor_mz: 612.2793002944538
 Exactmass: 589.2886965759998
 Comment: Major_ms1intensity+11461.0_ei_0.87
+Formula: C31H43NO10
 Num Peaks: 6
 386.211183254015 51.0
 418.21932054994284 199.0
@@ -29596,6 +29952,7 @@ Spectrum_type: MS2
 Precursor_mz: 592.3861830019754
 Exactmass: 591.3771176559999
 Comment: Major_ms1intensity+4276011.0_ei_0.98
+Formula: C33H53NO8
 Num Peaks: 16
 96.07654352807432 328.0
 98.09533147605673 228.0
@@ -29622,6 +29979,7 @@ Spectrum_type: MS2
 Precursor_mz: 592.3838226602045
 Exactmass: 591.3771176559999
 Comment: Minor_ms1intensity+19514.0_ei_0.85
+Formula: C33H53NO8
 Num Peaks: 2
 430.3248483340877 62.0
 592.387973918001 9315.0
@@ -29634,6 +29992,7 @@ Spectrum_type: MS2
 Precursor_mz: 189.1018344327857
 Exactmass: 188.094963004
 Comment: Major_ms1intensity+2870540.0_ei_0.99
+Formula: C11H12N2O
 Num Peaks: 61
 41.03746306671522 2433.0
 42.032312780379804 255.0
@@ -29705,6 +30064,7 @@ Spectrum_type: MS2
 Precursor_mz: 211.08147191140208
 Exactmass: 188.094963004
 Comment: Major_ms1intensity+6713.0_ei_0.7
+Formula: C11H12N2O
 Num Peaks: 5
 45.033712867090536 46.0
 51.02170799891439 31.0
@@ -29720,6 +30080,7 @@ Spectrum_type: MS2
 Precursor_mz: 416.2084050217837
 Exactmass: 415.19948764799994
 Comment: Major_ms1intensity+11574349.0_ei_0.98
+Formula: C23H29NO6
 Num Peaks: 298
 41.0391815362022 1672.0
 43.052804738544815 778.0
@@ -30028,6 +30389,7 @@ Spectrum_type: MS2
 Precursor_mz: 416.20789962368286
 Exactmass: 415.19948764799994
 Comment: Minor_ms1intensity+231923.0_ei_0.91
+Formula: C23H29NO6
 Num Peaks: 40
 134.09601854251957 366.0
 136.10885979835376 412.0
@@ -30078,6 +30440,7 @@ Spectrum_type: MS2
 Precursor_mz: 438.1878620821577
 Exactmass: 415.19948764799994
 Comment: Major_ms1intensity+441504.0_ei_0.91
+Formula: C23H29NO6
 Num Peaks: 18
 149.05721187508243 3262.0
 151.0357837603572 532.0
@@ -30106,6 +30469,7 @@ Spectrum_type: MS2
 Precursor_mz: 433.2309131440456
 Exactmass: 415.19948764799994
 Comment: Major_ms1intensity+63458.0_ei_0.95
+Formula: C23H29NO6
 Num Peaks: 62
 99.04287786465625 574.0
 122.09650498538767 235.0
@@ -30178,6 +30542,7 @@ Spectrum_type: MS2
 Precursor_mz: 366.1713510585427
 Exactmass: 366.16998466809
 Comment: Major_ms1intensity+16946576.0_ei_0.98
+Formula: C22H24NO4+
 Num Peaks: 48
 220.0745269181523 193.0
 222.0985592769606 780.0
@@ -30236,6 +30601,7 @@ Spectrum_type: MS2
 Precursor_mz: 367.2020525362947
 Exactmass: 366.1943426919999
 Comment: Major_ms1intensity+11615861.0_ei_0.98
+Formula: C22H26N2O3
 Num Peaks: 251
 41.03923378814227 407.0
 42.03501430839015 2359.0
@@ -30497,6 +30863,7 @@ Spectrum_type: MS2
 Precursor_mz: 389.1801565544329
 Exactmass: 366.1943426919999
 Comment: Major_ms1intensity+13445.0_ei_0.73
+Formula: C22H26N2O3
 Num Peaks: 1
 389.19032279408094 1260.0
 
@@ -30508,6 +30875,7 @@ Spectrum_type: MS2
 Precursor_mz: 294.14913615903106
 Exactmass: 293.14157884800005
 Comment: Major_ms1intensity+3496244.0_ei_0.85
+Formula: C19H19NO2
 Num Peaks: 15
 205.08723924182777 25.0
 208.1108699057446 25.0
@@ -30533,6 +30901,7 @@ Spectrum_type: MS2
 Precursor_mz: 395.1594073145072
 Exactmass: 377.126322708
 Comment: Major_ms1intensity+107254.0_ei_0.92
+Formula: C22H19NO5
 Num Peaks: 17
 247.12747431643564 226.0
 263.12323961716044 648.0
@@ -30560,6 +30929,7 @@ Spectrum_type: MS2
 Precursor_mz: 323.14045631853776
 Exactmass: 322.13174243599997
 Comment: Major_ms1intensity+729723.0_ei_0.98
+Formula: C19H18N2O3
 Num Peaks: 27
 65.03884484467109 1354.0
 77.04077519737345 470.0
@@ -30597,6 +30967,7 @@ Spectrum_type: MS2
 Precursor_mz: 667.2885575010132
 Exactmass: 666.2788601640001
 Comment: Major_ms1intensity+666789.0_ei_0.95
+Formula: C35H42N2O11
 Num Peaks: 90
 94.0638407979018 333.0
 106.06081591547861 227.0
@@ -30697,6 +31068,7 @@ Spectrum_type: MS2
 Precursor_mz: 689.2719090039943
 Exactmass: 666.2788601640001
 Comment: Major_ms1intensity+24147.0_ei_0.86
+Formula: C35H42N2O11
 Num Peaks: 6
 333.1635383666723 93.0
 365.1788375546651 312.0
@@ -30713,6 +31085,7 @@ Spectrum_type: MS2
 Precursor_mz: 357.3252131676595
 Exactmass: 356.31914928
 Comment: Major_ms1intensity+254961.0_ei_0.91
+Formula: C24H40N2
 Num Peaks: 42
 42.03228750586731 332.0
 44.048415705684306 4049.0
@@ -30765,6 +31138,7 @@ Spectrum_type: MS2
 Precursor_mz: 282.1486046836268
 Exactmass: 281.14157884800005
 Comment: Major_ms1intensity+3907945.0_ei_0.99
+Formula: C18H19NO2
 Num Peaks: 76
 43.01784863561185 224.0
 44.04838642950707 421.0
@@ -30851,6 +31225,7 @@ Spectrum_type: MS2
 Precursor_mz: 290.17515370013047
 Exactmass: 289.167793596
 Comment: Major_ms1intensity+1806340.0_ei_0.99
+Formula: C17H23NO3
 Num Peaks: 151
 41.0383426551565 340.0
 42.03411423357603 2030.0
@@ -31012,6 +31387,7 @@ Spectrum_type: MS2
 Precursor_mz: 239.10282027877824
 Exactmass: 238.095356928
 Comment: Major_ms1intensity+1539011.0_ei_0.98
+Formula: C11H14N2O4
 Num Peaks: 53
 41.038305287192266 196.0
 42.0322562893477 490.0
@@ -31075,6 +31451,7 @@ Spectrum_type: MS2
 Precursor_mz: 261.08440992877627
 Exactmass: 238.095356928
 Comment: Major_ms1intensity+557677.0_ei_0.68
+Formula: C11H14N2O4
 Num Peaks: 4
 179.0769808773415 31.0
 218.07679934169386 31.0
@@ -31089,6 +31466,7 @@ Spectrum_type: MS2
 Precursor_mz: 256.12924675971607
 Exactmass: 238.095356928
 Comment: Major_ms1intensity+436003.0_ei_0.98
+Formula: C11H14N2O4
 Num Peaks: 50
 42.0331175505627 447.0
 51.02259835650013 1124.0
@@ -31149,6 +31527,7 @@ Spectrum_type: MS2
 Precursor_mz: 280.097127761647
 Exactmass: 279.08954327600003
 Comment: Major_ms1intensity+8422853.0_ei_0.98
+Formula: C17H13NO3
 Num Peaks: 134
 43.01787251910049 184.0
 51.02368806164539 538.0
@@ -31293,6 +31672,7 @@ Spectrum_type: MS2
 Precursor_mz: 356.1884148309164
 Exactmass: 355.17835828000005
 Comment: Major_ms1intensity+4545213.0_ei_0.99
+Formula: C21H25NO4
 Num Peaks: 182
 42.033141920994794 212.0
 44.05208670702722 348.0
@@ -31485,6 +31865,7 @@ Spectrum_type: MS2
 Precursor_mz: 314.1395652874861
 Exactmass: 313.131408088
 Comment: Major_ms1intensity+1497260.0_ei_0.98
+Formula: C18H19NO4
 Num Peaks: 76
 55.01740390440342 197.0
 115.0512578013914 449.0
@@ -31571,6 +31952,7 @@ Spectrum_type: MS2
 Precursor_mz: 350.1386788950068
 Exactmass: 350.1386845400899
 Comment: Major_ms1intensity+9934831.0_ei_0.99
+Formula: C21H20NO4+
 Num Peaks: 136
 103.0560964725529 185.0
 115.0540916864291 114.0
@@ -31717,6 +32099,7 @@ Spectrum_type: MS2
 Precursor_mz: 336.0871789465953
 Exactmass: 335.079372516
 Comment: Major_ms1intensity+1745998.0_ei_0.98
+Formula: C19H13NO5
 Num Peaks: 116
 77.0382165256556 192.0
 91.05584467652571 298.0
@@ -31843,6 +32226,7 @@ Spectrum_type: MS2
 Precursor_mz: 358.068593665735
 Exactmass: 335.079372516
 Comment: Major_ms1intensity+160907.0_ei_0.76
+Formula: C19H13NO5
 Num Peaks: 6
 205.08323387323478 123.0
 221.06887231910167 93.0
@@ -31859,6 +32243,7 @@ Spectrum_type: MS2
 Precursor_mz: 152.06940261193978
 Exactmass: 151.063328528
 Comment: Major_ms1intensity+59910.0_ei_0.98
+Formula: C8H9NO2
 Num Peaks: 13
 41.036414730863946 154.0
 42.03762052936083 93.0
@@ -31882,6 +32267,7 @@ Spectrum_type: MS2
 Precursor_mz: 170.15351292687257
 Exactmass: 169.146664228
 Comment: Major_ms1intensity+973271.0_ei_0.97
+Formula: C10H19NO
 Num Peaks: 55
 41.03833184947513 4378.0
 42.033193267318424 1114.0
@@ -31947,6 +32333,7 @@ Spectrum_type: MS2
 Precursor_mz: 467.2925266455396
 Exactmass: 466.283157696
 Comment: Major_ms1intensity+1305575.0_ei_0.97
+Formula: C28H38N2O4
 Num Peaks: 128
 55.054800783607604 568.0
 82.06304665382265 294.0
@@ -32085,6 +32472,7 @@ Spectrum_type: MS2
 Precursor_mz: 489.27078032955706
 Exactmass: 466.283157696
 Comment: Major_ms1intensity+6049.0_ei_0.67
+Formula: C28H38N2O4
 Num Peaks: 2
 186.04876216899015 31.0
 489.2788999968629 410.0
@@ -32097,6 +32485,7 @@ Spectrum_type: MS2
 Precursor_mz: 337.1918703731845
 Exactmass: 336.18377800799993
 Comment: Major_ms1intensity+1857656.0_ei_0.94
+Formula: C21H24N2O2
 Num Peaks: 21
 59.01375027128543 423.0
 77.03829070464091 541.0
@@ -32128,6 +32517,7 @@ Spectrum_type: MS2
 Precursor_mz: 384.1448790424647
 Exactmass: 383.136887392
 Comment: Major_ms1intensity+5759512.0_ei_0.99
+Formula: C21H21NO6
 Num Peaks: 178
 42.03311503122093 1848.0
 44.04926416879767 26864.0
@@ -32316,6 +32706,7 @@ Spectrum_type: MS2
 Precursor_mz: 406.1247613146796
 Exactmass: 383.136887392
 Comment: Major_ms1intensity+60806.0_ei_0.92
+Formula: C21H21NO6
 Num Peaks: 6
 42.033095247130824 93.0
 91.05178718499302 93.0
@@ -32332,6 +32723,7 @@ Spectrum_type: MS2
 Precursor_mz: 444.3123107787056
 Exactmass: 443.30355879199993
 Comment: Major_ms1intensity+8730279.0_ei_0.97
+Formula: C27H41NO4
 Num Peaks: 171
 41.03827520582005 3728.0
 42.0331352504938 492.0
@@ -32513,6 +32905,7 @@ Spectrum_type: MS2
 Precursor_mz: 444.3101544763234
 Exactmass: 443.30355879199993
 Comment: isomer_ms1intensity+88852.0_ei_0.91
+Formula: C27H41NO4
 Num Peaks: 17
 67.05388031051845 470.0
 81.06930428242181 322.0
@@ -32540,6 +32933,7 @@ Spectrum_type: MS2
 Precursor_mz: 630.329966138097
 Exactmass: 629.3199967039998
 Comment: Major_ms1intensity+24992108.0_ei_0.97
+Formula: C34H47NO10
 Num Peaks: 424
 44.05110776092913 326.0
 45.03358279222894 1351.0
@@ -32974,6 +33368,7 @@ Spectrum_type: MS2
 Precursor_mz: 754.4201111128041
 Exactmass: 753.4101490999998
 Comment: Major_ms1intensity+464514.0_ei_0.94
+Formula: C43H55N5O7
 Num Peaks: 45
 122.09666573975315 360.0
 124.11147230635855 1545.0
@@ -33029,6 +33424,7 @@ Spectrum_type: MS2
 Precursor_mz: 776.3990647213361
 Exactmass: 753.4101490999998
 Comment: Major_ms1intensity+14716.0_ei_0.92
+Formula: C43H55N5O7
 Num Peaks: 2
 744.377636141696 123.0
 776.41768001128 4824.0
@@ -33041,6 +33437,7 @@ Spectrum_type: MS2
 Precursor_mz: 381.1807980512782
 Exactmass: 380.173607248
 Comment: Major_ms1intensity+24626.0_ei_0.9
+Formula: C22H24N2O4
 Num Peaks: 11
 91.0529981877124 243.0
 182.08431754758033 429.0
@@ -33062,6 +33459,7 @@ Spectrum_type: MS2
 Precursor_mz: 128.14227533228785
 Exactmass: 127.136099544
 Comment: Major_ms1intensity+74014.0_ei_0.96
+Formula: C8H17N
 Num Peaks: 11
 41.03903836221872 2265.0
 43.05818398590576 31.0
@@ -33083,6 +33481,7 @@ Spectrum_type: MS2
 Precursor_mz: 267.0755744132343
 Exactmass: 266.06914218000003
 Comment: Major_ms1intensity+2967710.0_ei_0.98
+Formula: C15H10N2O3
 Num Peaks: 43
 87.02106661278427 283.0
 88.02937158558642 1289.0
@@ -33136,6 +33535,7 @@ Spectrum_type: MS2
 Precursor_mz: 370.30931333525393
 Exactmass: 369.303164868
 Comment: Major_ms1intensity+39781.0_ei_0.89
+Formula: C25H39NO
 Num Peaks: 2
 91.05428001383834 3032.0
 95.08854779141977 77.0
@@ -33148,6 +33548,7 @@ Spectrum_type: MS2
 Precursor_mz: 392.29054474856247
 Exactmass: 369.303164868
 Comment: Major_ms1intensity+1327.0_ei_0.7
+Formula: C25H39NO
 Num Peaks: 3
 72.08733840362692 26.0
 149.02422661568355 93.0
@@ -33161,6 +33562,7 @@ Spectrum_type: MS2
 Precursor_mz: 216.0648851508032
 Exactmass: 215.058243148
 Comment: Major_ms1intensity+3894946.0_ei_0.99
+Formula: C12H9NO3
 Num Peaks: 80
 43.01863630280682 447.0
 50.01608108745124 463.0
@@ -33251,6 +33653,7 @@ Spectrum_type: MS2
 Precursor_mz: 238.0455108158942
 Exactmass: 215.058243148
 Comment: Major_ms1intensity+14775.0_ei_0.76
+Formula: C12H9NO3
 Num Peaks: 8
 89.04221314902436 93.0
 90.03948802257476 154.0
@@ -33269,6 +33672,7 @@ Spectrum_type: MS2
 Precursor_mz: 367.2018244129396
 Exactmass: 366.1943426919999
 Comment: Major_ms1intensity+14548164.0_ei_0.99
+Formula: C22H26N2O3
 Num Peaks: 267
 41.038224419525065 1116.0
 42.03399361433565 25888.0
@@ -33546,6 +33950,7 @@ Spectrum_type: MS2
 Precursor_mz: 378.2636613955573
 Exactmass: 377.2566086
 Comment: Major_ms1intensity+7586167.0_ei_0.98
+Formula: C22H35NO4
 Num Peaks: 135
 42.033905142801196 689.0
 43.01859472710673 2010.0
@@ -33691,6 +34096,7 @@ Spectrum_type: MS2
 Precursor_mz: 400.2442990757002
 Exactmass: 377.2566086
 Comment: Major_ms1intensity+25327.0_ei_0.76
+Formula: C22H35NO4
 Num Peaks: 3
 360.25264372767106 31.0
 400.24968301860036 1260.0
@@ -33704,6 +34110,7 @@ Spectrum_type: MS2
 Precursor_mz: 369.1808464072207
 Exactmass: 368.173607248
 Comment: Major_ms1intensity+4764582.0_ei_0.99
+Formula: C21H24N2O4
 Num Peaks: 117
 41.03728971516012 346.0
 53.036818310932055 241.0
@@ -33831,6 +34238,7 @@ Spectrum_type: MS2
 Precursor_mz: 391.1609531633718
 Exactmass: 368.173607248
 Comment: Major_ms1intensity+28198.0_ei_0.85
+Formula: C21H24N2O4
 Num Peaks: 6
 149.02073493195795 405.0
 187.08314496891128 123.0
@@ -33847,6 +34255,7 @@ Spectrum_type: MS2
 Precursor_mz: 592.3841856824429
 Exactmass: 591.3771176559999
 Comment: Major_ms1intensity+7632491.0_ei_0.96
+Formula: C33H53NO8
 Num Peaks: 24
 79.05252679309639 198.0
 94.06081167005823 311.0
@@ -33881,6 +34290,7 @@ Spectrum_type: MS2
 Precursor_mz: 368.2959342533519
 Exactmass: 367.287514804
 Comment: Major_ms1intensity+55689.0_ei_0.86
+Formula: C25H37NO
 Num Peaks: 7
 65.0361244693036 77.0
 67.05356235384136 102.0
@@ -33898,6 +34308,7 @@ Spectrum_type: MS2
 Precursor_mz: 529.2706727591443
 Exactmass: 528.2624222519999
 Comment: Major_ms1intensity+780770.0_ei_0.94
+Formula: C32H36N2O5
 Num Peaks: 127
 91.05404163241685 382.0
 103.05413190787596 199.0
@@ -34035,6 +34446,7 @@ Spectrum_type: MS2
 Precursor_mz: 551.2512907055209
 Exactmass: 528.2624222519999
 Comment: Major_ms1intensity+160315.0_ei_0.78
+Formula: C32H36N2O5
 Num Peaks: 7
 131.06890484827719 62.0
 505.2483505726965 93.0
@@ -34052,6 +34464,7 @@ Spectrum_type: MS2
 Precursor_mz: 546.2952699991215
 Exactmass: 528.2624222519999
 Comment: Major_ms1intensity+34327.0_ei_0.94
+Formula: C32H36N2O5
 Num Peaks: 46
 107.08457717398446 179.0
 117.05968251460935 212.0
@@ -34108,6 +34521,7 @@ Spectrum_type: MS2
 Precursor_mz: 294.20742912598166
 Exactmass: 293.199093724
 Comment: Major_ms1intensity+2511002.0_ei_0.98
+Formula: C17H27NO3
 Num Peaks: 41
 41.03894211850177 1672.0
 43.05256031051824 2326.0
@@ -34159,6 +34573,7 @@ Spectrum_type: MS2
 Precursor_mz: 316.18844020506896
 Exactmass: 293.199093724
 Comment: Major_ms1intensity+279417.0_ei_0.74
+Formula: C17H27NO3
 Num Peaks: 4
 46.06382223100566 93.0
 91.0541363544323 31.0
@@ -34173,6 +34588,7 @@ Spectrum_type: MS2
 Precursor_mz: 342.1699809355195
 Exactmass: 341.16270821600006
 Comment: Major_ms1intensity+3714301.0_ei_0.99
+Formula: C20H23NO4
 Num Peaks: 145
 65.03744849290486 812.0
 77.03926286433166 2104.0
@@ -34328,6 +34744,7 @@ Spectrum_type: MS2
 Precursor_mz: 342.1695548122991
 Exactmass: 341.16270821600006
 Comment: Minor_ms1intensity+9949.0_ei_0.91
+Formula: C20H23NO4
 Num Peaks: 24
 179.08741134658175 168.0
 191.08907884952367 87.0
@@ -34362,6 +34779,7 @@ Spectrum_type: MS2
 Precursor_mz: 692.2975699250054
 Exactmass: 691.2871723520001
 Comment: Major_ms1intensity+1770282.0_ei_0.97
+Formula: C34H46ClN3O10
 Num Peaks: 229
 42.032877046928306 258.0
 53.038660482302326 240.0
@@ -34601,6 +35019,7 @@ Spectrum_type: MS2
 Precursor_mz: 714.279630966442
 Exactmass: 691.2871723520001
 Comment: Major_ms1intensity+506378.0_ei_0.9
+Formula: C34H46ClN3O10
 Num Peaks: 10
 168.0658217509006 93.0
 400.12050575543793 93.0
@@ -34621,6 +35040,7 @@ Spectrum_type: MS2
 Precursor_mz: 161.10590870771756
 Exactmass: 160.100048384
 Comment: Major_ms1intensity+1916360.0_ei_0.93
+Formula: C10H12N2
 Num Peaks: 25
 53.0386194304298 258.0
 65.03724407409943 806.0
@@ -34656,6 +35076,7 @@ Spectrum_type: MS2
 Precursor_mz: 161.10473007052926
 Exactmass: 160.100048384
 Comment: isomer_ms1intensity+4028.0_ei_0.86
+Formula: C10H12N2
 Num Peaks: 9
 80.04740966006518 757.0
 82.06510341058265 123.0
@@ -34675,6 +35096,7 @@ Spectrum_type: MS2
 Precursor_mz: 356.18485092785494
 Exactmass: 355.17835828000005
 Comment: Major_ms1intensity+5031314.0_ei_0.95
+Formula: C21H25NO4
 Num Peaks: 49
 44.04904350382973 455.0
 165.07005260766573 193.0
@@ -34734,6 +35156,7 @@ Spectrum_type: MS2
 Precursor_mz: 322.10735974932766
 Exactmass: 322.1073844120899
 Comment: Major_ms1intensity+552684.0_ei_0.98
+Formula: C19H16NO4+
 Num Peaks: 42
 167.07041174382903 182.0
 190.05866284389109 179.0
@@ -34786,6 +35209,7 @@ Spectrum_type: MS2
 Precursor_mz: 506.2189634734301
 Exactmass: 505.210052332
 Comment: Major_ms1intensity+6125670.0_ei_0.99
+Formula: C29H31NO7
 Num Peaks: 179
 42.03385391115176 173.0
 44.049088355083164 317.0
@@ -34975,6 +35399,7 @@ Spectrum_type: MS2
 Precursor_mz: 528.2003046110569
 Exactmass: 505.210052332
 Comment: Major_ms1intensity+214722.0_ei_0.95
+Formula: C29H31NO7
 Num Peaks: 20
 176.0413973409135 197.0
 181.05362989975418 92.0
@@ -35005,6 +35430,7 @@ Spectrum_type: MS2
 Precursor_mz: 557.3066172710271
 Exactmass: 556.297093508
 Comment: Major_ms1intensity+3646785.0_ei_0.97
+Formula: C31H44N2O5S
 Num Peaks: 73
 41.03700267198658 442.0
 42.032754189877 253.0
@@ -35088,6 +35514,7 @@ Spectrum_type: MS2
 Precursor_mz: 579.2841610406754
 Exactmass: 556.297093508
 Comment: Major_ms1intensity+8458.0_ei_0.8
+Formula: C31H44N2O5S
 Num Peaks: 7
 100.11057463282495 62.0
 142.16605691448584 92.0
@@ -35105,6 +35532,7 @@ Spectrum_type: MS2
 Precursor_mz: 424.27035243712976
 Exactmass: 423.26208790399994
 Comment: Major_ms1intensity+9282447.0_ei_0.97
+Formula: C23H37NO6
 Num Peaks: 247
 41.03799330794083 634.0
 42.0328480568582 540.0
@@ -35362,6 +35790,7 @@ Spectrum_type: MS2
 Precursor_mz: 446.2463949553329
 Exactmass: 423.26208790399994
 Comment: Major_ms1intensity+13572.0_ei_0.94
+Formula: C23H37NO6
 Num Peaks: 4
 77.03902237464975 46.0
 91.05401856028666 62.0
@@ -35376,6 +35805,7 @@ Spectrum_type: MS2
 Precursor_mz: 242.11775858118875
 Exactmass: 241.11027872
 Comment: Major_ms1intensity+7331126.0_ei_0.98
+Formula: C15H15NO2
 Num Peaks: 134
 41.03981193012256 17481.0
 42.03286916279856 633.0
@@ -35520,6 +35950,7 @@ Spectrum_type: MS2
 Precursor_mz: 264.0987549331932
 Exactmass: 241.11027872
 Comment: Major_ms1intensity+153362.0_ei_0.76
+Formula: C15H15NO2
 Num Peaks: 2
 201.0389111144224 62.0
 264.10196360457985 92.0
@@ -35532,6 +35963,7 @@ Spectrum_type: MS2
 Precursor_mz: 190.1075231093815
 Exactmass: 189.10010796
 Comment: Major_ms1intensity+688850.0_ei_0.95
+Formula: C8H15NO4
 Num Peaks: 50
 41.038000630119825 2914.0
 42.032855556543566 1841.0
@@ -35592,6 +36024,7 @@ Spectrum_type: MS2
 Precursor_mz: 370.0838024181338
 Exactmass: 369.0758823480001
 Comment: Major_ms1intensity+2011813.0_ei_0.99
+Formula: C16H14F3N3O2S
 Num Peaks: 62
 65.03620898271518 837.0
 66.04506891042034 663.0
@@ -35664,6 +36097,7 @@ Spectrum_type: MS2
 Precursor_mz: 392.06517271218337
 Exactmass: 369.0758823480001
 Comment: Major_ms1intensity+148598.0_ei_0.87
+Formula: C16H14F3N3O2S
 Num Peaks: 6
 149.02218815573133 123.0
 187.9995496339792 2470.0
@@ -35680,6 +36114,7 @@ Spectrum_type: MS2
 Precursor_mz: 222.1125440868136
 Exactmass: 221.10519334
 Comment: Major_ms1intensity+1770911.0_ei_0.97
+Formula: C12H15NO3
 Num Peaks: 65
 42.033751301984466 3395.0
 44.049911980119305 139248.0
@@ -35755,6 +36190,7 @@ Spectrum_type: MS2
 Precursor_mz: 286.14422167835846
 Exactmass: 285.136493468
 Comment: Major_ms1intensity+4714492.0_ei_0.99
+Formula: C17H19NO3
 Num Peaks: 62
 41.039666177055665 16515.0
 51.0231318240248 645.0
@@ -35827,6 +36263,7 @@ Spectrum_type: MS2
 Precursor_mz: 308.126652496626
 Exactmass: 285.136493468
 Comment: Major_ms1intensity+154660.0_ei_0.7
+Formula: C17H19NO3
 Num Peaks: 1
 308.1307649744974 355.0
 
@@ -35838,6 +36275,7 @@ Spectrum_type: MS2
 Precursor_mz: 296.1653207200031
 Exactmass: 295.15722891200005
 Comment: Major_ms1intensity+2146818.0_ei_0.99
+Formula: C19H21NO2
 Num Peaks: 69
 44.04903017915083 4721.0
 55.01911401150068 336.0
@@ -35917,6 +36355,7 @@ Spectrum_type: MS2
 Precursor_mz: 334.1060289595471
 Exactmass: 334.1073844120899
 Comment: Major_ms1intensity+4570.0_ei_0.7
+Formula: C20H16NO4+
 Num Peaks: 6
 262.10073120276655 46.0
 263.09223982563697 46.0
@@ -35933,6 +36372,7 @@ Spectrum_type: MS2
 Precursor_mz: 274.1435773908225
 Exactmass: 273.136493468
 Comment: Major_ms1intensity+558881.0_ei_0.96
+Formula: C16H19NO3
 Num Peaks: 78
 41.037767185359506 108.0
 43.016372689648534 342.0
@@ -36021,6 +36461,7 @@ Spectrum_type: MS2
 Precursor_mz: 314.1399262986056
 Exactmass: 313.131408088
 Comment: Major_ms1intensity+1296987.0_ei_0.97
+Formula: C18H19NO4
 Num Peaks: 23
 51.02200530301206 92.0
 63.023551446709774 239.0
@@ -36054,6 +36495,7 @@ Spectrum_type: MS2
 Precursor_mz: 314.1383010140086
 Exactmass: 313.131408088
 Comment: isomer_ms1intensity+41081.0_ei_0.93
+Formula: C18H19NO4
 Num Peaks: 14
 77.03885479880334 399.0
 79.0546891433052 675.0
@@ -36078,6 +36520,7 @@ Spectrum_type: MS2
 Precursor_mz: 336.12091777371785
 Exactmass: 313.131408088
 Comment: Major_ms1intensity+106588.0_ei_0.89
+Formula: C18H19NO4
 Num Peaks: 4
 97.05623175270725 31.0
 173.08680963375937 31.0
@@ -36092,6 +36535,7 @@ Spectrum_type: MS2
 Precursor_mz: 244.1704833869064
 Exactmass: 243.162314292
 Comment: Major_ms1intensity+18019875.0_ei_0.99
+Formula: C16H21NO
 Num Peaks: 84
 40.01752118812751 803.0
 41.03955026965146 2763.0
@@ -36186,6 +36630,7 @@ Spectrum_type: MS2
 Precursor_mz: 282.1490822176063
 Exactmass: 281.14157884800005
 Comment: Major_ms1intensity+2994181.0_ei_0.99
+Formula: C18H19NO2
 Num Peaks: 61
 41.03692042892541 181.0
 43.01550703457684 369.0
@@ -36257,6 +36702,7 @@ Spectrum_type: MS2
 Precursor_mz: 182.0807016418676
 Exactmass: 181.073893212
 Comment: Major_ms1intensity+1815233.0_ei_0.98
+Formula: C9H11NO3
 Num Peaks: 42
 41.03775554501265 1802.0
 42.033517143443035 483.0
@@ -36309,6 +36755,7 @@ Spectrum_type: MS2
 Precursor_mz: 182.0807016418676
 Exactmass: 181.073893212
 Comment: isomer_ms1intensity+1262164.0_ei_0.99
+Formula: C9H11NO3
 Num Peaks: 51
 41.03775554501265 2355.0
 42.034426984722145 1234.0
@@ -36370,6 +36817,7 @@ Spectrum_type: MS2
 Precursor_mz: 325.189921746477
 Exactmass: 324.183778008
 Comment: Major_ms1intensity+1071045.0_ei_0.96
+Formula: C20H24N2O2
 Num Peaks: 167
 41.03958179921515 380.0
 43.054135285925064 188.0
@@ -36547,6 +36995,7 @@ Spectrum_type: MS2
 Precursor_mz: 340.26314831490845
 Exactmass: 339.25621467600007
 Comment: Major_ms1intensity+19857.0_ei_0.92
+Formula: C23H33NO
 Num Peaks: 19
 104.04649350702864 25.0
 130.0649709602773 47.0
@@ -36576,6 +37025,7 @@ Spectrum_type: MS2
 Precursor_mz: 340.2640629556559
 Exactmass: 339.25621467600007
 Comment: Minor_ms1intensity+1922.0_ei_0.7
+Formula: C23H33NO
 Num Peaks: 5
 158.06153640070792 19.0
 173.08338882574984 53.0
@@ -36591,6 +37041,7 @@ Spectrum_type: MS2
 Precursor_mz: 344.1505021307279
 Exactmass: 343.141972772
 Comment: Major_ms1intensity+964303.0_ei_0.97
+Formula: C19H21NO5
 Num Peaks: 48
 51.02425789891396 434.0
 55.01695397241608 231.0
@@ -36649,6 +37100,7 @@ Spectrum_type: MS2
 Precursor_mz: 344.1480842335545
 Exactmass: 343.141972772
 Comment: isomer_ms1intensity+11554.0_ei_0.84
+Formula: C19H21NO5
 Num Peaks: 11
 77.03908945144475 123.0
 91.0527866806703 653.0
@@ -36670,6 +37122,7 @@ Spectrum_type: MS2
 Precursor_mz: 242.08130298891749
 Exactmass: 241.073893212
 Comment: Major_ms1intensity+330614.0_ei_0.97
+Formula: C14H11NO3
 Num Peaks: 25
 59.014391948732786 440.0
 77.03655598228994 782.0
@@ -36705,6 +37158,7 @@ Spectrum_type: MS2
 Precursor_mz: 264.0607561963665
 Exactmass: 241.073893212
 Comment: Major_ms1intensity+2808.0_ei_0.69
+Formula: C14H11NO3
 Num Peaks: 1
 191.00178695289495 154.0
 
@@ -36716,6 +37170,7 @@ Spectrum_type: MS2
 Precursor_mz: 259.1050867424159
 Exactmass: 241.073893212
 Comment: Major_ms1intensity+4649.0_ei_0.81
+Formula: C14H11NO3
 Num Peaks: 7
 46.06466470566402 93.0
 127.05311693309059 154.0
@@ -36733,6 +37188,7 @@ Spectrum_type: MS2
 Precursor_mz: 330.1697970348454
 Exactmass: 329.16270821600006
 Comment: Major_ms1intensity+3271795.0_ei_0.98
+Formula: C19H23NO4
 Num Peaks: 139
 42.03460431148912 816.0
 43.018382654910155 6867.0
@@ -36882,6 +37338,7 @@ Spectrum_type: MS2
 Precursor_mz: 352.14905676104047
 Exactmass: 329.16270821600006
 Comment: Major_ms1intensity+43715.0_ei_0.92
+Formula: C19H23NO4
 Num Peaks: 11
 58.06413520682922 321.0
 132.08144305176344 685.0
@@ -36903,6 +37360,7 @@ Spectrum_type: MS2
 Precursor_mz: 372.1821018139913
 Exactmass: 371.1732729
 Comment: Major_ms1intensity+5745768.0_ei_0.99
+Formula: C21H25NO5
 Num Peaks: 235
 41.037952586943945 490.0
 42.033718809022744 5209.0
@@ -37148,6 +37606,7 @@ Spectrum_type: MS2
 Precursor_mz: 394.16233654149823
 Exactmass: 371.1732729
 Comment: Major_ms1intensity+88645.0_ei_0.9
+Formula: C21H25NO5
 Num Peaks: 3
 362.138415962025 93.0
 379.15021289009564 62.0
@@ -37161,6 +37620,7 @@ Spectrum_type: MS2
 Precursor_mz: 226.12269004636937
 Exactmass: 225.1153641
 Comment: Major_ms1intensity+4854044.0_ei_0.99
+Formula: C15H15NO
 Num Peaks: 27
 44.013538359778615 2196.0
 49.00958906035435 93.0
@@ -37198,6 +37658,7 @@ Spectrum_type: MS2
 Precursor_mz: 118.0843565560588
 Exactmass: 117.078978592
 Comment: Minor_ms1intensity+2691.0_ei_0.7
+Formula: C5H11NO2
 Num Peaks: 6
 42.033556441082744 154.0
 43.0403346088263 93.0
@@ -37214,6 +37675,7 @@ Spectrum_type: MS2
 Precursor_mz: 330.1322045821021
 Exactmass: 329.126322708
 Comment: Major_ms1intensity+11801.0_ei_0.96
+Formula: C18H19NO5
 Num Peaks: 14
 77.03775096870979 387.0
 78.04240742323283 242.0
@@ -37238,6 +37700,7 @@ Spectrum_type: MS2
 Precursor_mz: 219.11242918666449
 Exactmass: 218.105527688
 Comment: Major_ms1intensity+1077158.0_ei_0.97
+Formula: C12H14N2O2
 Num Peaks: 67
 42.03360886861187 911.0
 43.054199447513234 92.0
@@ -37315,6 +37778,7 @@ Spectrum_type: MS2
 Precursor_mz: 241.09323511811328
 Exactmass: 218.105527688
 Comment: Major_ms1intensity+93966.0_ei_0.73
+Formula: C12H14N2O2
 Num Peaks: 5
 118.05304123046798 31.0
 129.05056905568688 62.0
@@ -37330,6 +37794,7 @@ Spectrum_type: MS2
 Precursor_mz: 254.07991486113693
 Exactmass: 253.073893212
 Comment: Major_ms1intensity+2106.0_ei_0.74
+Formula: C15H11NO3
 Num Peaks: 2
 180.09117995672216 93.0
 254.08621768242617 93.0
@@ -37342,6 +37807,7 @@ Spectrum_type: MS2
 Precursor_mz: 146.05842555325705
 Exactmass: 123.068413908
 Comment: Major_ms1intensity+26872.0_ei_0.87
+Formula: C7H9NO
 Num Peaks: 5
 65.03696737862589 93.0
 89.03760235822281 93.0
@@ -37357,6 +37823,7 @@ Spectrum_type: MS2
 Precursor_mz: 328.0436320669164
 Exactmass: 327.037901628
 Comment: Major_ms1intensity+21100.0_ei_0.9
+Formula: C16H9NO7
 Num Peaks: 29
 68.99780189936563 154.0
 127.05441562820303 247.0
@@ -37396,6 +37863,7 @@ Spectrum_type: MS2
 Precursor_mz: 345.0711559621984
 Exactmass: 327.037901628
 Comment: Major_ms1intensity+54134.0_ei_0.93
+Formula: C16H9NO7
 Num Peaks: 34
 127.05599746780423 262.0
 129.03461953144475 287.0
@@ -37440,6 +37908,7 @@ Spectrum_type: MS2
 Precursor_mz: 205.096399295944
 Exactmass: 204.089877624
 Comment: Major_ms1intensity+229720.0_ei_0.97
+Formula: C11H12N2O2
 Num Peaks: 33
 46.02731468167741 92.0
 65.0392185513599 753.0
@@ -37483,6 +37952,7 @@ Spectrum_type: MS2
 Precursor_mz: 144.06412983910874
 Exactmass: 143.058243148
 Comment: Major_ms1intensity+170550.0_ei_0.97
+Formula: C6H9NO3
 Num Peaks: 11
 41.03775038111507 4705.0
 42.03169366267933 46.0
@@ -37504,6 +37974,7 @@ Spectrum_type: MS2
 Precursor_mz: 367.1286156589471
 Exactmass: 366.121571676
 Comment: Major_ms1intensity+4128.0_ei_0.86
+Formula: C20H18N2O5
 Num Peaks: 3
 219.09204220254867 93.0
 259.08567222127766 93.0
@@ -37517,6 +37988,7 @@ Spectrum_type: MS2
 Precursor_mz: 310.1805444023716
 Exactmass: 309.172878976
 Comment: Major_ms1intensity+4879589.0_ei_0.99
+Formula: C20H23NO2
 Num Peaks: 78
 42.03259439385749 2532.0
 43.040282763103235 987.0
@@ -37605,6 +38077,7 @@ Spectrum_type: MS2
 Precursor_mz: 310.179061545364
 Exactmass: 309.172878976
 Comment: isomer_ms1intensity+4912.0_ei_0.87
+Formula: C20H23NO2
 Num Peaks: 20
 58.06495545909051 102.0
 178.08530525683446 41.0
@@ -37635,6 +38108,7 @@ Spectrum_type: MS2
 Precursor_mz: 202.1225607474468
 Exactmass: 201.1153641
 Comment: Major_ms1intensity+10644202.0_ei_0.99
+Formula: C13H15NO
 Num Peaks: 71
 41.038690694239385 2546.0
 42.03446547519236 689.0
@@ -37716,6 +38190,7 @@ Spectrum_type: MS2
 Precursor_mz: 379.1303137231956
 Exactmass: 378.121571676
 Comment: Major_ms1intensity+2771575.0_ei_0.98
+Formula: C21H18N2O5
 Num Peaks: 89
 57.032372735288575 2279.0
 155.0624450090542 3176.0
@@ -37815,6 +38290,7 @@ Spectrum_type: MS2
 Precursor_mz: 320.0891362225879
 Exactmass: 320.0917343480899
 Comment: Major_ms1intensity+2579.0_ei_0.75
+Formula: C19H14NO4+
 Num Peaks: 10
 204.08012076308873 126.0
 234.09435214125497 40.0
@@ -37835,6 +38311,7 @@ Spectrum_type: MS2
 Precursor_mz: 124.07331558133002
 Exactmass: 123.068413908
 Comment: Major_ms1intensity+5782.0_ei_0.97
+Formula: C7H9NO
 Num Peaks: 13
 45.03395857307423 103.0
 49.006382923807614 62.0
@@ -37858,6 +38335,7 @@ Spectrum_type: MS2
 Precursor_mz: 124.07381326480788
 Exactmass: 123.068413908
 Comment: Minor_ms1intensity+4084.0_ei_0.97
+Formula: C7H9NO
 Num Peaks: 13
 45.03207691817121 163.0
 49.00540250723447 49.0
@@ -37881,6 +38359,7 @@ Spectrum_type: MS2
 Precursor_mz: 86.05849176503165
 Exactmass: 85.052763844
 Comment: Major_ms1intensity+28403.0_ei_0.97
+Formula: C4H7NO
 Num Peaks: 8
 41.037698064975146 1741.0
 42.033459298850794 987.0
@@ -37899,6 +38378,7 @@ Spectrum_type: MS2
 Precursor_mz: 486.2714889609572
 Exactmass: 485.26248182799986
 Comment: Major_ms1intensity+9235055.0_ei_0.97
+Formula: C24H39NO9
 Num Peaks: 332
 41.03685995758697 263.0
 43.018206960143175 226.0
@@ -38241,6 +38721,7 @@ Spectrum_type: MS2
 Precursor_mz: 508.2495117794987
 Exactmass: 485.26248182799986
 Comment: Major_ms1intensity+14129.0_ei_0.76
+Formula: C24H39NO9
 Num Peaks: 4
 426.21698709909504 31.0
 430.2187043055405 31.0
@@ -38255,6 +38736,7 @@ Spectrum_type: MS2
 Precursor_mz: 126.12752349010997
 Exactmass: 125.12044948
 Comment: Major_ms1intensity+1373160.0_ei_0.94
+Formula: C8H15N
 Num Peaks: 22
 41.038674558384734 6693.0
 43.054128748654826 1084.0
@@ -38287,6 +38769,7 @@ Spectrum_type: MS2
 Precursor_mz: 133.05864639630911
 Exactmass: 132.053492116
 Comment: Major_ms1intensity+3339.0_ei_0.86
+Formula: C4H8N2O3
 Num Peaks: 8
 42.03343671512125 62.0
 43.01812002559916 277.0
@@ -38305,6 +38788,7 @@ Spectrum_type: MS2
 Precursor_mz: 306.17095046044443
 Exactmass: 305.162708216
 Comment: Major_ms1intensity+3601030.0_ei_0.98
+Formula: C17H23NO4
 Num Peaks: 49
 41.038638015552344 869.0
 42.03441108455403 3739.0
@@ -38364,6 +38848,7 @@ Spectrum_type: MS2
 Precursor_mz: 162.0541441161692
 Exactmass: 161.047678464
 Comment: Major_ms1intensity+1266416.0_ei_0.98
+Formula: C9H7NO2
 Num Peaks: 50
 50.01367505786324 360.0
 51.02207861595621 2100.0
@@ -38424,6 +38909,7 @@ Spectrum_type: MS2
 Precursor_mz: 277.15511199887453
 Exactmass: 276.1473925
 Comment: Major_ms1intensity+897929.0_ei_0.97
+Formula: C15H20N2O3
 Num Peaks: 56
 41.0368260304429 839.0
 42.03257707690207 196.0
@@ -38490,6 +38976,7 @@ Spectrum_type: MS2
 Precursor_mz: 187.0858083420291
 Exactmass: 186.07931294
 Comment: Major_ms1intensity+922582.0_ei_0.98
+Formula: C11H10N2O
 Num Peaks: 49
 42.03528953413116 154.0
 51.02197199970425 496.0
@@ -38549,6 +39036,7 @@ Spectrum_type: MS2
 Precursor_mz: 153.13764825338677
 Exactmass: 152.131348512
 Comment: Major_ms1intensity+3885621.0_ei_0.98
+Formula: C9H16N2
 Num Peaks: 51
 41.0385689942468 21076.0
 42.03343067591794 12470.0
@@ -38610,6 +39098,7 @@ Spectrum_type: MS2
 Precursor_mz: 372.1802479811154
 Exactmass: 371.1732729
 Comment: Major_ms1intensity+11867941.0_ei_0.98
+Formula: C21H25NO5
 Num Peaks: 177
 45.03486513645864 210.0
 51.02092125128362 287.0
@@ -38797,6 +39286,7 @@ Spectrum_type: MS2
 Precursor_mz: 394.1614588700867
 Exactmass: 371.1732729
 Comment: Major_ms1intensity+17298.0_ei_0.91
+Formula: C21H25NO5
 Num Peaks: 3
 230.07705311803556 280.0
 354.169148812661 93.0
@@ -38810,6 +39300,7 @@ Spectrum_type: MS2
 Precursor_mz: 354.1679089179136
 Exactmass: 353.16270821600006
 Comment: Major_ms1intensity+42827.0_ei_0.9
+Formula: C21H23NO4
 Num Peaks: 16
 150.0632746388688 232.0
 190.08272675111303 377.0
@@ -38836,6 +39327,7 @@ Spectrum_type: MS2
 Precursor_mz: 618.32866761898
 Exactmass: 617.3199967039999
 Comment: Major_ms1intensity+12446313.0_ei_0.97
+Formula: C33H47NO10
 Num Peaks: 387
 42.03343147929893 149.0
 43.01535354382706 144.0
@@ -39233,6 +39725,7 @@ Spectrum_type: MS2
 Precursor_mz: 640.3108694596438
 Exactmass: 617.3199967039999
 Comment: Major_ms1intensity+7130.0_ei_0.82
+Formula: C33H47NO10
 Num Peaks: 6
 141.0902384556157 31.0
 384.2120698973673 41.0
@@ -39249,6 +39742,7 @@ Spectrum_type: MS2
 Precursor_mz: 203.08129873813
 Exactmass: 202.07422756
 Comment: Major_ms1intensity+2146211.0_ei_0.98
+Formula: C11H10N2O2
 Num Peaks: 68
 41.03768126940679 385.0
 50.01651497149366 349.0
@@ -39327,6 +39821,7 @@ Spectrum_type: MS2
 Precursor_mz: 300.1188355439588
 Exactmass: 299.115758024
 Comment: Major_ms1intensity+16008.0_ei_0.88
+Formula: C17H17NO4
 Num Peaks: 14
 94.04410774632568 92.0
 96.05392145339455 93.0
@@ -39351,6 +39846,7 @@ Spectrum_type: MS2
 Precursor_mz: 182.0951868840013
 Exactmass: 181.089149352
 Comment: Major_ms1intensity+42049.0_ei_0.95
+Formula: C13H11N
 Num Peaks: 23
 89.03644094371958 70.0
 90.04833252142939 19.0
@@ -39384,6 +39880,7 @@ Spectrum_type: MS2
 Precursor_mz: 250.9917362584697
 Exactmass: 228.002719496
 Comment: Major_ms1intensity+130942.0_ei_0.73
+Formula: C8H8N2O2S2
 Num Peaks: 4
 81.04856041263962 31.0
 86.00252614203046 62.0
@@ -39398,6 +39895,7 @@ Spectrum_type: MS2
 Precursor_mz: 548.2155291111561
 Exactmass: 547.205360876
 Comment: Major_ms1intensity+1518010.0_ei_0.97
+Formula: C27H33NO11
 Num Peaks: 72
 165.0734377777814 210.0
 167.07362097066652 245.0
@@ -39480,6 +39978,7 @@ Spectrum_type: MS2
 Precursor_mz: 570.1931872954088
 Exactmass: 547.205360876
 Comment: Major_ms1intensity+60464.0_ei_0.93
+Formula: C27H33NO11
 Num Peaks: 9
 347.11232687656593 154.0
 365.13788310596755 169.0
@@ -39499,6 +39998,7 @@ Spectrum_type: MS2
 Precursor_mz: 217.1337565266064
 Exactmass: 216.126263132
 Comment: Major_ms1intensity+1616214.0_ei_0.99
+Formula: C13H16N2O
 Num Peaks: 71
 42.032711452298095 1004.0
 45.03412933200598 92.0
@@ -39580,6 +40080,7 @@ Spectrum_type: MS2
 Precursor_mz: 306.17004567604965
 Exactmass: 305.162708216
 Comment: Major_ms1intensity+2777561.0_ei_0.98
+Formula: C17H23NO4
 Num Peaks: 48
 41.03869278989711 232.0
 42.034467654876735 3349.0
@@ -39638,6 +40139,7 @@ Spectrum_type: MS2
 Precursor_mz: 306.17141816500845
 Exactmass: 305.162708216
 Comment: isomer_ms1intensity+249121.0_ei_0.96
+Formula: C17H23NO4
 Num Peaks: 43
 41.0395550043088 110.0
 42.03442996541293 452.0
@@ -39691,6 +40193,7 @@ Spectrum_type: MS2
 Precursor_mz: 227.0815651996064
 Exactmass: 226.07422756
 Comment: Major_ms1intensity+4332023.0_ei_0.99
+Formula: C13H10N2O2
 Num Peaks: 39
 63.023730089250954 931.0
 65.03937732190099 621.0
@@ -39740,6 +40243,7 @@ Spectrum_type: MS2
 Precursor_mz: 277.1699159798194
 Exactmass: 277.16992509209
 Comment: Major_ms1intensity+12574349.0_ei_0.97
+Formula: C19H21N2+
 Num Peaks: 84
 41.03782314325577 4370.0
 42.033587879017674 437.0
@@ -39834,6 +40338,7 @@ Spectrum_type: MS2
 Precursor_mz: 325.19064532445907
 Exactmass: 324.183778008
 Comment: Major_ms1intensity+1507909.0_ei_0.96
+Formula: C20H24N2O2
 Num Peaks: 145
 41.03699428009008 775.0
 42.03365971187674 501.0
@@ -39989,6 +40494,7 @@ Spectrum_type: MS2
 Precursor_mz: 225.11127520498832
 Exactmass: 224.106196384
 Comment: Major_ms1intensity+5498.0_ei_0.85
+Formula: C13H12N4
 Num Peaks: 11
 114.04277520562846 46.0
 130.0620353426126 77.0
@@ -40010,6 +40516,7 @@ Spectrum_type: MS2
 Precursor_mz: 205.0960827215188
 Exactmass: 204.089877624
 Comment: Major_ms1intensity+2537670.0_ei_0.95
+Formula: C11H12N2O2
 Num Peaks: 57
 41.03875334274657 7476.0
 42.0336202245689 847.0
@@ -40077,6 +40584,7 @@ Spectrum_type: MS2
 Precursor_mz: 526.2559100063397
 Exactmass: 525.24750046
 Comment: Major_ms1intensity+3680815.0_ei_0.97
+Formula: C28H35N3O7
 Num Peaks: 194
 41.03876550378296 960.0
 43.05422591087557 291.0
@@ -40281,6 +40789,7 @@ Spectrum_type: MS2
 Precursor_mz: 548.238136114567
 Exactmass: 525.24750046
 Comment: Major_ms1intensity+677967.0_ei_0.95
+Formula: C28H35N3O7
 Num Peaks: 17
 192.023423004436 191.0
 227.04656264152268 92.0
@@ -40308,6 +40817,7 @@ Spectrum_type: MS2
 Precursor_mz: 543.2828567750171
 Exactmass: 525.24750046
 Comment: Major_ms1intensity+203031.0_ei_0.96
+Formula: C28H35N3O7
 Num Peaks: 140
 55.054358123545384 381.0
 67.053481169673 1839.0
@@ -40458,6 +40968,7 @@ Spectrum_type: MS2
 Precursor_mz: 260.16507648058507
 Exactmass: 259.157228912
 Comment: Major_ms1intensity+2247410.0_ei_0.99
+Formula: C16H21NO2
 Num Peaks: 56
 41.037861135611166 590.0
 42.032717350507944 567.0
@@ -40524,6 +41035,7 @@ Spectrum_type: MS2
 Precursor_mz: 282.14290576462514
 Exactmass: 259.157228912
 Comment: Major_ms1intensity+8119.0_ei_0.77
+Formula: C16H21NO2
 Num Peaks: 2
 134.09878491776993 31.0
 282.2192620241454 31.0
@@ -40536,6 +41048,7 @@ Spectrum_type: MS2
 Precursor_mz: 201.10140316755604
 Exactmass: 200.094963004
 Comment: Major_ms1intensity+1903126.0_ei_0.97
+Formula: C12H12N2O
 Num Peaks: 74
 41.03786456113894 361.0
 42.034540540097865 19055.0
@@ -40620,6 +41133,7 @@ Spectrum_type: MS2
 Precursor_mz: 587.2873435483715
 Exactmass: 586.279134936
 Comment: Major_ms1intensity+3360229.0_ei_0.92
+Formula: C33H38N4O6
 Num Peaks: 21
 67.05358316573812 79.0
 84.08100477875328 229.0
@@ -40651,6 +41165,7 @@ Spectrum_type: MS2
 Precursor_mz: 348.12391597790884
 Exactmass: 348.1230344760899
 Comment: Major_ms1intensity+1296647.0_ei_0.96
+Formula: C21H18NO4+
 Num Peaks: 47
 178.0672093123788 93.0
 191.07744626423622 93.0
@@ -40708,6 +41223,7 @@ Spectrum_type: MS2
 Precursor_mz: 348.12175686502934
 Exactmass: 348.1230344760899
 Comment: isomer_ms1intensity+16040.0_ei_0.88
+Formula: C21H18NO4+
 Num Peaks: 12
 232.0813278820019 123.0
 274.08829175303805 154.0
@@ -40730,6 +41246,7 @@ Spectrum_type: MS2
 Precursor_mz: 422.1713379028904
 Exactmass: 421.163770836
 Comment: Major_ms1intensity+1340482.0_ei_0.87
+Formula: C23H23N3O5
 Num Peaks: 7
 46.06459334174129 100.0
 248.08752036837737 46.0
@@ -40747,6 +41264,7 @@ Spectrum_type: MS2
 Precursor_mz: 199.0863977837108
 Exactmass: 198.07931294
 Comment: Major_ms1intensity+2570452.0_ei_0.99
+Formula: C12H10N2O
 Num Peaks: 77
 50.01470678348292 367.0
 51.02211946045184 4576.0
@@ -40834,6 +41352,7 @@ Spectrum_type: MS2
 Precursor_mz: 233.2010757058517
 Exactmass: 232.193948768
 Comment: Major_ms1intensity+2115.0_ei_0.74
+Formula: C15H24N2
 Num Peaks: 3
 42.03444946034059 93.0
 77.03882822189853 154.0
@@ -40847,6 +41366,7 @@ Spectrum_type: MS2
 Precursor_mz: 338.1400174428162
 Exactmass: 338.13868454009
 Comment: Major_ms1intensity+5339012.0_ei_0.99
+Formula: C20H20NO4+
 Num Peaks: 69
 165.07031633570494 154.0
 178.06567621632013 295.0
@@ -40926,6 +41446,7 @@ Spectrum_type: MS2
 Precursor_mz: 338.1365166529776
 Exactmass: 338.13868454009
 Comment: isomer_ms1intensity+1990.0_ei_0.94
+Formula: C20H20NO4+
 Num Peaks: 12
 265.07680435739144 93.0
 278.0847121035635 62.0
@@ -40948,6 +41469,7 @@ Spectrum_type: MS2
 Precursor_mz: 430.3318832536296
 Exactmass: 429.324294236
 Comment: Major_ms1intensity+9983231.0_ei_0.98
+Formula: C27H43NO3
 Num Peaks: 60
 41.03880403401357 119.0
 42.032762816820124 134.0
@@ -41018,6 +41540,7 @@ Spectrum_type: MS2
 Precursor_mz: 302.1297241526886
 Exactmass: 302.12878855209
 Comment: Major_ms1intensity+3505019.0_ei_0.99
+Formula: C19H16N3O+
 Num Peaks: 123
 51.02022209083366 115.0
 65.03610967851561 153.0
@@ -41151,6 +41674,7 @@ Spectrum_type: MS2
 Precursor_mz: 399.1308471111889
 Exactmass: 376.1423071199999
 Comment: Major_ms1intensity+18483.0_ei_0.94
+Formula: C22H20N2O4
 Num Peaks: 2
 355.14324116721417 31.0
 399.0964575726021 31.0
@@ -41163,6 +41687,7 @@ Spectrum_type: MS2
 Precursor_mz: 320.09273804842
 Exactmass: 320.0917343480899
 Comment: Major_ms1intensity+4458558.0_ei_0.99
+Formula: C19H14NO4+
 Num Peaks: 102
 91.05011775427762 277.0
 115.05370554595605 369.0
@@ -41275,6 +41800,7 @@ Spectrum_type: MS2
 Precursor_mz: 320.0910647790085
 Exactmass: 320.0917343480899
 Comment: isomer_ms1intensity+6164.0_ei_0.85
+Formula: C19H14NO4+
 Num Peaks: 9
 234.1015320255068 154.0
 249.07839582854123 312.0
@@ -41294,6 +41820,7 @@ Spectrum_type: MS2
 Precursor_mz: 519.1512306068857
 Exactmass: 518.142404436
 Comment: Major_ms1intensity+623531.0_ei_0.98
+Formula: C27H23FN4O4S
 Num Peaks: 32
 129.0555730253791 182.0
 159.06920264407384 213.0
@@ -41336,6 +41863,7 @@ Spectrum_type: MS2
 Precursor_mz: 541.1319364619916
 Exactmass: 518.142404436
 Comment: Major_ms1intensity+76580.0_ei_0.9
+Formula: C27H23FN4O4S
 Num Peaks: 9
 363.02599856263197 31.0
 364.10971255770926 1985.0
@@ -41355,6 +41883,7 @@ Spectrum_type: MS2
 Precursor_mz: 136.06037062908644
 Exactmass: 135.05449516
 Comment: Major_ms1intensity+935407.0_ei_0.97
+Formula: C5H5N5
 Num Peaks: 16
 40.01846960136467 2868.0
 43.028395885746185 728.0
@@ -41381,6 +41910,7 @@ Spectrum_type: MS2
 Precursor_mz: 298.1445045013486
 Exactmass: 297.136493468
 Comment: Major_ms1intensity+208415.0_ei_0.99
+Formula: C18H19NO3
 Num Peaks: 34
 51.023138691784574 486.0
 77.03769921455324 14000.0
@@ -41425,6 +41955,7 @@ Spectrum_type: MS2
 Precursor_mz: 320.1246231138037
 Exactmass: 297.136493468
 Comment: Major_ms1intensity+248261.0_ei_0.82
+Formula: C18H19NO3
 Num Peaks: 17
 204.07888416401966 316.0
 219.06334681596442 92.0
@@ -41452,6 +41983,7 @@ Spectrum_type: MS2
 Precursor_mz: 325.1907440318402
 Exactmass: 324.183778008
 Comment: Major_ms1intensity+2840.0_ei_0.83
+Formula: C20H24N2O2
 Num Peaks: 2
 160.07425325442247 46.0
 325.19381226018453 77.0
@@ -41464,6 +41996,7 @@ Spectrum_type: MS2
 Precursor_mz: 274.1444330490918
 Exactmass: 273.136493468
 Comment: Major_ms1intensity+4382351.0_ei_0.99
+Formula: C16H19NO3
 Num Peaks: 68
 41.039696296822655 11380.0
 44.012585947468764 204.0
@@ -41542,6 +42075,7 @@ Spectrum_type: MS2
 Precursor_mz: 274.1439134767564
 Exactmass: 273.136493468
 Comment: Minor_ms1intensity+2283717.0_ei_0.98
+Formula: C16H19NO3
 Num Peaks: 46
 41.03885234433526 4923.0
 50.01487825268806 201.0
@@ -41598,6 +42132,7 @@ Spectrum_type: MS2
 Precursor_mz: 274.1441025619429
 Exactmass: 273.136493468
 Comment: isomer_ms1intensity+529468.0_ei_0.97
+Formula: C16H19NO3
 Num Peaks: 37
 41.037850619796345 1519.0
 51.02216762499863 520.0
@@ -41645,6 +42180,7 @@ Spectrum_type: MS2
 Precursor_mz: 584.2757583988382
 Exactmass: 583.268235904
 Comment: Major_ms1intensity+694583.0_ei_0.97
+Formula: C34H37N3O6
 Num Peaks: 28
 72.08000493883617 767.0
 84.08356746178949 213.0
@@ -41683,6 +42219,7 @@ Spectrum_type: MS2
 Precursor_mz: 606.2591200624499
 Exactmass: 583.268235904
 Comment: Major_ms1intensity+140253.0_ei_0.91
+Formula: C34H37N3O6
 Num Peaks: 11
 119.05280247910028 154.0
 147.04537358800488 6706.0
@@ -41704,6 +42241,7 @@ Spectrum_type: MS2
 Precursor_mz: 180.13808859970237
 Exactmass: 180.13829061609
 Comment: Major_ms1intensity+787342.0_ei_0.99
+Formula: C11H18NO+
 Num Peaks: 28
 41.038724765802456 367.0
 43.01828079329617 94.0
@@ -41742,6 +42280,7 @@ Spectrum_type: MS2
 Precursor_mz: 348.0862513313
 Exactmass: 347.0793725159999
 Comment: Major_ms1intensity+49442.0_ei_0.93
+Formula: C20H13NO5
 Num Peaks: 24
 191.06991983421693 299.0
 203.0740786168286 92.0
@@ -41776,6 +42315,7 @@ Spectrum_type: MS2
 Precursor_mz: 405.1781274181959
 Exactmass: 382.1892573119999
 Comment: Major_ms1intensity+65172.0_ei_0.81
+Formula: C22H26N2O4
 Num Peaks: 5
 228.10533630041357 93.0
 238.14979359791252 342.0
@@ -41791,6 +42331,7 @@ Spectrum_type: MS2
 Precursor_mz: 430.2240221932251
 Exactmass: 429.21513771199994
 Comment: Major_ms1intensity+10558441.0_ei_0.99
+Formula: C24H31NO6
 Num Peaks: 243
 42.034483012279246 116.0
 43.018261527801975 396.0
@@ -42044,6 +42585,7 @@ Spectrum_type: MS2
 Precursor_mz: 251.1183627919804
 Exactmass: 250.110613068
 Comment: Major_ms1intensity+6884335.0_ei_0.99
+Formula: C16H14N2O
 Num Peaks: 127
 42.033623259826435 5434.0
 44.013471934694614 439.0
@@ -42181,6 +42723,7 @@ Spectrum_type: MS2
 Precursor_mz: 386.9877549244809
 Exactmass: 385.981417076
 Comment: Major_ms1intensity+11873.0_ei_0.82
+Formula: C16H13Cl3N2OS
 Num Peaks: 3
 94.98991784750521 93.0
 130.97442637460276 5394.0
@@ -42194,6 +42737,7 @@ Spectrum_type: MS2
 Precursor_mz: 366.1692647369112
 Exactmass: 366.16998466809
 Comment: Major_ms1intensity+10738.0_ei_0.97
+Formula: C22H24NO4+
 Num Peaks: 11
 292.10260342670557 215.0
 306.1179907231963 344.0
@@ -42215,6 +42759,7 @@ Spectrum_type: MS2
 Precursor_mz: 142.08574406861447
 Exactmass: 141.078978592
 Comment: Major_ms1intensity+760885.0_ei_0.98
+Formula: C7H11NO2
 Num Peaks: 11
 42.03274656165413 1127.0
 43.04136028932927 260.0
@@ -42236,6 +42781,7 @@ Spectrum_type: MS2
 Precursor_mz: 304.15576587224496
 Exactmass: 303.147058152
 Comment: Major_ms1intensity+1003411.0_ei_0.97
+Formula: C17H21NO4
 Num Peaks: 118
 42.033749154337094 550.0
 43.01752078210787 735.0
@@ -42364,6 +42910,7 @@ Spectrum_type: MS2
 Precursor_mz: 833.4133821887116
 Exactmass: 810.420379436
 Comment: Major_ms1intensity+21915.0_ei_0.92
+Formula: C46H58N4O9
 Num Peaks: 11
 224.12343320461264 154.0
 522.287160842163 154.0
@@ -42385,6 +42932,7 @@ Spectrum_type: MS2
 Precursor_mz: 233.12779814985328
 Exactmass: 232.121177752
 Comment: Major_ms1intensity+1259639.0_ei_0.97
+Formula: C13H16N2O2
 Num Peaks: 54
 42.03280943391667 617.0
 43.01749020035809 2967.0
@@ -42449,6 +42997,7 @@ Spectrum_type: MS2
 Precursor_mz: 470.27629158398713
 Exactmass: 469.267567208
 Comment: Major_ms1intensity+5670551.0_ei_0.98
+Formula: C24H39NO8
 Num Peaks: 311
 41.03789403334354 112.0
 42.033661488308454 1112.0
@@ -42770,6 +43319,7 @@ Spectrum_type: MS2
 Precursor_mz: 260.0909559470741
 Exactmass: 259.084457896
 Comment: Major_ms1intensity+6759585.0_ei_0.99
+Formula: C14H13NO4
 Num Peaks: 105
 51.021230284973285 757.0
 55.01590077512112 182.0
@@ -42885,6 +43435,7 @@ Spectrum_type: MS2
 Precursor_mz: 322.1075705403628
 Exactmass: 299.115758024
 Comment: Major_ms1intensity+148044.0_ei_0.93
+Formula: C17H17NO4
 Num Peaks: 100
 65.03734075626629 72.0
 77.03549426560936 84.0
@@ -42995,6 +43546,7 @@ Spectrum_type: MS2
 Precursor_mz: 365.1137906758974
 Exactmass: 364.105921612
 Comment: Major_ms1intensity+984112.0_ei_0.98
+Formula: C20H16N2O5
 Num Peaks: 94
 57.03162743429375 3137.0
 129.0576800322851 339.0
@@ -43099,6 +43651,7 @@ Spectrum_type: MS2
 Precursor_mz: 314.1757899052193
 Exactmass: 314.17507004809
 Comment: Major_ms1intensity+2144817.0_ei_0.98
+Formula: C19H24NO3+
 Num Peaks: 133
 42.033742964818 5112.0
 43.04144923941783 2008.0
@@ -43242,6 +43795,7 @@ Spectrum_type: MS2
 Precursor_mz: 307.1776420161829
 Exactmass: 307.18048977609004
 Comment: Major_ms1intensity+1953.0_ei_0.76
+Formula: C20H23N2O+
 Num Peaks: 5
 77.03919378548527 53.0
 78.04510293684606 25.0
@@ -43257,6 +43811,7 @@ Spectrum_type: MS2
 Precursor_mz: 336.121933118226
 Exactmass: 336.1230344760899
 Comment: Major_ms1intensity+4326.0_ei_0.88
+Formula: C20H18NO4+
 Num Peaks: 16
 248.0705351242016 51.0
 250.08600351647175 73.0
@@ -43283,6 +43838,7 @@ Spectrum_type: MS2
 Precursor_mz: 338.13766716281503
 Exactmass: 338.13868454009
 Comment: Major_ms1intensity+2722.0_ei_0.87
+Formula: C20H20NO4+
 Num Peaks: 5
 118.06417932900396 93.0
 177.07464600719993 208.0
@@ -43298,6 +43854,7 @@ Spectrum_type: MS2
 Precursor_mz: 167.0555726222982
 Exactmass: 166.049075432
 Comment: Major_ms1intensity+101671.0_ei_0.9
+Formula: C6H6N4O2
 Num Peaks: 19
 42.033458059244424 1982.0
 53.01584244417669 77.0
@@ -43327,6 +43884,7 @@ Spectrum_type: MS2
 Precursor_mz: 167.05545409692152
 Exactmass: 166.049075432
 Comment: Minor_ms1intensity+51463.0_ei_0.86
+Formula: C6H6N4O2
 Num Peaks: 15
 42.03345236000309 1303.0
 53.01481345183621 77.0
@@ -43352,6 +43910,7 @@ Spectrum_type: MS2
 Precursor_mz: 142.12118807698525
 Exactmass: 141.1153641
 Comment: Major_ms1intensity+973460.0_ei_0.92
+Formula: C8H15NO
 Num Peaks: 30
 41.03775362857845 3316.0
 42.03260956586657 4428.0
@@ -43392,6 +43951,7 @@ Spectrum_type: MS2
 Precursor_mz: 176.06970897452996
 Exactmass: 175.063328528
 Comment: Major_ms1intensity+403029.0_ei_0.98
+Formula: C10H9NO2
 Num Peaks: 24
 41.03602277093515 123.0
 51.02314649665022 123.0
@@ -43426,6 +43986,7 @@ Spectrum_type: MS2
 Precursor_mz: 414.3370138356738
 Exactmass: 413.329379616
 Comment: Major_ms1intensity+4913936.0_ei_0.98
+Formula: C27H43NO2
 Num Peaks: 147
 41.03769739834662 1311.0
 42.03255197247583 71.0
@@ -43583,6 +44144,7 @@ Spectrum_type: MS2
 Precursor_mz: 352.1169906548536
 Exactmass: 351.110672644
 Comment: Major_ms1intensity+9863.0_ei_0.87
+Formula: C20H17NO5
 Num Peaks: 14
 234.08924483078383 93.0
 250.08114028840097 154.0
@@ -43607,6 +44169,7 @@ Spectrum_type: MS2
 Precursor_mz: 623.3097138034193
 Exactmass: 622.3042870639999
 Comment: Major_ms1intensity+10850.0_ei_0.9
+Formula: C38H42N2O6
 Num Peaks: 7
 159.09761349506044 46.0
 311.1595242001738 62.0
