@@ -4,7 +4,7 @@ Spectral denoising: for single spectrum
 
 The ``spectral_denoising`` function, which is the core function of the project, removes noise ions in MS/MS spectra. 
 
-The function essentially is a warpper function for performing ``electronic_denoising`` and ``formula_denoising`` functions in sequence. Just like ``formula_denoising``, ``spectral_denoising`` also requires molecular information (SMILES and adduct) to remove noise ions.
+The function essentially is a warpper function for performing ``electronic_denoising`` and ``formula_denoising`` functions in sequence. Just like ``formula_denoising``, ``spectral_denoising`` also requires molecular information (SMILES/formula and adduct) to remove noise ions. For details about this please find in the 'fomulra denoising' section.
 If no valid ion was left after electronic denoising, the function will return nan.
 
 Example usage:

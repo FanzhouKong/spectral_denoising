@@ -18,7 +18,9 @@ The demo data can be found `here <https://github.com/FanzhouKong/spectral_denois
     result = sd.denoising_search(quene_spectrum, quene_pmz, reference_library)
 
 The result will give all candidate spectra within the precursor mass range, with additional column of 'query_peaks' (query spectrum), 'query_peaks_denoised' (denoised query spectra), 'entrpy_similarity' (entropy similarity of query spectra to reference spectra), and 'denoised_similarity' (entropy similarity of denoised query spectra to reference spectra).
-
+The function would assume reference library has 'smiles' column contains SMILES representation.
+If you would insist for using molecular formula, please change the column name to your column name with molecular formula information in.
+Essentially, these functions, are just like spectral denoising, SMILES representaion is recommended for better performance, but molecular formula is also supported. For detailed information please refer to 'formula denoising' section.
 References
 ----------
 

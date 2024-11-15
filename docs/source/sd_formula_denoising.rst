@@ -7,7 +7,11 @@ The ``formula_denoising`` function removes chemical noise ions in MS/MS spectra 
 Basic usage
 ============
 
-The ``formula_denoising`` function is used to remove noise ions in an annotated spectra. Thus, the molecular information is needed for this function (SMILES and adduct).
+The ``formula_denoising`` function is used to remove noise ions in an annotated spectra. Thus, the molecular information is needed for this function (SMILES/formula, and adduct).
+
+Even the parameter is called 'SMILES' but providing both moleuclar formula or SMILES representation would work. However, using SMILES is recommended if you do have it in hand or acquired from top-hits from library searches since it would avoid false negatives due to addtiong N2/O to non-aromatic compounds. However, this is just a small percent.
+
+If you are interested in reproducing results from literature, please make sure SMILES is used.
 
 The mass tolerance is used to search the subformula loss of a given fragment ion. It is recommended to start with a smaller value. If the actual mass difference is larger than the mass tolerance (determined by precursor ion), this value will be increased. The max mass range to search for precursor ion is +/- 10 mDa.
 
