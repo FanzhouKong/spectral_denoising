@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-VERSION = '0.4.0'
+VERSION = '0.4.2'
 DESCRIPTION = 'Spectral denoising and denoising search'
 REQUIREMENTS = [i.strip() for i in open("requirements.txt").readlines()]
 with open("README.md", "r") as file:

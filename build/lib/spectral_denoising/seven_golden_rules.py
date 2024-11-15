@@ -118,4 +118,35 @@ def check_ratio(formula):
         if parsed_formula['Si']/parsed_formula['C']>1:
             # 7 golden rules: CF check
             return False
+    
     return(True)
+def check_huristic(formula):
+    if len(formula)==0:
+        return False
+    if formula[-1].isalnum() ==False:
+        print(f'the formula passes {formula} is not right')
+        return(np.NAN)
+    parsed_formula = chemparse.parse_formula(formula)   
+    if 'N' in parsed_formula.keys() and 'O' in parsed_formula.keys() and 'P' in parsed_formula.keys() and 'S' in parsed_formula.keys():
+        if parsed_formula['N']>=10 or parsed_formula['O']>=20 or parsed_formula['P']>=4 or parsed_formula['S']>=3:
+            return False
+    if 'N' in parsed_formula.keys() and 'O' in parsed_formula.keys() and 'P' in parsed_formula.keys():
+        if parsed_formula['N']>3 or parsed_formula['O']>3 or parsed_formula['P']>3:
+            if parsed_formula['N']>=11 or parsed_formula['O']>=22 or parsed_formula['P']>=6:
+                return False
+    if 'O' in parsed_formula.keys() and 'P' in parsed_formula.keys() and 'S' in parsed_formula.keys():
+        if parsed_formula['O']>=14 or parsed_formula['P']>=3 or parsed_formula['S']>=3:
+            return False
+    if 'P' in parsed_formula.keys() and 'S' in parsed_formula.keys() and 'N' in parsed_formula.keys():
+        if parsed_formula['P']>=3 or parsed_formula['S']>=3 or parsed_formula['N']>=4:
+            return False
+    if 'N' in parsed_formula.keys() and 'O' in parsed_formula.keys() and 'S' in parsed_formula.keys():
+        if parsed_formula['N']>6 or parsed_formula['O']>6 or parsed_formula['S']>6:
+            if parsed_formula['N']>=19 or parsed_formula['O']>=14 or parsed_formula['S']>=8:
+                return False
+    if 'C' in parsed_formula.keys() and 'H' in parsed_formula.keys() and len(parsed_formula.keys())==2:
+        if 2*parsed_formula['C']+2<parsed_formula['H']:
+            return False
+    return True
+        
+        
