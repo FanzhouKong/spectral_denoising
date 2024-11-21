@@ -35,7 +35,7 @@ def spectral_denoising_batch(msms_query, smiles_query, adduct_query, mass_tolera
         - The lengths of msms_query, smiles_query, and adduct_query must be the same. If not, the function will print an error message and return an empty tuple.
         - The function uses multiprocessing to parallelize the denoising process, utilizing 6 processes.
     """
-    print('i am in new')
+    # print('i am in neww')
     if len(msms_query) != len(smiles_query) or len(msms_query) != len(adduct_query):
         print('The length of msms, smiles and adduct should be the same')
         return ()
@@ -107,9 +107,11 @@ def formula_denoising(msms, smiles, adduct, mass_tolerance=0.005):
     """
     
     master_formula = prep_formula(smiles, adduct)#check
+    if master_formula!=master_formula:
+        return msms
     msms = so.sort_spectrum(msms)
     if master_formula != master_formula:
-        # print(f'Error: invalid smiles {smiles} or invalid adduct {adduct}')
+        print(f'Error: invalid smiles {smiles} or invalid adduct {adduct}')
         return msms
     computed_pmz = calculate_precursormz(adduct, smiles)#check
     
@@ -121,7 +123,10 @@ def formula_denoising(msms, smiles, adduct, mass_tolerance=0.005):
     else:
         mass_threshold = mass_tolerance
     frag_msms, pmz_msms = so.slice_spectrum(msms, pmz-1.6)
-    all_possible_candidate_formula,all_possible_mass = get_all_subformulas(master_formula)
+    try:
+        all_possible_candidate_formula,all_possible_mass = get_all_subformulas(master_formula)
+    except:
+        return msms# something wrong with the adduct or master formula
     if is_smiles(smiles) == True:
         benzene_tag = has_benzene(smiles)
     else:
@@ -285,7 +290,7 @@ def check_candidates(candidates):
         bool: True if at least one candidate meets the ratio condition, False otherwise.
     """
     for c in candidates:
-        if check_ratio(c) and check_huristic(c):
+        if check_ratio(c):
         # if check_ratio(c) and check_senior(c):
             return True
     return False

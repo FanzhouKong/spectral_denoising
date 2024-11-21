@@ -118,7 +118,9 @@ def check_ratio(formula):
         if parsed_formula['Si']/parsed_formula['C']>1:
             # 7 golden rules: CF check
             return False
-    
+    if 'C' in parsed_formula.keys() and 'H' in parsed_formula.keys() and len(parsed_formula.keys())==2:
+        if 2*parsed_formula['C']+2<parsed_formula['H']:
+            return False
     return(True)
 def check_huristic(formula):
     if len(formula)==0:
